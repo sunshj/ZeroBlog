@@ -35,11 +35,9 @@ definePageMeta({
   layout: 'dashboard'
 })
 
-const route = useRoute('dashboard-notes-slug')
-
 const { data } = useFetch('/api/repo-contents', {
   query: {
-    path: '/content/data/friends.yaml'
+    path: 'content/data/friends.yaml'
   },
   deep: true
 })
@@ -49,12 +47,14 @@ const friends = computed(() => parseFrontMatter(`---\n${data.value?.content}\n--
 const toast = useToast()
 
 async function push() {
+  const confirmPush = window.confirm('确定要推送吗？')
+  if (!confirmPush) return
   toast.show('正在推送，请稍等...')
   const { message } = await $fetch('/api/repo-contents', {
     method: 'PUT',
     body: {
-      path: `content/notes/${route.params.slug}.md`,
-      content: data.value
+      path: 'content/data/friends.yaml',
+      content: data.value?.content
     }
   })
 

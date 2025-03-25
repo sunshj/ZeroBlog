@@ -3,7 +3,7 @@
     <ArticleRender
       :article="page"
       :error="error"
-      :show-comment="articleConfig.comment"
+      :show-comment="page?.comment ?? articleConfig.comment"
       :show-copyright="articleConfig.copyright"
       :show-surround="articleConfig.surround"
       :prev="prev"

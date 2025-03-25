@@ -3,7 +3,7 @@
     <ArticleRender
       :article="page"
       :error="error"
-      :show-comment="notesConfig.comment"
+      :show-comment="page?.comment ?? notesConfig.comment"
       :show-copyright="notesConfig.copyright"
       :show-surround="notesConfig.surround"
       :tag-options="{ readingTime: false, wordsCount: false }"

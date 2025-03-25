@@ -5,6 +5,10 @@
         <Icon name="lucide:cloud-upload" />
         <div>推送文章</div>
       </button>
+      <button class="flex uno-btn items-center gap-1 border-red-5 bg-red-500" @click="remove">
+        <Icon name="lucide:trash-2" />
+        <div>删除文章</div>
+      </button>
     </template>
 
     <MonacoEditor
@@ -37,11 +41,11 @@ definePageMeta({
   layout: 'dashboard'
 })
 
-const route = useRoute('dashboard-articles-slug')
+const route = useRoute('dashboard-scope-slug')
 
 const { data, status } = useFetch('/api/repo-contents', {
   query: {
-    path: `content/articles/${route.params.slug}.md`
+    path: `content/${route.params.scope}/${route.params.slug}.md`
   }
 })
 
@@ -53,7 +57,7 @@ watchEffect(() => {
   } else {
     content.value = `---
 title: 新建文章
-path: /articles/${route.params.slug}
+path: /${route.params.scope}/${route.params.slug}
 date: ${formatTime(Date.now())}
 ---
 `
@@ -65,16 +69,24 @@ const article = computedAsync(async () => await parseMarkdown(content.value))
 const toast = useToast()
 
 async function push() {
+  const confirmPush = window.confirm('确定要推送文章吗？')
+  if (!confirmPush) return
   toast.show('正在推送文章，请稍等...')
   const { message } = await $fetch('/api/repo-contents', {
     method: 'PUT',
     body: {
-      path: `content/articles/${route.params.slug}.md`,
+      path: `content/${route.params.scope}/${route.params.slug}.md`,
       content: content.value
     }
   })
 
   window.alert(message)
+}
+
+function remove() {
+  const confirmDelete = window.confirm('确定要删除文章吗？')
+  if (!confirmDelete) return
+  // TODO: 删除文章
 }
 
 onUnmounted(() => {
