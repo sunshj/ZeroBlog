@@ -1,0 +1,39 @@
+---
+title: 博客迁移至 Nuxt
+date: '2024-11-25 23:49:59'
+path: /articles/blog-migration
+sticky: 900
+tags: 
+  - 网站建设
+---
+
+之前的博客使用的是 Hexo + [Keep主题](https://github.com/theme-keep)，最近开始学习 Nuxt，于是就使用 Nuxt 技术栈重写了博客。
+<!--more-->
+一开始想要做个全栈的博客，略微思索后发觉貌似没那个必要，索性直接用 Nuxt Content 了，最终生成的是一个静态网站，部署在 Vercel 上。
+
+## 技术栈
+
+- Nuxt 3
+- Nuxt Content
+- Nuxt MDC  (使用了自定义的 Nuxt MDC 组件模块 [@sunshj/mdc](https://github.com/sunshj/mdc))
+- Nuxt Icon
+- Nuxt Image
+- UnoCSS 
+- giscus (评论系统)
+- fuse.js (搜索)
+
+
+## 网站评分
+![PageSpeed Insights](https://cdn.jsdelivr.net/gh/sunshj/Staticfile/img/20241126001433.png)
+
+## TODO
+
+- [ ] 文章加密
+- [ ] 文章分享
+- [ ] 文章头图
+- [x] OG Image
+- [x] 首屏
+- [x] 站点地图
+- [x] RSS
+
+ 

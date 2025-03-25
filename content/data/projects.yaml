@@ -1,0 +1,73 @@
+projects:
+  - name: Resume Builder
+    link: https://cv.sunshj.top
+    # repo: https://github.com/sunshj/resume-builder
+    description: A WYSIWYG local-storage-first AI resume editor
+    techStack:
+      - vscode-icons:file-type-nuxt
+      - vscode-icons:file-type-tailwind
+      - vscode-icons:file-type-typescript-official
+      - logos:openai-icon
+
+  - name: sunshj's Blog
+    link: https://sunshj.top
+    # repo: https://github.com/sunshj/nuxt-blog
+    description: Built with Nuxt Content and UnoCSS
+    techStack:
+      - vscode-icons:file-type-nuxt
+      - vscode-icons:file-type-unocss
+      - vscode-icons:file-type-typescript-official
+
+  - name: '@sunshj/mdc'
+    repo: https://github.com/sunshj/mdc
+    npm: https://www.npmjs.com/package/@sunshj/mdc
+    description: A set of Prose components for Nuxt MDC.
+    techStack:
+      - vscode-icons:file-type-nuxt
+      - vscode-icons:file-type-typescript-official
+
+  - name: LAN-Chat
+    repo: https://github.com/sunshj/LAN-Chat
+    description: Chat and sharing files in LAN, supports Windows, CLI, and VSCode extension
+    techStack:
+      - vscode-icons:file-type-vue
+      - vscode-icons:file-type-nuxt
+      - vscode-icons:file-type-vscode
+      - vscode-icons:file-type-shell
+      - vscode-icons:file-type-unocss
+      - vscode-icons:file-type-typescript-official
+
+  - name: Nuxt Modules Intellisense
+    link: https://marketplace.visualstudio.com/items?itemName=sunshj.vscode-nuxt-module-intellisense
+    description: Better Nuxt Modules Intellisense for VS Code
+    techStack:
+      - vscode-icons:file-type-vscode
+      - vscode-icons:file-type-typescript-official
+
+  - name: Davinci Lighter
+    repo: https://github.com/sunshj/davinci_lighter_flutter
+    description: 达文西手电筒，有光照的时候会亮，没光的时候绝对不会亮
+    techStack:
+      - vscode-icons:file-type-flutter
+
+  - name: ESLint Config
+    npm: https://www.npmjs.com/package/@sunshj/eslint-config
+    description: ESLint config for JS, TS, Vue, React, Prettier
+    techStack:
+      - vscode-icons:file-type-eslint
+      - vscode-icons:file-type-typescript-official
+
+  - name: mevem
+    repo: https://github.com/sunshj/mevem
+    npm: https://www.npmjs.com/package/mevem
+    description: A type-safe EventEmitter designed to simplify message events
+    techStack:
+      - vscode-icons:file-type-typescript-official
+
+  - name: music player
+    link: /projects/music
+    description: Simple music player
+    techStack:
+      - vscode-icons:file-type-vue
+      - vscode-icons:file-type-nuxt
+      - vscode-icons:file-type-typescript-official

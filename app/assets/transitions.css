@@ -1,0 +1,106 @@
+/* slide */
+.slide-move,
+.slide-enter-active {
+  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+  animation: up-to-down 0.5s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  transform: scaleY(1) translate(50px, 0);
+}
+
+.slide-leave-active {
+  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+  animation: up-to-down 0.5s ease reverse;
+}
+
+@keyframes up-to-down {
+  from {
+    transform: translateY(50%);
+  }
+
+  to {
+    transform: translateY(0%);
+  }
+}
+
+/* slide-fade */
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out 0.2s; /* 添加延迟 */
+}
+
+.slide-fade-leave-active {
+  transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1); /* 添加延迟 */
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
+/* fade */
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.15s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* zoom */
+.zoom-enter-active,
+.zoom-leave-active {
+  transition: all 0.3s ease-in-out;
+}
+
+.zoom-enter-from,
+.zoom-leave-to {
+  transform: scale(0.95);
+  opacity: 0;
+}
+
+/* drawer-slide */
+.drawer-slide-enter-active {
+  transition: all 0.25s ease-out;
+}
+
+.drawer-slide-leave-active {
+  transition: all 0.25s ease-in;
+}
+
+.drawer-slide-enter-from,
+.drawer-slide-leave-to {
+  opacity: 0;
+}
+
+.drawer-slide-enter-from > *,
+.drawer-slide-leave-to > * {
+  transform: translateY(100%);
+}
+
+.drawer-slide-enter-to,
+.drawer-slide-leave-from {
+  opacity: 1;
+}
+
+.drawer-slide-enter-to > *,
+.drawer-slide-leave-from > * {
+  transform: translateY(0);
+}
+
+/* page */
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.1s;
+}
+
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(0.1rem);
+}
