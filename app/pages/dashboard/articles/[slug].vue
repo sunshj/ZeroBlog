@@ -1,15 +1,14 @@
 <template>
   <DashboardEditorFrame show-preview class="w-full">
     <template #header>
-      <button class="flex uno-btn items-center gap-1" @click="updateArticle">
+      <button class="flex uno-btn items-center gap-1" @click="pushArticle">
         <Icon name="lucide:cloud-upload" />
-        <div>更新文章</div>
+        <div>推送文章</div>
       </button>
     </template>
 
     <MonacoEditor
-      v-if="!!data"
-      v-model="data"
+      v-model="content"
       :options="{ minimap: { autohide: true } }"
       class="h-full"
       lang="markdown"
@@ -19,7 +18,12 @@
       <ContentRenderer :value="article">
         <template #empty>
           <div class="h-full w-full flex-center">
-            <Icon class="animate-spin" :size="24" name="lucide:loader" />
+            <div class="flex flex-col items-center gap-2">
+              <div class="text-4xl">
+                <Icon name="lucide:file-text" />
+              </div>
+              <div>没有可渲染的内容</div>
+            </div>
           </div>
         </template>
       </ContentRenderer>
@@ -35,26 +39,45 @@ definePageMeta({
 const route = useRoute('dashboard-articles-slug')
 
 const { data } = useFetch('/api/repo-contents', {
-  default: () => `---
-title: 新建文章
-path: /articles/${route.params.slug}
-date: ${formatTime(Date.now())}
----
-
-新建文章`,
   query: {
     path: `content/articles/${route.params.slug}.md`
   }
 })
 
-const oldData = useCloned(data, { immediate: false })
+const content = ref('')
 
-const article = computedAsync(async () => await parseMarkdown(data.value!))
-
-function updateArticle() {
-  if (oldData.cloned.value === data.value) {
-    window.alert('没有改动')
-    return
+watchEffect(() => {
+  if (data.value) {
+    content.value = data.value.content
+  } else {
+    content.value = `---
+title: 新建文章
+path: /articles/${route.params.slug}
+date: ${formatTime(Date.now())}
+---
+`
   }
+})
+
+const article = computedAsync(async () => await parseMarkdown(content.value))
+
+const toast = useToast()
+
+async function pushArticle() {
+  toast.show('正在推送文章，请稍等...')
+  const { message } = await $fetch('/api/repo-contents', {
+    method: 'PUT',
+    body: {
+      path: `content/articles/${route.params.slug}.md`,
+      content: content.value
+    }
+  })
+
+  window.alert(message)
 }
+
+onUnmounted(() => {
+  content.value = ''
+  article.value = undefined
+})
 </script>

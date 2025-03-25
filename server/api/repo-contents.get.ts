@@ -29,5 +29,8 @@ export default defineEventHandler(async event => {
       message: 'File not found'
     })
 
-  return base64ToText(data.content, { dataURL: false })
+  return {
+    ...data,
+    content: base64ToText(data.content, { dataURL: false })
+  }
 })
