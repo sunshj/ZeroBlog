@@ -31,3 +31,9 @@ NUXT_OAUTH_GITHUB_CLIENT_SECRET="****************************************"
    - Homepage URL: `<your-blog-url>`
    - Authorization callback URL: `<your-blog-url>`/auth/github
 4. 获取 Client ID 和 Client Secret
+
+## 在线编写博客
+
+访问 `<your-blog-url>`/dashboard，使用Github账号登录，即可在线编写博客。
+
+> 点击推送按钮后，会自动将修改后的文章提交到Github仓库并触发Vercel 部署，等待大约1分钟，即可查看修改后的文章。
