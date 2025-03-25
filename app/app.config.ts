@@ -18,6 +18,10 @@ export default defineAppConfig({
     avatar: '/images/avatar.png'
   },
 
+  dashboard: {
+    title: 'Dashboard'
+  },
+
   firstScreen: {
     content: '用心写点没用的东西~',
     backgroundImage: '/images/bg.svg',
