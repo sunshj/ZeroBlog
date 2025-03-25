@@ -37,11 +37,11 @@ definePageMeta({
   layout: 'dashboard'
 })
 
-const route = useRoute('dashboard-articles-slug')
+const route = useRoute('dashboard-notes-slug')
 
 const { data, status } = useFetch('/api/repo-contents', {
   query: {
-    path: `content/articles/${route.params.slug}.md`
+    path: `content/notes/${route.params.slug}.md`
   }
 })
 
@@ -53,7 +53,7 @@ watchEffect(() => {
   } else {
     content.value = `---
 title: 新建文章
-path: /articles/${route.params.slug}
+path: /notes/${route.params.slug}
 date: ${formatTime(Date.now())}
 ---
 `
@@ -69,7 +69,7 @@ async function push() {
   const { message } = await $fetch('/api/repo-contents', {
     method: 'PUT',
     body: {
-      path: `content/articles/${route.params.slug}.md`,
+      path: `content/notes/${route.params.slug}.md`,
       content: content.value
     }
   })

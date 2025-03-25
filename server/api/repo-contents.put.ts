@@ -9,8 +9,7 @@ export default defineEventHandler(async event => {
 
   const octokit = new Octokit({ auth: session.secure?.accessToken })
   const file = await event.$fetch('/api/repo-contents', { query: { path } })
-
-  if (content === file.content) return { message: 'No changes detected' }
+  if (content === file?.content) return { message: 'No changes detected' }
 
   // 更新/创建 文件
   await octokit
@@ -18,9 +17,9 @@ export default defineEventHandler(async event => {
       owner: session.user.name,
       repo: githubRepo,
       path,
-      message: `docs: ${file.sha ? 'update' : 'add'} ${path}`,
+      message: `docs: ${file?.sha ? 'update' : 'add'} ${path}`,
       content: textToBase64(content, { dataURL: false }),
-      sha: file.sha
+      sha: file?.sha
     })
     .catch(error => {
       throw createError(error)

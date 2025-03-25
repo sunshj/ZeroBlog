@@ -9,7 +9,7 @@
         :text="firstScreen.content"
         as="div"
         class="text-8 text-gray-900 font-bold leading-14 dark:text-gray-200"
-        :disable-animation="firstScreen.disableFirstScreenTypingAnimation"
+        :disable-animation="firstScreen.disableTypingAnimation"
       />
     </div>
 
@@ -47,8 +47,6 @@
 </template>
 
 <script setup lang="ts">
-import { useStorage } from '@vueuse/core'
-
 definePageMeta({
   layout: 'home'
 })

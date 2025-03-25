@@ -11,10 +11,8 @@
       <div class="flex items-center justify-between gap-2 px-4 font-bold">
         <div class="flex-1">路径</div>
         <div class="flex-1">标题</div>
-        <div class="flex-1">标签</div>
         <div class="flex-1">日期</div>
       </div>
-
       <NuxtLink
         v-for="item in data"
         :key="item._path"
@@ -23,18 +21,9 @@
         class="p-4 uno-card !no-underline"
         :to="`/dashboard${item._path}`"
       >
-        <div class="flex items-center justify-between gap-2">
+        <div class="flex items-center justify-between">
           <div class="flex-1">{{ item._path }}</div>
-          <div class="flex flex-1 gap-1">
-            <div v-if="item.sticky > 0" class="rounded-lg bg-amber px-2 py-1 text-sm">置顶</div>
-            <div>{{ item.title }}</div>
-          </div>
-
-          <div class="flex flex-1 gap-2">
-            <div v-for="tag in item.tags" :key="tag" class="rounded-lg bg-gray-1 px-2 py-1 text-sm">
-              {{ tag }}
-            </div>
-          </div>
+          <div class="flex-1">{{ item.title }}</div>
 
           <div class="flex-1">{{ formatTime(item.date) }}</div>
           <div>
@@ -54,9 +43,9 @@
 <script lang="ts" setup>
 definePageMeta({
   menu: {
-    label: '文章',
-    order: 1,
-    icon: 'lucide:file-pen'
+    label: '小记',
+    order: 2,
+    icon: 'lucide:notebook-pen'
   },
   layout: 'dashboard'
 })
@@ -64,10 +53,10 @@ definePageMeta({
 const searchText = ref('')
 
 const { data } = await useAsyncData(
-  'articles',
+  'notes',
   () =>
-    queryContent('/articles')
-      .only(['_path', 'title', 'date', 'sticky', 'tags'])
+    queryContent('/notes')
+      .only(['_path', 'title', 'date'])
       .where({
         hidden: false,
         $or: [
@@ -75,7 +64,7 @@ const { data } = await useAsyncData(
           { _path: { $contains: searchText.value } }
         ]
       })
-      .sort({ date: -1, sticky: -1 })
+      .sort({ date: -1 })
       .find(),
 
   {
@@ -86,7 +75,7 @@ const { data } = await useAsyncData(
 async function createArticle() {
   const path = window.prompt('请输入文章id，这将作为路径和唯一标识符')
   if (!path) return
-  await navigateTo(`/dashboard/articles/${path}`)
+  await navigateTo(`/dashboard/notes/${path}`)
 }
 
 const toast = useToast()

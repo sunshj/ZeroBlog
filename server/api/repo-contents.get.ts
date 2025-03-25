@@ -23,11 +23,7 @@ export default defineEventHandler(async event => {
       return { data: null }
     })
 
-  if (!data || !('content' in data))
-    throw createError({
-      statusCode: 404,
-      message: 'File not found'
-    })
+  if (!data || !('content' in data)) return null
 
   return {
     ...data,
