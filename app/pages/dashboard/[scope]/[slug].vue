@@ -65,7 +65,7 @@ watchEffect(() => {
     content.value = `---
 title: 新建文章
 path: /${route.params.scope}/${route.params.slug}
-date: ${formatTime(Date.now())}
+date: '${formatTime(Date.now())}'
 ---
 `
   }
