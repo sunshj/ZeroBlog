@@ -7,13 +7,19 @@ ZeroDBlog 是一个基于Nuxt3和Nuxt Content的博客系统。无需数据库�
 ### 必要环境变量
 
 ```env
+# Seo
+NUXT_SITE_URL="https://<your-domain>"
+NUXT_SITE_NAME="My Blog"
+
 # Github Repo
 NUXT_GITHUB_REPO="nuxt-blog"
-# session password (32位字符)
+
+# Auth Utils (32位字符)
 NUXT_SESSION_PASSWORD="********************************"
 # Github OAuth
 NUXT_OAUTH_GITHUB_CLIENT_ID="********************"
 NUXT_OAUTH_GITHUB_CLIENT_SECRET="****************************************"
+
 ```
 
 ### 创建Github OAuth App
