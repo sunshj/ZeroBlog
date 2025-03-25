@@ -2,7 +2,9 @@ import { defineConfig } from '@sunshj/eslint-config'
 
 export default defineConfig([
   {
-    rules: {}
+    rules: {
+      'no-alert': 'off'
+    }
   },
   {
     files: ['content/**/*.md/*'],

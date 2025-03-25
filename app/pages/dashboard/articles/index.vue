@@ -1,14 +1,19 @@
 <template>
   <div class="flex flex-col gap-4 p-2">
-    <input v-model="searchText" class="w-fit uno-input" placeholder="搜索文章" />
-
+    <div class="flex gap-2">
+      <button class="flex uno-btn items-center gap-1" @click="createArticle">
+        <Icon name="lucide:plus" />
+        <div>新建文章</div>
+      </button>
+      <input v-model="searchText" class="w-fit uno-input" placeholder="搜索文章" />
+    </div>
     <div class="flex flex-col gap-2">
       <NuxtLink
         v-for="item in data"
         :key="item._path"
         prefetch
         prefetch-on="interaction"
-        class="p-4 no-underline uno-card"
+        class="p-4 uno-card !no-underline"
         :to="`/dashboard${item._path}`"
       >
         <div class="flex items-center justify-between">
@@ -68,8 +73,17 @@ const { data } = await useAsyncData(
   }
 )
 
+async function createArticle() {
+  const path = window.prompt('请输入文章id，这将作为路径和唯一标识符')
+  await navigateTo(`/dashboard/articles/${path}`)
+}
+
+const toast = useToast()
+
 function deleteArticle(path: string) {
-  console.log('item: ', path)
+  const confirmDelete = window.confirm(`确定删除 ${path} 吗？`)
+  console.log('confirmDelete: ', confirmDelete)
+  toast.show('删除成功')
 }
 </script>
 

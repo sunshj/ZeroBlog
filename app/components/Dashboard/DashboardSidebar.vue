@@ -13,7 +13,7 @@
           :key="menu.path"
           :to="menu.path"
           active-class="bg-gray-800 !text-white !hover:bg-gray-800"
-          class="flex items-center gap-3 rounded-lg px-4 py-2 text-gray-700 no-underline transition-all hover:bg-gray-2"
+          class="flex items-center gap-3 rounded-lg px-4 py-2 text-gray-700 transition-all hover:bg-gray-2 !no-underline"
         >
           <Icon v-if="menu.meta.menu?.icon" :name="menu.meta.menu.icon" />
           {{ menu.meta.menu?.label }}
