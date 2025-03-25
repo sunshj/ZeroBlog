@@ -10,11 +10,6 @@ export default defineNuxtConfig({
     '/sitemap.xml': { prerender: true }
   },
 
-  site: {
-    url: 'https://sunshj.top',
-    name: `sunshj's Blog`
-  },
-
   app: {
     head: {
       htmlAttrs: { lang: 'zh-CN' },
