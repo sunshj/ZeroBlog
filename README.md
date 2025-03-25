@@ -22,6 +22,6 @@ NUXT_OAUTH_GITHUB_CLIENT_SECRET="****************************************"
 2. 点击 New OAuth App
 3. 填写应用信息
    - Application name: ZeroDBlog
-   - Homepage URL: <your-blog-url>
-   - Authorization callback URL: <your-blog-url>/auth/github
+   - Homepage URL: `<your-blog-url>`
+   - Authorization callback URL: `<your-blog-url>`/auth/github
 4. 获取 Client ID 和 Client Secret
