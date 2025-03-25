@@ -5,7 +5,11 @@
         <Icon name="lucide:cloud-upload" />
         <div>推送文章</div>
       </button>
-      <button class="flex items-center gap-1 border-red-5 bg-red-500 uno-btn" @click="remove">
+      <button
+        v-if="data?.content"
+        class="flex items-center gap-1 border-red-5 bg-red-500 uno-btn"
+        @click="remove"
+      >
         <Icon name="lucide:trash-2" />
         <div>删除文章</div>
       </button>
@@ -86,10 +90,15 @@ async function push() {
   window.alert(message)
 }
 
-function remove() {
+async function remove() {
   const confirmDelete = window.confirm('确定要删除文章吗？')
   if (!confirmDelete) return
-  // TODO: 删除文章
+  const { message } = await $fetch('/api/repo-file', {
+    method: 'DELETE',
+    body: { path: `content/${route.params.scope}/${route.params.slug}.md` }
+  })
+
+  window.alert(message)
 }
 
 onUnmounted(() => {

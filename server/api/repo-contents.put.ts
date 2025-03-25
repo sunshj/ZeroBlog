@@ -1,11 +1,17 @@
 import { Octokit } from 'octokit'
 import { textToBase64 } from 'undio'
+import { z } from 'zod'
+
+const schema = z.object({
+  path: z.string(),
+  content: z.string()
+})
 
 export default defineEventHandler(async event => {
   const session = await requireUserSession(event)
 
   const { githubRepo } = useRuntimeConfig()
-  const { path, content } = await readBody(event)
+  const { path, content } = await readValidatedBody(event, schema.parse)
 
   const octokit = new Octokit({ auth: session.secure?.accessToken })
   const file = await event.$fetch('/api/repo-contents', { query: { path } })
