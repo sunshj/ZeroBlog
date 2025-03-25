@@ -1,75 +1,27 @@
-# Nuxt Minimal Starter
+# ZeroDBlog
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+ZeroDBlog 是一个基于Nuxt3和Nuxt Content的博客系统。无需数据库存储，通过Github API 更新数据，基于Github和Vercel自动化搭建博客。
 
-## Setup
+## 快速开始
 
-Make sure to install dependencies:
+### 必要环境变量
 
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+```env
+# Github Repo
+NUXT_GITHUB_REPO="nuxt-blog"
+# session password (32位字符)
+NUXT_SESSION_PASSWORD="********************************"
+# Github OAuth
+NUXT_OAUTH_GITHUB_CLIENT_ID="********************"
+NUXT_OAUTH_GITHUB_CLIENT_SECRET="****************************************"
 ```
 
-## Development Server
+### 创建Github OAuth App
 
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run generate
-
-# pnpm
-pnpm generate
-
-# yarn
-yarn generate
-
-# bun
-bun run generate
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+1. 访问 https://github.com/settings/developers
+2. 点击 New OAuth App
+3. 填写应用信息
+   - Application name: ZeroDBlog
+   - Homepage URL: <your-blog-url>
+   - Authorization callback URL: <your-blog-url>/auth/github
+4. 获取 Client ID 和 Client Secret
