@@ -1,10 +1,10 @@
 <template>
   <aside
-    class="h-full flex flex-col justify-between border-r border-r-gray-2 border-r-solid bg-gray-50 px-3 py-4"
+    class="h-full flex flex-col justify-between border-r border-r-gray-2 border-r-solid bg-gray-50 px-3 py-4 dark:border-r-gray-7 dark:bg-dark-9"
   >
     <div class="flex flex-col gap-4">
       <div class="w-full flex-center py-2">
-        <h1 class="text-2xl text-gray-800 font-bold dark:text-white">ZeroDBlog</h1>
+        <h1 class="text-2xl text-gray-800 font-bold dark:text-gray-3">ZeroDBlog</h1>
       </div>
 
       <nav class="flex flex-col gap-2">
@@ -13,7 +13,7 @@
           :key="menu.path"
           :to="menu.path"
           active-class="bg-gray-800 !text-white !hover:bg-gray-800"
-          class="flex items-center gap-3 rounded-lg px-4 py-2 text-gray-700 transition-all hover:bg-gray-2 !no-underline"
+          class="flex items-center gap-3 rounded-lg px-4 py-2 text-gray-700 transition-all hover:bg-gray-2 dark:text-gray-4 !no-underline dark:hover:bg-gray-800"
         >
           <Icon v-if="menu.meta.menu?.icon" :name="menu.meta.menu.icon" />
           {{ menu.meta.menu?.label }}
@@ -22,7 +22,9 @@
     </div>
 
     <div v-if="loggedIn" class="group relative">
-      <div class="flex cursor-pointer items-center gap-2 rounded-lg p-2 hover:bg-gray-100">
+      <div
+        class="flex cursor-pointer items-center gap-2 rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+      >
         <img :src="user?.avatar" class="h-8 w-8 rounded-full" />
         <div class="flex flex-col">
           <div class="text-sm">{{ user?.name }}</div>
@@ -31,11 +33,11 @@
       </div>
 
       <div
-        class="absolute bottom-full mb-0 hidden w-full border rounded-lg bg-white shadow-lg group-hover:block"
+        class="absolute bottom-full mb-0 hidden w-full border rounded-lg bg-white shadow-lg group-hover:block dark:bg-dark"
       >
         <ul class="p-2">
           <li
-            class="flex cursor-pointer items-center gap-2 rounded-lg p-2 hover:bg-gray-100"
+            class="flex cursor-pointer items-center gap-2 rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-dark-700"
             @click="signOut"
           >
             <Icon name="lucide:log-out" />

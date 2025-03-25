@@ -1,7 +1,7 @@
 <template>
   <DashboardEditorFrame show-preview class="w-full">
     <template #header>
-      <button class="flex uno-btn items-center gap-1" @click="push">
+      <button class="flex items-center gap-1 uno-btn" @click="push">
         <Icon name="lucide:cloud-upload" />
         <div>推送</div>
       </button>
@@ -10,7 +10,10 @@
     <MonacoEditor
       v-if="data?.content"
       v-model="data.content"
-      :options="{ minimap: { autohide: true } }"
+      :options="{
+        minimap: { autohide: true },
+        theme: $colorMode.value === 'dark' ? 'vs-dark' : 'vs-light'
+      }"
       class="h-full"
       lang="yaml"
     />

@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-4 p-2">
     <div class="flex gap-2">
-      <button class="flex uno-btn items-center gap-1" @click="createArticle">
+      <button class="flex items-center gap-1 uno-btn" @click="createArticle">
         <Icon name="lucide:plus" />
         <div>新建文章</div>
       </button>
@@ -31,7 +31,11 @@
           </div>
 
           <div class="flex flex-1 gap-2">
-            <div v-for="tag in item.tags" :key="tag" class="rounded-lg bg-gray-1 px-2 py-1 text-sm">
+            <div
+              v-for="tag in item.tags"
+              :key="tag"
+              class="rounded-lg bg-gray-1 px-2 py-1 text-sm dark:bg-gray-8"
+            >
               {{ tag }}
             </div>
           </div>
@@ -93,6 +97,7 @@ const toast = useToast()
 
 function deleteArticle(path: string) {
   const confirmDelete = window.confirm(`确定删除 ${path} 吗？`)
+  if (!confirmDelete) return
   console.log('confirmDelete: ', confirmDelete)
   toast.show('删除成功')
 }

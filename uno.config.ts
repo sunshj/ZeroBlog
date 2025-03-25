@@ -6,7 +6,8 @@ export default defineConfig({
     'flex-center': 'flex justify-center items-center',
     'uno-card':
       'h-full w-full gap-2 ring-inset hover:ring-1.5 hover:ring-amber overflow-hidden border border-gray-200 rounded-md border-solid p-2 transition-all ease-in-out shadow-sm dark:border-gray-600 hover:border-amber',
-    'uno-btn': 'border rounded px-2 py-1 cursor-pointer bg-black text-gray-1',
+    'uno-btn':
+      'border-none rounded px-2 py-1 cursor-pointer bg-black dark:shadow text-gray-1 dark:text-black dark:bg-white',
     'icon-btn':
       'flex-center cursor-pointer border-2 border-gray-200 dark:border-neutral-800  dark:text-gray-300 rounded-lg border-solid p-1',
     'float-btn':
