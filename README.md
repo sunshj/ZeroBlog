@@ -53,4 +53,4 @@ NUXT_OAUTH_GITHUB_CLIENT_SECRET="****************************************"
 ### 配置图床
 
 1. 需要创建一个公开的Github仓库用于存储图片，例如`blog-images`。
-2. 修改博客仓库中`app/app.config.ts`中`imageHost`配置项(或者在`<your-blog-url>/dashboard/config`中修改)，将仓库名、图片存放路径填入对应的字段中。
+2. 修改博客仓库中`app/app.config.ts`中`imageBed`配置项(或者在`<your-blog-url>/dashboard/config`中修改)，将仓库名、图片存放目录填入对应的字段中。
