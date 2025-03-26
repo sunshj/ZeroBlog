@@ -1,7 +1,7 @@
 <template>
   <NuxtLink :to="props.data.link" target="_blank" class="decoration-none hover:decoration-none">
     <div class="flex items-center px-3 uno-card">
-      <Avatar
+      <UiAvatar
         class="rounded-full"
         :width="60"
         :height="60"
@@ -9,7 +9,7 @@
         :alt="props.data.name"
       >
         {{ props.data.name.slice(0, 1).toUpperCase() }}
-      </Avatar>
+      </UiAvatar>
 
       <div class="flex flex-col justify-around p-2">
         <div class="text-xl">{{ props.data.name }}</div>

@@ -1,18 +1,8 @@
 <template>
   <DashboardEditorFrame show-preview class="w-full">
     <template #header>
-      <button class="flex items-center gap-1 uno-btn" @click="push">
-        <Icon name="lucide:cloud-upload" />
-        <div>推送文章</div>
-      </button>
-      <button
-        v-if="data?.content"
-        class="flex items-center gap-1 border-red-5 bg-red-500 uno-btn"
-        @click="remove"
-      >
-        <Icon name="lucide:trash-2" />
-        <div>删除文章</div>
-      </button>
+      <UiButton icon="lucide:cloud-upload" @click="push">推送文章</UiButton>
+      <UiButton icon="lucide:trash-2" color="red" @click="remove">删除文章</UiButton>
     </template>
 
     <MonacoEditor
@@ -50,7 +40,7 @@ definePageMeta({
 
 const route = useRoute('dashboard-scope-slug')
 
-const { data, status } = useFetch('/api/repo-contents', {
+const { data, status } = useFetch<{ content: string }>('/api/repo-contents', {
   query: {
     path: `content/${route.params.scope}/${route.params.slug}.md`
   }

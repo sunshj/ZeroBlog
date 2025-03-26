@@ -1,5 +1,5 @@
 <template>
-  <Dialog
+  <UiDialog
     v-model="visible"
     :close-on-click-modal="false"
     :show-close="false"
@@ -40,7 +40,7 @@
         <Icon name="lucide:search" :size="50" />
       </div>
     </div>
-  </Dialog>
+  </UiDialog>
 </template>
 
 <script lang="ts" setup>

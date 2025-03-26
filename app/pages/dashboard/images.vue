@@ -1,90 +1,91 @@
 <template>
   <div class="flex flex-col gap-4 p-4">
-    <ClientOnly>
-      <div
-        class="w-full flex items-center justify-center"
-        @dragover.prevent
-        @dragenter.prevent
-        @drop.prevent="handleDrop"
+    <div
+      class="w-full flex items-center justify-center"
+      @dragover.prevent
+      @dragenter.prevent
+      @drop.prevent="handleDrop"
+    >
+      <label
+        for="dropzone-file"
+        class="h-64 w-full flex flex-col cursor-pointer items-center justify-center border-2 border-gray-300 rounded-lg border-dashed bg-gray-50 dark:border-gray-600 dark:bg-gray-700 hover:bg-gray-100 dark:hover:border-gray-500 dark:hover:bg-gray-600 dark:hover:bg-gray-800"
       >
-        <label
-          for="dropzone-file"
-          class="h-64 w-full flex flex-col cursor-pointer items-center justify-center border-2 border-gray-300 rounded-lg border-dashed bg-gray-50 dark:border-gray-600 dark:bg-gray-700 hover:bg-gray-100 dark:hover:border-gray-500 dark:hover:bg-gray-600 dark:hover:bg-gray-800"
-        >
-          <div class="flex flex-col items-center justify-center pb-6 pt-5">
-            <Icon
-              class="mb-2 text-gray-500 dark:text-gray-400"
-              name="lucide:cloud-upload"
-              :size="32"
-            />
-            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-              <span class="font-semibold">点击或拖拽添加图片</span>
-            </p>
-            <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF</p>
-          </div>
-          <input id="dropzone-file" multiple type="file" class="hidden" @change="onFileChange" />
-        </label>
-      </div>
-    </ClientOnly>
+        <div class="flex flex-col items-center justify-center pb-6 pt-5">
+          <Icon
+            class="mb-2 text-gray-500 dark:text-gray-400"
+            name="lucide:cloud-upload"
+            :size="32"
+          />
+          <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+            <span class="font-semibold">点击或拖拽添加图片</span>
+          </p>
+          <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF</p>
+        </div>
+        <input id="dropzone-file" multiple type="file" class="hidden" @change="onFileChange" />
+      </label>
+    </div>
 
     <div class="flex items-center justify-between">
       <div class="flex gap-2">
         <div>
           <span class="font-bold">存储仓库：</span>
-          <ProseCode> github.com/{{ user?.name }}/{{ dashboard.imageBed.repo }} </ProseCode>
+          <ProseCode> github.com/{{ user?.name }}/{{ imageBed.repo }} </ProseCode>
         </div>
         <div>
           <span class="font-bold">存储目录：</span>
-          <ProseCode> {{ dashboard.imageBed.path }} </ProseCode>
+          <ProseCode> {{ imageBed.path }} </ProseCode>
         </div>
       </div>
-      <button class="flex-center gap-1 text-lg uno-btn" @click="uploadImages">
-        <Icon
-          :class="{
-            'animate-spin': loading
-          }"
-          :name="loading ? 'lucide:loader-circle' : 'lucide:cloud-upload'"
-        />上传全部
-      </button>
+      <UiButton
+        :loading="loading"
+        :icon="loading ? 'lucide:loader-circle' : 'lucide:cloud-upload'"
+        @click="uploadImages"
+      >
+        上传全部
+      </UiButton>
     </div>
 
+    <!-- upload images -->
     <div class="w-full flex flex-col gap-4">
-      <div
+      <div class="flex gap-2">
+        <div class="text-3xl font-bold">本地图片列表</div>
+        <UiButton
+          v-if="files.length > 0"
+          icon="lucide:trash-2"
+          color="red"
+          @click="files.length = 0"
+          >删除全部</UiButton
+        >
+      </div>
+      <DashboardImageCard
         v-for="file in files"
         :key="file.name"
-        class="flex items-center justify-between uno-card"
-      >
-        <div class="flex flex-1 gap-4">
-          <img class="h-20 w-20 rounded-lg object-cover" :src="getObjectUrl(file)" />
-          <div class="flex flex-col justify-between">
-            <div class="flex items-center gap-2">
-              <span class="font-bold">Filename: </span>
-              <span>{{ file.name }}</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="font-bold">Github: </span>
-              <NuxtLink :href="getGithubUrl(file)" target="_blank" class="text-emerald">
-                {{ getGithubUrl(file) }}
-              </NuxtLink>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="font-bold">jsDelivr: </span>
-              <NuxtLink :href="getJsDelivrUrl(file)" target="_blank" class="text-emerald">
-                {{ getJsDelivrUrl(file) }}
-              </NuxtLink>
-              <CodeCopy :code="getJsDelivrUrl(file)" />
-            </div>
-          </div>
-        </div>
-        <div>
-          <button
-            class="flex-center cursor-pointer rounded-md border-none bg-red-500 p-2 text-white"
-            @click="removeImage(file.name)"
-          >
-            <Icon name="lucide:trash-2" />
-          </button>
-        </div>
+        :filename="file.name"
+        :preview-url="getPreviewUrl(file)"
+        :github-url="getGithubUrl(file.name)"
+        :jsdelivr-url="getJsDelivrUrl(file.name)"
+        @delete="removeImage"
+      />
+    </div>
+
+    <!-- exists images -->
+    <div class="w-full flex flex-col gap-4">
+      <div class="flex gap-2">
+        <div class="text-3xl font-bold">远程图片列表</div>
+        <UiButton icon="lucide:refresh-ccw" :loading="status === 'pending'" @click="refresh"
+          >获取</UiButton
+        >
       </div>
+
+      <DashboardImageCard
+        v-for="file in images"
+        :key="file.name"
+        :filename="file.name"
+        :preview-url="getPreviewUrl(getJsDelivrUrl(file.name))"
+        :github-url="getGithubUrl(file.name)"
+        :jsdelivr-url="getJsDelivrUrl(file.name)"
+        @delete="deleteRemoteImage"
+      />
     </div>
   </div>
 </template>
@@ -103,10 +104,21 @@ useServerHead({
   title: 'Dashboard - 图床'
 })
 
-const { dashboard } = useAppConfig()
+const { imageBed } = useAppConfig()
 const { user } = useUserSession()
 
 const files = ref<File[]>([])
+
+const {
+  data: images,
+  refresh,
+  status
+} = await useFetch<any[]>('/api/repo-contents', {
+  query: {
+    repo: imageBed.repo,
+    path: imageBed.path
+  }
+})
 
 function handleDrop(event: DragEvent) {
   files.value = uniqueBy([...files.value, ...(event.dataTransfer?.files ?? [])], 'name')
@@ -116,16 +128,16 @@ function onFileChange(event: any) {
   files.value = uniqueBy([...files.value, ...(event.target?.files ?? [])], 'name')
 }
 
-function getObjectUrl(file: File) {
-  return URL.createObjectURL(file)
+function getPreviewUrl(fileOrUrl: string | File) {
+  return compressImage(fileOrUrl, 0.1)
 }
 
-function getGithubUrl(file: File) {
-  return `https://github.com/${user.value?.name}/${dashboard.imageBed.repo}/blob/master/${dashboard.imageBed.path}/${file.name}`
+function getGithubUrl(filename: string) {
+  return `https://github.com/${user.value?.name}/${imageBed.repo}/blob/master/${imageBed.path}/${filename}`
 }
 
-function getJsDelivrUrl(file: File) {
-  return `https://cdn.jsdelivr.net/gh/${user.value?.name}/${dashboard.imageBed.repo}/${dashboard.imageBed.path}/${file.name}`
+function getJsDelivrUrl(filename: string) {
+  return `https://cdn.jsdelivr.net/gh/${user.value?.name}/${imageBed.repo}/${imageBed.path}/${filename}`
 }
 
 const toast = useToast()
@@ -138,9 +150,24 @@ bus.on(() => {
 })
 
 function removeImage(name: string) {
-  const confirmDelete = window.confirm('确认删除该图片，此操作不会删除仓库文件')
+  const confirmDelete = window.confirm('确认删除该图片，此操作将从本地图片列表中移除该图片')
   if (!confirmDelete) return
   files.value = files.value.filter(f => f.name !== name)
+}
+
+async function deleteRemoteImage(name: string) {
+  const confirmDelete = window.confirm('确认删除该图片，此操作将从远程仓库中移除该图片')
+  if (!confirmDelete) return
+
+  const { message } = await $fetch('/api/repo-file', {
+    method: 'DELETE',
+    body: {
+      repo: imageBed.repo,
+      path: `${imageBed.path}/${name}`
+    }
+  })
+  toast.show(message)
+  await refresh()
 }
 
 async function uploadImages() {
@@ -153,16 +180,17 @@ async function uploadImages() {
     const { message } = await $fetch('/api/repo-contents', {
       method: 'PUT',
       body: {
-        repo: dashboard.imageBed.repo,
-        path: `${dashboard.imageBed.path}/${img.name}`,
+        repo: imageBed.repo,
+        path: `${imageBed.path}/${img.name}`,
         content: await blobToBase64(img),
         type: 'base64',
-        message: `Upload ${dashboard.imageBed.path}/${img.name}`
+        message: `Upload ${imageBed.path}/${img.name}`
       }
     })
 
     toast.show(message)
   }
   loading.value = false
+  refresh()
 }
 </script>

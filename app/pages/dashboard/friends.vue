@@ -1,10 +1,7 @@
 <template>
   <DashboardEditorFrame show-preview class="w-full">
     <template #header>
-      <button class="flex items-center gap-1 uno-btn" @click="push">
-        <Icon name="lucide:cloud-upload" />
-        <div>推送</div>
-      </button>
+      <UiButton icon="lucide:cloud-upload" @click="push">推送</UiButton>
     </template>
 
     <MonacoEditor
@@ -42,7 +39,7 @@ useServerHead({
   title: 'Dashboard - 友链'
 })
 
-const { data } = useFetch('/api/repo-contents', {
+const { data } = useFetch<{ content: string }>('/api/repo-contents', {
   query: {
     path: 'content/data/friends.yaml'
   },

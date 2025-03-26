@@ -4,7 +4,7 @@
       <Icon name="lucide:list" :size="24" class="dark:text-light-800" />
     </div>
 
-    <Drawer v-model="open" class="md:hidden">
+    <UiDrawer v-model="open" class="md:hidden">
       <div class="h-auto max-h-50vh min-h-30vh flex flex-col">
         <div class="my-4 text-center text-base font-medium">文章目录</div>
         <div class="mx-auto w-full flex-1 overflow-y-auto px-4">
@@ -25,7 +25,7 @@
           </div>
         </div>
       </div>
-    </Drawer>
+    </UiDrawer>
   </div>
 </template>
 

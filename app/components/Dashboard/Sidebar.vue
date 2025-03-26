@@ -4,7 +4,7 @@
   >
     <div class="flex flex-col gap-4">
       <div class="w-full flex-center py-2">
-        <h1 class="text-2xl text-gray-800 font-bold dark:text-gray-3">{{ dashboard.title }}</h1>
+        <ColorModeToggle />
       </div>
 
       <nav class="flex flex-col gap-2">
@@ -51,7 +51,6 @@
 
 <script lang="ts" setup>
 const router = useRouter()
-const { dashboard } = useAppConfig()
 
 const { user, clear, fetch, loggedIn } = useUserSession()
 

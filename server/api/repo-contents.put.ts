@@ -22,6 +22,8 @@ export default defineEventHandler(async event => {
   const file = await event.$fetch('/api/repo-contents', {
     query: { path, repo: repo ?? githubRepo }
   })
+
+  if (Array.isArray(file)) return { message: 'Can not upsert a directory' }
   if (base64Content === file?.content) return { message: 'No changes detected' }
 
   // 更新/创建 文件

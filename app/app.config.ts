@@ -18,14 +18,6 @@ export default defineAppConfig({
     avatar: '/images/avatar.png'
   },
 
-  dashboard: {
-    title: 'Dashboard',
-    imageBed: {
-      repo: 'Staticfile',
-      path: 'test'
-    }
-  },
-
   firstScreen: {
     content: '用心写点没用的东西~',
     backgroundImage: '/images/bg.svg',
@@ -49,6 +41,11 @@ export default defineAppConfig({
     repoId: 'R_kgDOMxnK-w',
     category: 'Announcements',
     categoryId: 'DIC_kwDOMxnK-84CieT2'
+  },
+
+  imageBed: {
+    repo: 'Staticfile',
+    path: 'images'
   },
 
   header: {

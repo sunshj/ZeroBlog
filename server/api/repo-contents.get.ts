@@ -24,6 +24,7 @@ export default defineEventHandler(async event => {
       return { data: null }
     })
 
+  if (Array.isArray(data)) return data
   if (!data || !('content' in data)) return null
 
   return {

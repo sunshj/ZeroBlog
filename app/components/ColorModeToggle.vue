@@ -1,5 +1,5 @@
 <template>
-  <button class="bg-white icon-btn dark:bg-black" @click="toggleColorMode">
+  <UiButton color="gray" class="!p-1" title="Toggle Color Mode" @click="toggleColorMode">
     <ClientOnly>
       <Icon :size="24" :name="icon" />
       <template #fallback>
@@ -8,7 +8,7 @@
         </span>
       </template>
     </ClientOnly>
-  </button>
+  </UiButton>
 </template>
 
 <script setup lang="ts">
