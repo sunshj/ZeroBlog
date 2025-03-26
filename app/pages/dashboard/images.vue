@@ -27,19 +27,64 @@
       </div>
     </ClientOnly>
 
-    <div class="flex gap-2">
-      <img
-        v-for="file in files"
-        :key="file.name"
-        class="h-20 w-20 rounded-lg object-cover"
-        :src="getObjectUrl(file)"
-      />
+    <div class="flex items-center justify-between">
+      <div class="flex gap-2">
+        <div>
+          <span class="font-bold">存储仓库：</span>
+          <ProseCode> github.com/{{ user?.name }}/{{ dashboard.imageBed.repo }} </ProseCode>
+        </div>
+        <div>
+          <span class="font-bold">存储目录：</span>
+          <ProseCode> {{ dashboard.imageBed.path }} </ProseCode>
+        </div>
+      </div>
+      <button class="flex-center gap-1 text-lg uno-btn" @click="uploadImages">
+        <Icon
+          :class="{
+            'animate-spin': loading
+          }"
+          :name="loading ? 'lucide:loader-circle' : 'lucide:cloud-upload'"
+        />上传全部
+      </button>
     </div>
 
-    <div class="flex justify-end">
-      <button class="flex-center gap-1 text-lg uno-btn" @click="uploadImages">
-        <Icon name="lucide:cloud-upload" />上传
-      </button>
+    <div class="w-full flex flex-col gap-4">
+      <div
+        v-for="file in files"
+        :key="file.name"
+        class="flex items-center justify-between uno-card"
+      >
+        <div class="flex flex-1 gap-4">
+          <img class="h-20 w-20 rounded-lg object-cover" :src="getObjectUrl(file)" />
+          <div class="flex flex-col justify-between">
+            <div class="flex items-center gap-2">
+              <span class="font-bold">Filename: </span>
+              <span>{{ file.name }}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="font-bold">Github: </span>
+              <NuxtLink :href="getGithubUrl(file)" target="_blank" class="text-emerald">
+                {{ getGithubUrl(file) }}
+              </NuxtLink>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="font-bold">jsDelivr: </span>
+              <NuxtLink :href="getJsDelivrUrl(file)" target="_blank" class="text-emerald">
+                {{ getJsDelivrUrl(file) }}
+              </NuxtLink>
+              <CodeCopy :code="getJsDelivrUrl(file)" />
+            </div>
+          </div>
+        </div>
+        <div>
+          <button
+            class="flex-center cursor-pointer rounded-md border-none bg-red-500 p-2 text-white"
+            @click="removeImage(file.name)"
+          >
+            <Icon name="lucide:trash-2" />
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -59,6 +104,7 @@ useServerHead({
 })
 
 const { dashboard } = useAppConfig()
+const { user } = useUserSession()
 
 const files = ref<File[]>([])
 
@@ -70,21 +116,39 @@ function onFileChange(event: any) {
   files.value = uniqueBy([...files.value, ...(event.target?.files ?? [])], 'name')
 }
 
-watchEffect(() => {
-  console.log('files.value: ', files.value)
-})
-
 function getObjectUrl(file: File) {
   return URL.createObjectURL(file)
 }
 
+function getGithubUrl(file: File) {
+  return `https://github.com/${user.value?.name}/${dashboard.imageBed.repo}/blob/master/${dashboard.imageBed.path}/${file.name}`
+}
+
+function getJsDelivrUrl(file: File) {
+  return `https://cdn.jsdelivr.net/gh/${user.value?.name}/${dashboard.imageBed.repo}/${dashboard.imageBed.path}/${file.name}`
+}
+
 const toast = useToast()
+
+const loading = ref(false)
+
+const bus = useEventBus('mdc:copied')
+bus.on(() => {
+  toast.show('已复制到剪切板')
+})
+
+function removeImage(name: string) {
+  const confirmDelete = window.confirm('确认删除该图片，此操作不会删除仓库文件')
+  if (!confirmDelete) return
+  files.value = files.value.filter(f => f.name !== name)
+}
 
 async function uploadImages() {
   if (files.value.length === 0) {
     toast.show('请先添加图片')
     return
   }
+  loading.value = true
   for (const img of files.value) {
     const { message } = await $fetch('/api/repo-contents', {
       method: 'PUT',
@@ -99,5 +163,6 @@ async function uploadImages() {
 
     toast.show(message)
   }
+  loading.value = false
 }
 </script>
