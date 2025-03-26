@@ -2,8 +2,9 @@
   <button
     class="flex-center cursor-pointer gap-1 rounded-lg p-2"
     :class="{
+      'bg-transparent border-none hover:bg-gray-200 dark:hover:bg-gray-600': color === 'ghost',
       'bg-red-500 text-white border-none': color === 'red',
-      'bg-black text-white dark:bg-white dark:text-black border-none': color === 'black',
+      'bg-black text-white dark:bg-white dark:text-black border-none': !color || color === 'black',
       'bg-white dark:bg-black border-2 border-gray-200 dark:border-neutral-800  dark:text-gray-300 border-solid':
         color === 'gray'
     }"
@@ -30,6 +31,6 @@ const {
   icon?: string
   iconSize?: number
   loading?: boolean
-  color?: 'red' | 'black' | 'gray'
+  color?: 'red' | 'black' | 'gray' | 'ghost'
 }>()
 </script>

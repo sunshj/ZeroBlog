@@ -10,6 +10,7 @@
         <div class="flex-1">标题</div>
         <div class="flex-1">标签</div>
         <div class="flex-1">日期</div>
+        <div>操作</div>
       </div>
 
       <NuxtLink

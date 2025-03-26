@@ -1,6 +1,6 @@
 <template>
   <section class="h-full max-h-screen w-full flex overflow-hidden">
-    <DashboardSidebar class="w-48" />
+    <DashboardSidebar />
     <main class="flex-1 overflow-auto">
       <slot />
     </main>
