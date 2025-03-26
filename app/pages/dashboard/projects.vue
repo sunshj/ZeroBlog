@@ -35,7 +35,7 @@ definePageMeta({
   layout: 'dashboard'
 })
 
-useServerHead({
+useHead({
   title: 'Dashboard - 项目'
 })
 

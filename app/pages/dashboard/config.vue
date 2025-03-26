@@ -26,7 +26,7 @@ definePageMeta({
   layout: 'dashboard'
 })
 
-useServerHead({
+useHead({
   title: 'Dashboard - 配置'
 })
 

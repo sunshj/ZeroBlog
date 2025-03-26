@@ -23,7 +23,7 @@ definePageMeta({
   layout: 'empty'
 })
 
-useServerHead({
+useHead({
   title: 'Dashboard - 登录'
 })
 

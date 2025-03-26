@@ -128,7 +128,7 @@ definePageMeta({
   layout: 'dashboard'
 })
 
-useServerHead({
+useHead({
   title: 'Dashboard - 图床'
 })
 
