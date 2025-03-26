@@ -5,7 +5,7 @@
         <Icon name="lucide:plus" />
         <div>新建文章</div>
       </button>
-      <input v-model="searchText" class="w-fit uno-input" placeholder="搜索文章" />
+      <input v-model="searchText" class="w-fit uno-input" :placeholder="`搜索文章(${total}篇)`" />
     </div>
     <div class="flex flex-col gap-2 rounded-md p-2">
       <div class="flex items-center justify-between gap-2 px-4 font-bold">
@@ -65,7 +65,15 @@ definePageMeta({
   layout: 'dashboard'
 })
 
+useServerHead({
+  title: 'Dashboard | Articles'
+})
+
 const searchText = ref('')
+
+const { data: total } = useAsyncData('total-articles', () =>
+  queryContent('/articles').where({ hidden: false }).count()
+)
 
 const { data } = await useAsyncData(
   'articles',

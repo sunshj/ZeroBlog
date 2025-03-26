@@ -38,6 +38,10 @@ definePageMeta({
   layout: 'dashboard'
 })
 
+useServerHead({
+  title: 'Dashboard | Friends'
+})
+
 const { data } = useFetch('/api/repo-contents', {
   query: {
     path: 'content/data/friends.yaml'

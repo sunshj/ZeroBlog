@@ -38,6 +38,10 @@ definePageMeta({
   layout: 'dashboard'
 })
 
+useServerHead({
+  title: 'Dashboard | Projects'
+})
+
 const { data, status } = useFetch('/api/repo-contents', {
   query: {
     path: 'content/data/projects.yaml'

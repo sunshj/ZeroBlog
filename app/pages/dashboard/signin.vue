@@ -23,7 +23,7 @@ definePageMeta({
   layout: 'empty'
 })
 
-useHead({
+useServerHead({
   title: 'Dashboard | Sign in'
 })
 

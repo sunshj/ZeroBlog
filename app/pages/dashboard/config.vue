@@ -11,7 +11,6 @@
       v-if="data?.content"
       v-model="data.content"
       :options="{
-        minimap: { autohide: true },
         theme: $colorMode.value === 'dark' ? 'vs-dark' : 'vs-light'
       }"
       class="h-full"
@@ -28,6 +27,10 @@ definePageMeta({
     icon: 'lucide:settings'
   },
   layout: 'dashboard'
+})
+
+useServerHead({
+  title: 'Dashboard | Config'
 })
 
 const { data } = useFetch('/api/repo-contents', {
