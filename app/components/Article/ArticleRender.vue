@@ -15,7 +15,7 @@
 
     <div class="mb-15 w-full md:flex md:justify-between">
       <div
-        class="flex-1 gap-5"
+        class="w-full flex-1 gap-5"
         :class="{
           'flex flex-col': tocLinks.length === 0,
           'grid grid-cols-1': tocLinks.length > 0
@@ -90,8 +90,8 @@ const props = withDefaults(
     showCopyright?: boolean
     tagOptions?: {
       dateFormat?: string
-      wordsCount: boolean
-      readingTime: boolean
+      wordsCount?: boolean
+      readingTime?: boolean
     }
   }>(),
   {

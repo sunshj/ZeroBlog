@@ -17,18 +17,7 @@
     />
 
     <template #preview>
-      <ContentRenderer :value="article">
-        <template #empty>
-          <div class="h-full w-full flex-center">
-            <div class="flex flex-col items-center gap-2">
-              <div class="text-4xl">
-                <Icon name="lucide:file-text" />
-              </div>
-              <div>没有可渲染的内容</div>
-            </div>
-          </div>
-        </template>
-      </ContentRenderer>
+      <ArticleRender :article="article" :tag-options="{ readingTime: false, wordsCount: false }" />
     </template>
   </DashboardEditorFrame>
 </template>
@@ -36,6 +25,10 @@
 <script lang="ts" setup>
 definePageMeta({
   layout: 'dashboard'
+})
+
+useServerHead({
+  title: 'Dashboard - 编辑文章'
 })
 
 const route = useRoute('dashboard-scope-slug')
@@ -61,7 +54,10 @@ date: '${formatTime(Date.now())}'
   }
 })
 
-const article = computedAsync(async () => await parseMarkdown(content.value))
+const article = computedAsync(async () => {
+  const { body, data } = await parseMarkdown(content.value)
+  return { body, ...data }
+})
 
 const toast = useToast()
 
