@@ -39,7 +39,7 @@ definePageMeta({
 })
 
 useServerHead({
-  title: 'Dashboard | Friends'
+  title: 'Dashboard - 友链'
 })
 
 const { data } = useFetch('/api/repo-contents', {

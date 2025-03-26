@@ -2,6 +2,7 @@ import { Octokit } from 'octokit'
 import { z } from 'zod'
 
 const schema = z.object({
+  repo: z.string().optional(),
   path: z.string()
 })
 
@@ -9,9 +10,11 @@ export default defineEventHandler(async event => {
   const session = await requireUserSession(event)
 
   const { githubRepo } = useRuntimeConfig()
-  const { path } = await readValidatedBody(event, schema.parse)
+  const { repo, path } = await readValidatedBody(event, schema.parse)
 
-  const file = await event.$fetch('/api/repo-contents', { query: { path } })
+  const file = await event.$fetch('/api/repo-contents', {
+    query: { path, repo: repo ?? githubRepo }
+  })
 
   if (!file) return { message: 'File not found' }
 
@@ -19,7 +22,7 @@ export default defineEventHandler(async event => {
   const { data } = await octokit
     .request('DELETE /repos/{owner}/{repo}/contents/{path}', {
       owner: session.user.name,
-      repo: githubRepo,
+      repo: repo ?? githubRepo,
       path,
       message: `docs: deleted ${path}`,
       sha: file.sha

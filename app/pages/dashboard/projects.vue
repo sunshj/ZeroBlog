@@ -39,7 +39,7 @@ definePageMeta({
 })
 
 useServerHead({
-  title: 'Dashboard | Projects'
+  title: 'Dashboard - 项目'
 })
 
 const { data, status } = useFetch('/api/repo-contents', {

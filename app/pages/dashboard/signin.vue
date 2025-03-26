@@ -24,7 +24,7 @@ definePageMeta({
 })
 
 useServerHead({
-  title: 'Dashboard | Sign in'
+  title: 'Dashboard - 登录'
 })
 
 const { openInPopup, loggedIn } = useUserSession()

@@ -30,7 +30,7 @@ definePageMeta({
 })
 
 useServerHead({
-  title: 'Dashboard | Config'
+  title: 'Dashboard - 配置'
 })
 
 const { data } = useFetch('/api/repo-contents', {

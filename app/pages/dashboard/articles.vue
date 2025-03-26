@@ -66,7 +66,7 @@ definePageMeta({
 })
 
 useServerHead({
-  title: 'Dashboard | Articles'
+  title: 'Dashboard - 文章'
 })
 
 const searchText = ref('')

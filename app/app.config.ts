@@ -19,7 +19,11 @@ export default defineAppConfig({
   },
 
   dashboard: {
-    title: 'Dashboard'
+    title: 'Dashboard',
+    imageBed: {
+      repo: 'Staticfile',
+      path: 'test'
+    }
   },
 
   firstScreen: {

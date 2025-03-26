@@ -51,7 +51,7 @@ definePageMeta({
 })
 
 useServerHead({
-  title: 'Dashboard | Notes'
+  title: 'Dashboard - 小记'
 })
 
 const searchText = ref('')
