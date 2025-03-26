@@ -24,12 +24,11 @@
 
           <div class="flex-1">{{ formatTime(item.date) }}</div>
           <div>
-            <button
-              class="flex-center cursor-pointer rounded-md border-none bg-red-500 p-2 text-white"
+            <UiButton
+              icon="lucide:trash-2"
+              color="red"
               @click.prevent="deleteArticle(item._path!)"
-            >
-              <Icon name="lucide:trash-2" />
-            </button>
+            ></UiButton>
           </div>
         </div>
       </NuxtLink>

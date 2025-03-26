@@ -36,56 +36,84 @@
           <ProseCode> {{ imageBed.path }} </ProseCode>
         </div>
       </div>
-      <UiButton
-        :loading="loading"
-        :icon="loading ? 'lucide:loader-circle' : 'lucide:cloud-upload'"
-        @click="uploadImages"
-      >
-        上传全部
-      </UiButton>
+
+      <div class="flex gap-2">
+        <UiSegmentedButton :options="layoutOptions" @change="onLayoutViewChange" />
+
+        <UiButton
+          :loading="loading"
+          :icon="loading ? 'lucide:loader-circle' : 'lucide:cloud-upload'"
+          @click="uploadImages"
+        >
+          上传全部
+        </UiButton>
+      </div>
     </div>
 
     <!-- upload images -->
     <div class="w-full flex flex-col gap-4">
-      <div class="flex gap-2">
+      <div class="flex items-center gap-2">
         <div class="text-3xl font-bold">本地图片列表</div>
         <UiButton
           v-if="files.length > 0"
+          class="h-8"
           icon="lucide:trash-2"
+          :icon-size="18"
           color="red"
           @click="files.length = 0"
           >删除全部</UiButton
         >
       </div>
-      <DashboardImageCard
-        v-for="file in files"
-        :key="file.name"
-        :filename="file.name"
-        :preview-url="getPreviewUrl(file)"
-        :github-url="getGithubUrl(file.name)"
-        :jsdelivr-url="getJsDelivrUrl(file.name)"
-        @delete="removeImage"
-      />
+      <div
+        :class="{
+          'grid grid-cols-4 gap-2': layoutView === 'grid',
+          'flex flex-col gap-4': layoutView === 'list'
+        }"
+      >
+        <DashboardImageCard
+          v-for="file in files"
+          :key="file.name"
+          :mini="layoutView === 'grid'"
+          :filename="file.name"
+          :preview-url="getPreviewUrl(file)"
+          :github-url="getGithubUrl(file.name)"
+          :jsdelivr-url="getJsDelivrUrl(file.name)"
+          @delete="removeImage"
+        />
+      </div>
     </div>
 
     <!-- exists images -->
     <div class="w-full flex flex-col gap-4">
-      <div class="flex gap-2">
+      <div class="flex items-center gap-2">
         <div class="text-3xl font-bold">远程图片列表</div>
-        <UiButton icon="lucide:refresh-ccw" :loading="status === 'pending'" @click="refresh"
-          >获取</UiButton
-        >
+
+        <UiButton
+          class="h-8 w-8"
+          icon="lucide:refresh-ccw"
+          :icon-size="18"
+          :loading="status === 'pending'"
+          @click="refresh"
+        />
       </div>
 
-      <DashboardImageCard
-        v-for="file in images"
-        :key="file.name"
-        :filename="file.name"
-        :preview-url="getPreviewUrl(getJsDelivrUrl(file.name))"
-        :github-url="getGithubUrl(file.name)"
-        :jsdelivr-url="getJsDelivrUrl(file.name)"
-        @delete="deleteRemoteImage"
-      />
+      <div
+        :class="{
+          'grid grid-cols-4 gap-2': layoutView === 'grid',
+          'flex flex-col gap-4': layoutView === 'list'
+        }"
+      >
+        <DashboardImageCard
+          v-for="file in images"
+          :key="file.name"
+          :mini="layoutView === 'grid'"
+          :filename="file.name"
+          :preview-url="getPreviewUrl(getJsDelivrUrl(file.name))"
+          :github-url="getGithubUrl(file.name)"
+          :jsdelivr-url="getJsDelivrUrl(file.name)"
+          @delete="deleteRemoteImage"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -108,6 +136,24 @@ const { imageBed } = useAppConfig()
 const { user } = useUserSession()
 
 const files = ref<File[]>([])
+
+const layoutOptions = [
+  {
+    label: 'Grid View',
+    value: 'grid',
+    icon: 'lucide:layout-grid'
+  },
+  {
+    label: 'List View',
+    value: 'list',
+    icon: 'lucide:layout-list'
+  }
+]
+const layoutView = ref('grid')
+
+function onLayoutViewChange(option: any) {
+  layoutView.value = option.value
+}
 
 const {
   data: images,
@@ -150,8 +196,6 @@ bus.on(() => {
 })
 
 function removeImage(name: string) {
-  const confirmDelete = window.confirm('确认删除该图片，此操作将从本地图片列表中移除该图片')
-  if (!confirmDelete) return
   files.value = files.value.filter(f => f.name !== name)
 }
 
