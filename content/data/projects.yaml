@@ -63,11 +63,3 @@ projects:
     description: A type-safe EventEmitter designed to simplify message events
     techStack:
       - vscode-icons:file-type-typescript-official
-
-  - name: music player
-    link: /projects/music
-    description: Simple music player
-    techStack:
-      - vscode-icons:file-type-vue
-      - vscode-icons:file-type-nuxt
-      - vscode-icons:file-type-typescript-official
