@@ -28,12 +28,6 @@ export default defineNuxtConfig({
     typedPages: true
   },
 
-  nitro: {
-    experimental: {
-      legacyExternals: true
-    }
-  },
-
   runtimeConfig: {
     githubRepo: ''
   },
