@@ -6,6 +6,8 @@ export default defineNuxtConfig({
   css: ['~/assets/base.css', '~/assets/transitions.css'],
 
   routeRules: {
+    '/**': { prerender: true },
+    '/dashboard/**': { prerender: false },
     '/rss.xml': { prerender: true },
     '/sitemap.xml': { prerender: true }
   },
@@ -24,6 +26,12 @@ export default defineNuxtConfig({
 
   experimental: {
     typedPages: true
+  },
+
+  nitro: {
+    experimental: {
+      legacyExternals: true
+    }
   },
 
   runtimeConfig: {
