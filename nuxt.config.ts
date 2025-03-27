@@ -7,9 +7,9 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/**': { prerender: true },
-    '/dashboard/**': { prerender: false },
     '/rss.xml': { prerender: true },
-    '/sitemap.xml': { prerender: true }
+    '/sitemap.xml': { prerender: true },
+    '/dashboard/**': { ssr: false }
   },
 
   app: {
