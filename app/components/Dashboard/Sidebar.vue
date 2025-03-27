@@ -61,7 +61,7 @@
         </div>
 
         <div
-          class="absolute bottom-full z-50 mb-0 hidden w-44 border rounded-lg bg-white shadow-lg transition-all group-hover:block dark:bg-dark"
+          class="absolute bottom-0 left-full z-50 mb-0 hidden w-44 border rounded-lg bg-white shadow-lg transition-all group-hover:block dark:bg-dark"
         >
           <ul class="p-2">
             <li
