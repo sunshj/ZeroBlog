@@ -11,6 +11,8 @@ tags:
 <!--more-->
 一开始想要做个全栈的博客，略微思索后发觉貌似没那个必要，索性直接用 Nuxt Content 了，最终生成的是一个静态网站，部署在 Vercel 上。
 
+2025年3月27日更新：为博客添加了后台，但不需要数据库，只需使用Github登录，即可在线编写博客。
+
 ## 技术栈
 
 - Nuxt 3
@@ -24,7 +26,7 @@ tags:
 
 
 ## 网站评分
-![PageSpeed Insights](https://cdn.jsdelivr.net/gh/sunshj/Staticfile/img/20241126001433.png)
+![PageSpeed Insights](https://cdn.jsdelivr.net/gh/sunshj/Staticfile/images/pagespeed-20250327212529.png)
 
 ## TODO
 
