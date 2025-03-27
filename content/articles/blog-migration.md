@@ -14,13 +14,13 @@ tags:
 ## 技术栈
 
 - Nuxt 3
-- Nuxt Content
+- Nuxt Content v2
 - Nuxt MDC  (使用了自定义的 Nuxt MDC 组件模块 [@sunshj/mdc](https://github.com/sunshj/mdc))
 - Nuxt Icon
 - Nuxt Image
 - UnoCSS 
 - giscus (评论系统)
-- fuse.js (搜索)
+- fuse.js (搜索，支持类Unix搜索命令，[详见](https://www.fusejs.io/examples.html#extended-search))
 
 
 ## 网站评分
@@ -29,8 +29,6 @@ tags:
 ## TODO
 
 - [ ] 文章加密
-- [ ] 文章分享
-- [ ] 文章头图
 - [x] OG Image
 - [x] 首屏
 - [x] 站点地图

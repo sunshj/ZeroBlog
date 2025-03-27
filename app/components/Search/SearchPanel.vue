@@ -15,7 +15,7 @@
         type="text"
         tabindex="-1"
         class="flex-1 rounded-lg border-none py-4 outline-none focus:border-none dark:bg-dark"
-        placeholder="Search"
+        placeholder="Search..."
         @input="handleSearch"
       />
       <Icon
