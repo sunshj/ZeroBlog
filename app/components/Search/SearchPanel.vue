@@ -11,7 +11,7 @@
       <Icon name="lucide:search" :size="20" class="ml-4 mr-2 text-gray-500" />
       <input
         ref="searchInputRef"
-        v-model="search"
+        :value="search"
         type="text"
         tabindex="-1"
         class="flex-1 rounded-lg border-none py-4 outline-none focus:border-none dark:bg-dark"
@@ -52,7 +52,8 @@ const search = ref('')
 const searchInputRef = ref<HTMLInputElement | null>(null)
 const results = ref<Array<FuseResult<any>>>([])
 
-const handleSearch = useThrottleFn(async () => {
+const handleSearch = useThrottleFn(async e => {
+  search.value = e.target.value
   const data = await fuseSearchContent(search)
   results.value = data.value
 }, 100)
