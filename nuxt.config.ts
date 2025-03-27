@@ -29,7 +29,17 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    githubRepo: ''
+    githubRepo: '',
+
+    public: {
+      giscusRepo: '',
+      giscusRepoId: '',
+      giscusCategory: '',
+      giscusCategoryId: '',
+
+      imageBedRepo: '',
+      imageBedFolder: ''
+    }
   },
 
   modules: [

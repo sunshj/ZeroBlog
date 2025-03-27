@@ -1,10 +1,10 @@
 <template>
   <Giscus
-    :repo="giscus.repo"
-    :repo-id="giscus.repoId"
+    :repo="$config.public.giscusRepo as any"
+    :repo-id="$config.public.giscusRepoId"
     mapping="pathname"
-    :category="giscus.category"
-    :category-id="giscus.categoryId"
+    :category="$config.public.giscusCategory"
+    :category-id="$config.public.giscusCategoryId"
     reactions-enabled="1"
     emit-metadata="0"
     input-position="bottom"
@@ -16,7 +16,6 @@
 
 <script lang="ts" setup>
 import Giscus from '@giscus/vue'
-const { giscus } = useAppConfig()
 </script>
 
 <style scoped></style>

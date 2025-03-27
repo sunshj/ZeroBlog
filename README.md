@@ -50,11 +50,20 @@ NUXT_SITE_NAME="My Blog"
 NUXT_GITHUB_REPO="nuxt-blog"
 
 # Auth Utils (32位字符)
-NUXT_SESSION_PASSWORD="********************************"
+NUXT_SESSION_PASSWORD=
 # Github OAuth
-NUXT_OAUTH_GITHUB_CLIENT_ID="********************"
-NUXT_OAUTH_GITHUB_CLIENT_SECRET="****************************************"
+NUXT_OAUTH_GITHUB_CLIENT_ID=
+NUXT_OAUTH_GITHUB_CLIENT_SECRET=
 
+# Giscus
+NUXT_PUBLIC_GISCUS_REPO=
+NUXT_PUBLIC_GISCUS_REPO_ID=
+NUXT_PUBLIC_GISCUS_CATEGORY=
+NUXT_PUBLIC_GISCUS_CATEGORY_ID=
+
+# Image Bed
+NUXT_PUBLIC_IMAGE_BED_REPO=
+NUXT_PUBLIC_IMAGE_BED_FOLDER=
 ```
 
 ### 创建Github OAuth App
@@ -78,14 +87,17 @@ NUXT_OAUTH_GITHUB_CLIENT_SECRET="****************************************"
 ### 添加Giscus评论系统
 
 1. 需要创建一个公开的Github仓库用于存储评论，例如`blog-comments`。
-2. 访问 https://giscus.app/zh-CN ，填写仓库和Discussion分类，在`启用 giscus`中获取以下数据:
-   - data-repo
-   - data-repo-id
-   - data-category
-   - data-category-id
-3. 修改博客仓库中`app/app.config.ts`中`giscus`配置项(或者在`<your-blog-url>/dashboard/config`中修改)，将获取到的数据填入对应的字段中。
+2. 访问 https://giscus.app/zh-CN ，填写仓库和Discussion分类，在`启用 giscus`中获取以下数据并添加到对应环境变量:
+   - data-repo -> `NUXT_PUBLIC_GISCUS_REPO`
+   - data-repo-id -> `NUXT_PUBLIC_GISCUS_REPO_ID`
+   - data-category -> `NUXT_PUBLIC_GISCUS_CATEGORY`
+   - data-category-id -> `NUXT_PUBLIC_GISCUS_CATEGORY_ID`
 
 ### 配置图床
 
-1. 需要创建一个公开的Github仓库用于存储图片，例如`blog-images`。
-2. 修改博客仓库中`app/app.config.ts`中`imageBed`配置项(或者在`<your-blog-url>/dashboard/config`中修改)，将仓库名、图片存放目录填入对应的字段中。
+1. 需要创建一个公开的Github仓库用于存储图片，例如`static`。
+2. 将仓库名和需要存放图片的文件夹(例如：`images`)添加到对应环境变量：
+   ```env
+   NUXT_PUBLIC_IMAGE_BED_REPO = static
+   NUXT_PUBLIC_IMAGE_BED_FOLDER = images
+   ```

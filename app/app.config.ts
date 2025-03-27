@@ -34,18 +34,6 @@ export default defineAppConfig({
     surround: false
   },
 
-  giscus: {
-    repo: 'sunshj/blogComments' as `${string}/${string}`,
-    repoId: 'R_kgDOMxnK-w',
-    category: 'Announcements',
-    categoryId: 'DIC_kwDOMxnK-84CieT2'
-  },
-
-  imageBed: {
-    repo: 'Staticfile',
-    path: 'images'
-  },
-
   header: {
     navLinks: [
       {

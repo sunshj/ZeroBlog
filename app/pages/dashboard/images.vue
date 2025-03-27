@@ -29,11 +29,11 @@
       <div class="flex gap-2">
         <div>
           <span class="font-bold">存储仓库：</span>
-          <ProseCode> github.com/{{ user?.name }}/{{ imageBed.repo }} </ProseCode>
+          <ProseCode> github.com/{{ user?.name }}/{{ imageBedRepo }} </ProseCode>
         </div>
         <div>
           <span class="font-bold">存储目录：</span>
-          <ProseCode> {{ imageBed.path }} </ProseCode>
+          <ProseCode> {{ imageBedFolder }} </ProseCode>
         </div>
       </div>
 
@@ -132,7 +132,7 @@ useHead({
   title: 'Dashboard - 图床'
 })
 
-const { imageBed } = useAppConfig()
+const { imageBedRepo, imageBedFolder } = useNuxtApp().$config.public
 const { user } = useUserSession()
 
 const files = ref<File[]>([])
@@ -161,8 +161,8 @@ const {
   status
 } = await useFetch<any[]>('/api/repo-contents', {
   query: {
-    repo: imageBed.repo,
-    path: imageBed.path
+    repo: imageBedRepo,
+    path: imageBedFolder
   }
 })
 
@@ -179,11 +179,11 @@ function getPreviewUrl(fileOrUrl: string | File) {
 }
 
 function getGithubUrl(filename: string) {
-  return `https://github.com/${user.value?.name}/${imageBed.repo}/blob/master/${imageBed.path}/${filename}`
+  return `https://github.com/${user.value?.name}/${imageBedRepo}/blob/master/${imageBedFolder}/${filename}`
 }
 
 function getJsDelivrUrl(filename: string) {
-  return `https://cdn.jsdelivr.net/gh/${user.value?.name}/${imageBed.repo}/${imageBed.path}/${filename}`
+  return `https://cdn.jsdelivr.net/gh/${user.value?.name}/${imageBedRepo}/${imageBedFolder}/${filename}`
 }
 
 const toast = useToast()
@@ -206,8 +206,8 @@ async function deleteRemoteImage(name: string) {
   const { message } = await $fetch('/api/repo-file', {
     method: 'DELETE',
     body: {
-      repo: imageBed.repo,
-      path: `${imageBed.path}/${name}`
+      repo: imageBedRepo,
+      path: `${imageBedFolder}/${name}`
     }
   })
   toast.show(message)
@@ -224,11 +224,11 @@ async function uploadImages() {
     const { message } = await $fetch('/api/repo-contents', {
       method: 'PUT',
       body: {
-        repo: imageBed.repo,
-        path: `${imageBed.path}/${img.name}`,
+        repo: imageBedRepo,
+        path: `${imageBedFolder}/${img.name}`,
         content: await blobToBase64(img),
         type: 'base64',
-        message: `Upload ${imageBed.path}/${img.name}`
+        message: `Upload ${imageBedFolder}/${img.name}`
       }
     })
 
