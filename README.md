@@ -4,6 +4,41 @@ ZeroDBlog 是一个基于Nuxt3和Nuxt Content的博客系统。无需数据库�
 
 ## 快速开始
 
+### 创建项目
+
+通过`Fork`或`Use this template`按钮创建项目即可。
+
+同步模版工作流：
+
+```yaml [.github/workflows/sync.yml]
+name: Sync with template
+
+on:
+  # cronjob trigger
+  schedule:
+    # 12:00 per day
+    - cron: '0 0 12 * * ?'
+  # manual trigger
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync Template
+        uses: AndreasAugustin/actions-template-sync@v2.5.1
+        with:
+          source_repo_path: sunshj/ZeroDBlog
+          source_gh_token: ${{ secrets.GITHUB_TOKEN }}
+```
+
 ### 必要环境变量
 
 ```env
