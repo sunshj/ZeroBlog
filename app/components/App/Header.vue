@@ -8,8 +8,9 @@
   >
     <div class="mr-4 h-45px w-45px flex cursor-pointer items-center justify-center rounded-3">
       <NuxtImg
-        :src="site.avatar"
+        src="/images/avatar.png"
         :alt="site.author"
+        densities="x1 x2"
         format="webp"
         class="h-full rounded-3 object-cover shadow-2xl"
         :width="90"

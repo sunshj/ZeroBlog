@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   css: ['~/assets/base.css', '~/assets/transitions.css'],
 
   routeRules: {
+    '/': { delayHydration: 'init' },
     '/**': { prerender: true },
     '/rss.xml': { prerender: true },
     '/sitemap.xml': { prerender: true },
@@ -48,12 +49,14 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     'nuxt-og-image',
     'nuxt-auth-utils',
-    'nuxt-monaco-editor'
+    'nuxt-monaco-editor',
+    'nuxt-delay-hydration'
   ],
 
   image: {
     screens: {
-      logo: 90
+      avatar: 90,
+      avatar2x: 180
     }
   },
 

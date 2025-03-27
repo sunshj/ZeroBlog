@@ -3,7 +3,7 @@
     <div
       name="first-screen"
       class="h-screen w-full flex-center animate-fade-in-down-mini bg-cover bg-center"
-      :style="`background-image: url(${firstScreen.backgroundImage})`"
+      style="background-image: url('/images/bg.svg')"
     >
       <Typewriter
         :text="firstScreen.content"

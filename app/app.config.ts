@@ -14,13 +14,11 @@ export default defineAppConfig({
     title: "sunshj's Blog",
     description: '用心写点没用的东西~',
     author: 'sunshj',
-    link: 'https://sunshj.top',
-    avatar: '/images/avatar.png'
+    link: 'https://sunshj.top'
   },
 
   firstScreen: {
     content: '用心写点没用的东西~',
-    backgroundImage: '/images/bg.svg',
     disableTypingAnimation: false
   },
 
