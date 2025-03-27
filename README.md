@@ -17,7 +17,7 @@ on:
   # cronjob trigger
   schedule:
     # 12:00 per day
-    - cron: '0 0 12 * * ?'
+    - cron: '0 12 * * *'
   # manual trigger
   workflow_dispatch:
 
