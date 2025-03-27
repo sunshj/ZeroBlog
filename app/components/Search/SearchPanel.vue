@@ -52,11 +52,11 @@ const search = ref('')
 const searchInputRef = ref<HTMLInputElement | null>(null)
 const results = ref<Array<FuseResult<any>>>([])
 
-const handleSearch = useThrottleFn(async e => {
+const handleSearch = useDebounceFn(async e => {
   search.value = e.target.value
   const data = await fuseSearchContent(search)
   results.value = data.value
-}, 100)
+}, 200)
 
 watch(search, () => {
   if (!search.value.trim()) {
