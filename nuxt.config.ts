@@ -51,6 +51,12 @@ export default defineNuxtConfig({
     'nuxt-monaco-editor'
   ],
 
+  image: {
+    screens: {
+      logo: 90
+    }
+  },
+
   ogImage: {
     fonts: ['Noto+Sans+SC:400']
   },

@@ -10,7 +10,6 @@
       <NuxtImg
         :src="site.avatar"
         :alt="site.author"
-        densities="x1"
         format="webp"
         class="h-full rounded-3 object-cover shadow-2xl"
         :width="90"
