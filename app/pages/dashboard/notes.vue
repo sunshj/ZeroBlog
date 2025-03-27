@@ -1,10 +1,10 @@
 <template>
-  <div class="flex flex-col gap-4 p-2">
+  <div class="flex flex-col gap-4 p-4">
     <div class="flex gap-2">
       <UiButton icon="lucide:plus" @click="createArticle">新建文章</UiButton>
       <input v-model="searchText" class="w-fit uno-input" :placeholder="`搜索文章(${total}篇)`" />
     </div>
-    <div class="flex flex-col gap-2 rounded-md p-2">
+    <div class="flex flex-col gap-2 rounded-md">
       <div class="flex items-center justify-between gap-2 px-4 font-bold">
         <div class="flex-1">路径</div>
         <div class="flex-1">标题</div>

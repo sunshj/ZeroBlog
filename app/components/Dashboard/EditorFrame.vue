@@ -1,9 +1,9 @@
 <template>
-  <div class="h-full w-full flex flex-col bg-gray-1 dark:bg-dark-8">
-    <div class="flex items-center gap-2 px-4 py-3">
+  <div class="h-full w-full flex flex-col bg-gray-1 px-3 dark:bg-dark-8">
+    <div class="flex items-center gap-2 py-3">
       <slot name="header"></slot>
     </div>
-    <div class="flex flex-1 overflow-hidden p-2">
+    <div class="flex flex-1 overflow-hidden">
       <div class="flex-1 bg-white dark:bg-dark">
         <slot>
           <div class="h-full w-full flex-center">
