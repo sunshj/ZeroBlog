@@ -11,7 +11,8 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint . --cache",
     "lint:fix": "eslint . --fix --cache",
-    "format": "prettier . --write"
+    "format": "prettier . --write",
+    "typecheck": "nuxt typecheck"
   },
   "dependencies": {
     "@giscus/vue": "3.0.0",
