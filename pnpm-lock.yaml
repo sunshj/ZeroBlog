@@ -26,6 +26,12 @@ importers:
       '@sunshj/mdc':
         specifier: 0.3.3
         version: 0.3.3(magicast@0.3.5)
+      '@trpc/client':
+        specifier: 11.0.2
+        version: 11.0.2(@trpc/server@11.0.2(typescript@5.8.2))(typescript@5.8.2)
+      '@trpc/server':
+        specifier: 11.0.2
+        version: 11.0.2(typescript@5.8.2)
       '@unocss/nuxt':
         specifier: 65.5.0
         version: 65.5.0(magicast@0.3.5)(postcss@8.5.3)(vite@6.2.1(@types/node@22.13.10)(jiti@2.4.2)(terser@5.39.0)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.2))(webpack@5.98.0)
@@ -68,6 +74,9 @@ importers:
       sitemap:
         specifier: 8.0.0
         version: 8.0.0
+      trpc-nuxt:
+        specifier: 1.0.4
+        version: 1.0.4(@trpc/client@11.0.2(@trpc/server@11.0.2(typescript@5.8.2))(typescript@5.8.2))(@trpc/server@11.0.2(typescript@5.8.2))
       undio:
         specifier: 0.2.0
         version: 0.2.0
@@ -1447,6 +1456,17 @@ packages:
 
   '@sunshj/prettier-config@1.0.2':
     resolution: {integrity: sha512-Mgb0XS3LUqBJuxozkGqJF5CK9/DDUk+0Oy0qljcq/58QuX56L8MoW7n8X8wYO6ejljBUlCYIF3JzklNxl55hgg==}
+
+  '@trpc/client@11.0.2':
+    resolution: {integrity: sha512-GlPEedbMTerkUfAJBsrwU6dg8N65lt3LBwrCoqR3MTZ64lRU/DQqyLjzpz5nRkEN0x4S2JmX0hASV9vc2KlSHA==}
+    peerDependencies:
+      '@trpc/server': 11.0.2
+      typescript: '>=5.7.2'
+
+  '@trpc/server@11.0.2':
+    resolution: {integrity: sha512-PIcm8UWFyE0AnIYjxsyc1zfVa6X10m9Opm1SJ2ou9Vu8dlXO6rMtmafLUXJsMeQk/3ecxObFtEiZIX8TvB3eCg==}
+    peerDependencies:
+      typescript: '>=5.7.2'
 
   '@trysound/sax@0.2.0':
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
@@ -5121,6 +5141,12 @@ packages:
   trough@2.2.0:
     resolution: {integrity: sha512-tmMpK00BjZiUyVyvrBK7knerNgmgvcV/KLVyuma/SC+TQN167GrMRciANTz09+k3zW8L8t60jWO1GpfkZdjTaw==}
 
+  trpc-nuxt@1.0.4:
+    resolution: {integrity: sha512-HIIBVGGIxvMWUWrb9FeVd+qvAPLSf47Eqku0zKcwncQI0v/3WddWegGer0DqsMIGbLDYxfmP/NdZMJu+V1PJwA==}
+    peerDependencies:
+      '@trpc/client': ^11.0.0
+      '@trpc/server': ^11.0.0
+
   truncatise@0.0.8:
     resolution: {integrity: sha512-cXzueh9pzBCsLzhToB4X4gZCb3KYkrsAcBAX97JnazE74HOl3cpBJYEV7nabHeG/6/WXCU5Yujlde/WPBUwnsg==}
 
@@ -7374,6 +7400,15 @@ snapshots:
       - magicast
 
   '@sunshj/prettier-config@1.0.2': {}
+
+  '@trpc/client@11.0.2(@trpc/server@11.0.2(typescript@5.8.2))(typescript@5.8.2)':
+    dependencies:
+      '@trpc/server': 11.0.2(typescript@5.8.2)
+      typescript: 5.8.2
+
+  '@trpc/server@11.0.2(typescript@5.8.2)':
+    dependencies:
+      typescript: 5.8.2
 
   '@trysound/sax@0.2.0': {}
 
@@ -11985,6 +12020,14 @@ snapshots:
   trim-lines@3.0.1: {}
 
   trough@2.2.0: {}
+
+  trpc-nuxt@1.0.4(@trpc/client@11.0.2(@trpc/server@11.0.2(typescript@5.8.2))(typescript@5.8.2))(@trpc/server@11.0.2(typescript@5.8.2)):
+    dependencies:
+      '@trpc/client': 11.0.2(@trpc/server@11.0.2(typescript@5.8.2))(typescript@5.8.2)
+      '@trpc/server': 11.0.2(typescript@5.8.2)
+      h3: 1.15.1
+      ofetch: 1.4.1
+      ohash: 2.0.11
 
   truncatise@0.0.8: {}
 

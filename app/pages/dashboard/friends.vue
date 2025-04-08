@@ -39,12 +39,14 @@ useHead({
   title: 'Dashboard - 友链'
 })
 
-const { data } = useFetch<{ content: string }>('/api/repo-contents', {
-  query: {
-    path: 'content/data/friends.yaml'
-  },
-  deep: true
-})
+const { $trpc } = useNuxtApp()
+
+const { data } = $trpc.repoFileContent.useQuery(
+  { path: 'content/data/friends.yaml' },
+  {
+    deep: true
+  }
+)
 
 const friends = computed(() => parseFrontMatter(`---\n${data.value?.content}\n---`).data.friends)
 
@@ -54,12 +56,9 @@ async function push() {
   const confirmPush = window.confirm('确定要推送吗？')
   if (!confirmPush) return
   toast.show('正在推送，请稍等...')
-  const { message } = await $fetch('/api/repo-contents', {
-    method: 'PUT',
-    body: {
-      path: 'content/data/friends.yaml',
-      content: data.value?.content
-    }
+  const { message } = await $trpc.upsertRepoFileContent.mutate({
+    path: 'content/data/friends.yaml',
+    content: data.value?.content ?? ''
   })
 
   window.alert(message)

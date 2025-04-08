@@ -1,6 +1,6 @@
 # ZeroDBlog
 
-ZeroDBlog 是一个基于Nuxt3和Nuxt Content的博客系统。无需数据库存储，通过Github API 更新数据，基于Github和Vercel自动化搭建博客。
+ZeroDBlog 是一个基于 Nuxt3 和 Nuxt Content 的博客系统。无需数据库存储，通过 Github API 更新数据，基于 Github 和 Vercel 自动化搭建博客。
 
 ## 快速开始
 

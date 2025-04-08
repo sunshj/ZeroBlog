@@ -83,15 +83,14 @@ async function createArticle() {
 }
 
 const toast = useToast()
+const { $trpc } = useNuxtApp()
 
 async function deleteArticle(path: string) {
   const confirmDelete = window.confirm(`确定删除 ${path} 吗？`)
   if (!confirmDelete) return
-  const { message } = await $fetch('/api/repo-file', {
-    method: 'DELETE',
-    body: { path: `content${path}.md` }
+  const { message } = await $trpc.deleteRepoFile.mutate({
+    path: `content${path}.md`
   })
-
   toast.show(message)
 }
 </script>

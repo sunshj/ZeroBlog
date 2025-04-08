@@ -30,12 +30,9 @@ useHead({
   title: 'Dashboard - 配置'
 })
 
-const { data } = useFetch<{ content: string }>('/api/repo-contents', {
-  query: {
-    path: 'app/app.config.ts'
-  },
-  deep: true
-})
+const { $trpc } = useNuxtApp()
+
+const { data } = $trpc.repoFileContent.useQuery({ path: 'app/app.config.ts' }, { deep: true })
 
 const toast = useToast()
 
@@ -43,12 +40,9 @@ async function push() {
   const confirmPush = window.confirm('确定要推送吗？')
   if (!confirmPush) return
   toast.show('正在推送，请稍等...')
-  const { message } = await $fetch('/api/repo-contents', {
-    method: 'PUT',
-    body: {
-      path: 'app/app.config.ts',
-      content: data.value?.content
-    }
+  const { message } = await $trpc.upsertRepoFileContent.mutate({
+    path: 'app/app.config.ts',
+    content: data.value?.content ?? ''
   })
 
   window.alert(message)

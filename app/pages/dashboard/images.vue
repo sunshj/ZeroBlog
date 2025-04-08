@@ -93,7 +93,7 @@
           icon="lucide:refresh-ccw"
           :icon-size="18"
           :loading="status === 'pending'"
-          @click="refresh"
+          @click="refresh()"
         />
       </div>
 
@@ -155,16 +155,13 @@ function onLayoutViewChange(option: any) {
   layoutView.value = option.value
 }
 
+const { $trpc } = useNuxtApp()
+
 const {
   data: images,
   refresh,
   status
-} = await useFetch<any[]>('/api/repo-contents', {
-  query: {
-    repo: imageBedRepo,
-    path: imageBedFolder
-  }
-})
+} = $trpc.repoFolderContents.useQuery({ repo: imageBedRepo, folder: imageBedFolder })
 
 function handleDrop(event: DragEvent) {
   files.value = uniqueBy([...files.value, ...(event.dataTransfer?.files ?? [])], 'name')
@@ -203,12 +200,9 @@ async function deleteRemoteImage(name: string) {
   const confirmDelete = window.confirm('确认删除该图片，此操作将从远程仓库中移除该图片')
   if (!confirmDelete) return
 
-  const { message } = await $fetch('/api/repo-file', {
-    method: 'DELETE',
-    body: {
-      repo: imageBedRepo,
-      path: `${imageBedFolder}/${name}`
-    }
+  const { message } = await $trpc.deleteRepoFile.mutate({
+    path: `${imageBedFolder}/${name}`,
+    repo: imageBedRepo
   })
   toast.show(message)
   await refresh()
@@ -221,15 +215,12 @@ async function uploadImages() {
   }
   loading.value = true
   for (const img of files.value) {
-    const { message } = await $fetch('/api/repo-contents', {
-      method: 'PUT',
-      body: {
-        repo: imageBedRepo,
-        path: `${imageBedFolder}/${img.name}`,
-        content: await blobToBase64(img),
-        type: 'base64',
-        message: `Upload ${imageBedFolder}/${img.name}`
-      }
+    const { message } = await $trpc.upsertRepoFileContent.mutate({
+      repo: imageBedRepo,
+      path: `${imageBedFolder}/${img.name}`,
+      content: await blobToBase64(img),
+      type: 'base64',
+      message: `Upload ${imageBedFolder}/${img.name}`
     })
 
     toast.show(message)

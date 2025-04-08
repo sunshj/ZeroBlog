@@ -28,6 +28,10 @@ export default defineNuxtConfig({
     typedPages: true
   },
 
+  build: {
+    transpile: ['trpc-nuxt']
+  },
+
   runtimeConfig: {
     githubRepo: '',
 

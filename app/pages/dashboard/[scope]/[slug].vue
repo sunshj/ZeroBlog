@@ -33,17 +33,17 @@ useHead({
 
 const route = useRoute('dashboard-scope-slug')
 
-const { data, status } = useFetch<{ content: string }>('/api/repo-contents', {
-  query: {
-    path: `content/${route.params.scope}/${route.params.slug}.md`
-  }
+const { $trpc } = useNuxtApp()
+
+const { data, status } = await $trpc.repoFileContent.useQuery({
+  path: `content/${route.params.scope}/${route.params.slug}.md`
 })
 
 const content = ref('')
 
 watchEffect(() => {
   if (data.value) {
-    content.value = data.value.content
+    content.value = data.value.content!
   } else {
     content.value = `---
 title: 新建文章
@@ -65,12 +65,9 @@ async function push() {
   const confirmPush = window.confirm('确定要推送文章吗？')
   if (!confirmPush) return
   toast.show('正在推送文章，请稍等...')
-  const { message } = await $fetch('/api/repo-contents', {
-    method: 'PUT',
-    body: {
-      path: `content/${route.params.scope}/${route.params.slug}.md`,
-      content: content.value
-    }
+  const { message } = await $trpc.upsertRepoFileContent.mutate({
+    path: `content/${route.params.scope}/${route.params.slug}.md`,
+    content: content.value
   })
 
   window.alert(message)
@@ -79,13 +76,19 @@ async function push() {
 async function remove() {
   const confirmDelete = window.confirm('确定要删除文章吗？')
   if (!confirmDelete) return
-  const { message } = await $fetch('/api/repo-file', {
-    method: 'DELETE',
-    body: { path: `content/${route.params.scope}/${route.params.slug}.md` }
+
+  const { message } = await $trpc.deleteRepoFile.mutate({
+    path: `content/${route.params.scope}/${route.params.slug}.md`
   })
 
   window.alert(message)
 }
+
+onMounted(() => {
+  window.addEventListener('beforeunload', e => {
+    e.preventDefault()
+  })
+})
 
 onUnmounted(() => {
   content.value = ''
