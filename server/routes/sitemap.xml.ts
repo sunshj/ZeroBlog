@@ -2,9 +2,10 @@ import { serverQueryContent } from '#content/server'
 import { SitemapStream, streamToPromise } from 'sitemap'
 
 export default defineEventHandler(async event => {
+  const { siteUrl } = useRuntimeConfig(event)
   const docs = await serverQueryContent(event).only(['_path']).find()
   const sitemap = new SitemapStream({
-    hostname: 'https://sunshj.top'
+    hostname: siteUrl
   })
 
   for (const doc of docs) {

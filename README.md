@@ -1,6 +1,6 @@
-# ZeroDBlog
+# ZeroBlog
 
-ZeroDBlog 是一个基于 Nuxt3 和 Nuxt Content 的博客系统。无需数据库存储，通过 Github API 更新数据，基于 Github 和 Vercel 自动化搭建博客。
+ZeroBlog 是一个基于 Nuxt3 和 Nuxt Content 的博客系统。无需数据库存储，通过 Github API 更新数据，基于 Github 和 Vercel 自动化搭建博客。
 
 ## 快速开始
 
@@ -35,7 +35,7 @@ jobs:
       - name: Sync Template
         uses: AndreasAugustin/actions-template-sync@v2.5.1
         with:
-          source_repo_path: sunshj/ZeroDBlog
+          source_repo_path: sunshj/ZeroBlog
           source_gh_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
@@ -71,7 +71,7 @@ NUXT_PUBLIC_IMAGE_BED_FOLDER=
 1. 访问 https://github.com/settings/developers
 2. 点击 New OAuth App
 3. 填写应用信息
-   - Application name: ZeroDBlog
+   - Application name: ZeroBlog
    - Homepage URL: `<your-blog-url>`
    - Authorization callback URL: `<your-blog-url>`/auth/github
 4. 获取 Client ID 和 Client Secret

@@ -8,9 +8,9 @@ projects:
       - vscode-icons:file-type-typescript-official
       - logos:openai-icon
 
-  - name: ZeroDBlog
+  - name: ZeroBlog
     link: https://sunshj.top
-    repo: https://github.com/sunshj/ZeroDBlog
+    repo: https://github.com/sunshj/ZeroBlog
     description: Built with Nuxt Content and UnoCSS
     techStack:
       - vscode-icons:file-type-nuxt

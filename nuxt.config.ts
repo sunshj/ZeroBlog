@@ -33,6 +33,8 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    siteUrl: '',
+    siteName: '',
     githubRepo: '',
 
     public: {
