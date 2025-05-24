@@ -33,7 +33,9 @@ useSeoMeta({
 const pageSize = 6
 const currentPage = ref(1)
 
-const { data: total } = useAsyncData('total-articles', () => queryContent('/articles').count())
+const { data: total } = useAsyncData('total-articles', () =>
+  queryContent('/articles').where({ hidden: false }).count()
+)
 
 const { data: articles } = useAsyncData(
   `articles-page-${currentPage.value}`,
