@@ -24,8 +24,8 @@ importers:
         specifier: 3.5.2
         version: 3.5.2(magicast@0.3.5)
       '@sunshj/mdc':
-        specifier: 0.3.3
-        version: 0.3.3(magicast@0.3.5)
+        specifier: 0.3.6
+        version: 0.3.6(magicast@0.3.5)
       '@trpc/client':
         specifier: 11.0.2
         version: 11.0.2(@trpc/server@11.0.2(typescript@5.8.2))(typescript@5.8.2)
@@ -1451,8 +1451,8 @@ packages:
       eslint-plugin-react-hooks:
         optional: true
 
-  '@sunshj/mdc@0.3.3':
-    resolution: {integrity: sha512-6IMmpb01sB2aXXA23q0OUXMrBZns9bHMaiXI2xIS/1wKaYfxJBLZanYcfFppRLOsOQTO3msN+MratGLwrbjg3Q==}
+  '@sunshj/mdc@0.3.6':
+    resolution: {integrity: sha512-hnY+AkCGcHjd5c04ywm6+W1YdDq2wN92pI9IB7y8csbQEUimY2ecwoEfF9fBg5/9sdPNHRS78j3hQAPiSvMJ/Q==}
 
   '@sunshj/prettier-config@1.0.2':
     resolution: {integrity: sha512-Mgb0XS3LUqBJuxozkGqJF5CK9/DDUk+0Oy0qljcq/58QuX56L8MoW7n8X8wYO6ejljBUlCYIF3JzklNxl55hgg==}
@@ -7390,11 +7390,11 @@ snapshots:
       - supports-color
       - typescript
 
-  '@sunshj/mdc@0.3.3(magicast@0.3.5)':
+  '@sunshj/mdc@0.3.6(magicast@0.3.5)':
     dependencies:
       '@iconify-json/lucide': 1.2.29
       '@iconify-json/vscode-icons': 1.2.16
-      '@nuxt/kit': 3.16.0(magicast@0.3.5)
+      '@nuxt/kit': 3.16.1(magicast@0.3.5)
       defu: 6.1.4
     transitivePeerDependencies:
       - magicast

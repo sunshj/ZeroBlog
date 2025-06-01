@@ -1,7 +1,7 @@
 <template>
   <section class="h-full w-full flex flex-col items-center">
     <AppHeader />
-    <main class="w-full flex-1" :class="{ 'mt-15 max-w-5xl': !$attrs['use-initial-sizes'] }">
+    <main class="mt-15 max-w-5xl w-full flex-1">
       <slot />
     </main>
     <AppFooter />

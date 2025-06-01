@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'empty'
+  layout: false
 })
 
 useHead({
