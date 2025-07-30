@@ -7,6 +7,8 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/**': { prerender: true },
+    '/articles/page': { redirect: '/articles' },
+    '/articles/page/1': { redirect: '/articles' },
     '/rss.xml': { prerender: true },
     '/sitemap.xml': { prerender: true },
     '/dashboard/**': { ssr: false }

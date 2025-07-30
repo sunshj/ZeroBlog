@@ -22,6 +22,10 @@ export default defineAppConfig({
     disableTypingAnimation: false
   },
 
+  pagination: {
+    pageSize: 3
+  },
+
   articleConfig: {
     comment: true,
     copyright: true,

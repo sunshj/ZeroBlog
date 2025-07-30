@@ -9,7 +9,7 @@
 
         <Pagination
           :page-count="pageCount"
-          :current-page="1"
+          :current-page="currentPage"
           class="flex-center"
           @change="onPageChange"
         />
@@ -30,17 +30,20 @@ useSeoMeta({
   description: site.description
 })
 
+const route = useRoute('articles-page-num')
 const pageSize = pagination.pageSize
+const currentPage = +route.params.num
 
 const { data: total } = useAsyncData('total-articles', () =>
   queryContent('/articles').where({ hidden: false }).count()
 )
 
-const { data: articles } = useAsyncData('articles-page-1', () =>
+const { data: articles } = useAsyncData(`articles-page-${currentPage}`, () =>
   queryContent('/articles')
     .only(['_path', 'title', 'description', 'date', 'sticky', 'tags'])
     .where({ hidden: false })
     .sort({ date: -1, sticky: -1 })
+    .skip((currentPage - 1) * pageSize)
     .limit(pageSize)
     .find()
 )
