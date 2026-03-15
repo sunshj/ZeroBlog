@@ -4,7 +4,7 @@
   "packageManager": "pnpm@9.15.1",
   "type": "module",
   "scripts": {
-    "dev": "NODE_OPTIONS=--no-experimental-strip-types nuxt dev --host",
+    "dev": "nuxt dev --host",
     "dev:clean": "rimraf .nuxt && nuxt dev --host",
     "build": "nuxt build",
     "preview": "nuxt preview",
@@ -23,7 +23,7 @@
     "@sunshj/mdc": "0.3.6",
     "@trpc/client": "11.0.2",
     "@trpc/server": "11.0.2",
-    "@unocss/nuxt": "65.5.0",
+    "@unocss/nuxt": "66.6.6",
     "@vueuse/core": "11.2.0",
     "@vueuse/integrations": "11.2.0",
     "@vueuse/nuxt": "11.2.0",
