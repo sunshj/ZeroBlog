@@ -81,7 +81,6 @@ export default defineNuxtConfig({
   },
 
   ogImage: {
-    zeroRuntime: true,
     fonts: [
       {
         name: 'AlibabaPuHui',
