@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-4 p-4">
     <div class="flex gap-2">
       <UiButton icon="lucide:plus" @click="createArticle">新建文章</UiButton>
-      <input v-model="searchText" class="w-fit uno-input" :placeholder="`搜索文章(${total}篇)`" />
+      <input v-model="searchText" class="uno-input w-fit" :placeholder="`搜索文章(${total}篇)`" />
     </div>
     <div class="flex flex-col gap-2 rounded-md">
       <div class="flex items-center justify-between gap-2 px-4 font-bold">
@@ -18,7 +18,7 @@
         :key="item._path"
         prefetch
         prefetch-on="interaction"
-        class="p-4 uno-card !no-underline"
+        class="uno-card p-4 !no-underline"
         :to="`/dashboard${item._path}`"
       >
         <div class="flex items-center justify-between gap-2">

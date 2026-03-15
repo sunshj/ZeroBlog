@@ -10,11 +10,10 @@
       <NuxtImg
         src="/images/avatar.png"
         :alt="site.author"
-        densities="x1"
-        format="webp"
         class="h-full rounded-3 object-cover shadow-2xl"
-        :width="90"
-        :height="90"
+        preset="cover"
+        densities="x1"
+        preload
         @click="handleFaviconClick"
       />
     </div>

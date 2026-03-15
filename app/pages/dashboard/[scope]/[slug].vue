@@ -5,7 +5,7 @@
       <UiButton icon="lucide:trash-2" color="red" @click="remove">删除文章</UiButton>
     </template>
 
-    <MonacoEditor
+    <LazyMonacoEditor
       v-if="status === 'success'"
       v-model="content"
       :options="{

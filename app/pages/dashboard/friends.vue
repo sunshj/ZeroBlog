@@ -4,7 +4,7 @@
       <UiButton icon="lucide:cloud-upload" @click="push">推送</UiButton>
     </template>
 
-    <MonacoEditor
+    <LazyMonacoEditor
       v-if="data?.content"
       v-model="data.content"
       :options="{

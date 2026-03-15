@@ -30,6 +30,11 @@ useSeoMeta({
   description: site.description
 })
 
+defineOgImageComponent('BlogPost', {
+  title: site.title,
+  description: site.description
+})
+
 const pageSize = pagination.pageSize
 
 const { data: total } = useAsyncData('total-articles', () =>

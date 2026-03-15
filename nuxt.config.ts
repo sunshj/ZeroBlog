@@ -2,6 +2,9 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
+  nitro: {
+    preset: 'cloudflare-pages'
+  },
 
   css: ['~/assets/base.css', '~/assets/transitions.css'],
 
@@ -11,7 +14,7 @@ export default defineNuxtConfig({
     '/articles/page/1': { redirect: '/articles' },
     '/rss.xml': { prerender: true },
     '/sitemap.xml': { prerender: true },
-    '/dashboard/**': { ssr: false }
+    '/dashboard/**': { static: true }
   },
 
   app: {
@@ -64,13 +67,26 @@ export default defineNuxtConfig({
   ],
 
   image: {
-    screens: {
-      avatar: 90
+    presets: {
+      cover: {
+        modifiers: {
+          fit: 'cover',
+          format: 'webp',
+          width: 90,
+          height: 90
+        }
+      }
     }
   },
 
   ogImage: {
-    fonts: ['Noto+Sans+SC:400']
+    fonts: [
+      {
+        name: 'AlibabaPuHui',
+        weight: 400,
+        path: '/fonts/Alibaba-PuHuiTi-Regular-CN.ttf'
+      }
+    ]
   },
 
   vueuse: {
