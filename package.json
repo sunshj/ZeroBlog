@@ -4,7 +4,7 @@
   "packageManager": "pnpm@9.15.1",
   "type": "module",
   "scripts": {
-    "dev": "nuxt dev --host",
+    "dev": "NODE_OPTIONS=--no-experimental-strip-types nuxt dev --host",
     "dev:clean": "rimraf .nuxt && nuxt dev --host",
     "build": "nuxt build",
     "preview": "nuxt preview",
