@@ -4,18 +4,20 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   nitro: {
     minify: true,
-    sourceMap: true
+    sourceMap: true,
+    prerender: {
+      routes: ['/', '/rss.xml', '/sitemap.xml'],
+      // Then crawl all the links on the page
+      crawlLinks: true
+    }
   },
 
   css: ['~/assets/base.css', '~/assets/transitions.css'],
 
   routeRules: {
-    '/**': { prerender: true },
-    '/articles/page': { redirect: '/articles' },
-    '/articles/page/1': { redirect: '/articles' },
-    '/rss.xml': { prerender: true },
-    '/sitemap.xml': { prerender: true },
-    '/dashboard/**': { static: true }
+    '/articles/page': { redirect: '/articles', prerender: false },
+    '/articles/page/1': { redirect: '/articles', prerender: false },
+    '/dashboard/**': { ssr: false }
   },
 
   app: {
