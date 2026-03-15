@@ -17,7 +17,7 @@ export default defineNuxtConfig({
   routeRules: {
     '/articles/page': { redirect: '/articles', prerender: false },
     '/articles/page/1': { redirect: '/articles', prerender: false },
-    '/dashboard/**': { ssr: false }
+    '/dashboard/**': { ssr: false } as any
   },
 
   app: {

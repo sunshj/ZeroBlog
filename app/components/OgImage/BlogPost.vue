@@ -8,7 +8,7 @@
   >
     <div class="h-full flex items-start justify-start">
       <div class="h-full w-full flex flex-col justify-between p-20">
-        <img src="/images/avatar.png" style="height: 50px; width: 50px" />
+        <img src="/images/avatar.png" style="height: 90px; width: 90px" />
         <h1 class="m-0 mb-30px text-75px text-white font-bold">
           {{ title }}
         </h1>
