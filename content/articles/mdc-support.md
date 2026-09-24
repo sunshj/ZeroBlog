@@ -127,8 +127,8 @@ export default () => {
 
 ```ts [Diff Lines]
 export default () => {
-  console.log('Code blcok') // [!code --]
-  console.log('Code block') // [!code ++]
+  console.log('Code blcok') // [!​code --]
+  console.log('Code block') // [!​code ++]
 }
 ```
 ````

@@ -24,8 +24,8 @@ importers:
         specifier: 3.5.2
         version: 3.5.2(magicast@0.5.2)
       '@sunshj/mdc':
-        specifier: 0.3.6
-        version: 0.3.6(magicast@0.5.2)
+        specifier: 0.3.7
+        version: 0.3.7(magicast@0.5.2)
       '@trpc/client':
         specifier: 11.0.2
         version: 11.0.2(@trpc/server@11.0.2(typescript@5.9.3))(typescript@5.9.3)
@@ -1699,8 +1699,8 @@ packages:
       eslint-plugin-react-hooks:
         optional: true
 
-  '@sunshj/mdc@0.3.6':
-    resolution: {integrity: sha512-hnY+AkCGcHjd5c04ywm6+W1YdDq2wN92pI9IB7y8csbQEUimY2ecwoEfF9fBg5/9sdPNHRS78j3hQAPiSvMJ/Q==}
+  '@sunshj/mdc@0.3.7':
+    resolution: {integrity: sha512-eDCU5v5MgjvxEslqQlHEH3bWSz7RNNcPt5bItohPTMGebz7vwAtYi7TkZRJK1ZfPJxq5HcAcwCsoa3kB7o//YQ==}
 
   '@sunshj/prettier-config@1.0.2':
     resolution: {integrity: sha512-Mgb0XS3LUqBJuxozkGqJF5CK9/DDUk+0Oy0qljcq/58QuX56L8MoW7n8X8wYO6ejljBUlCYIF3JzklNxl55hgg==}
@@ -7051,6 +7051,32 @@ snapshots:
     transitivePeerDependencies:
       - magicast
 
+  '@nuxt/kit@3.21.2(magicast@0.5.2)':
+    dependencies:
+      c12: 3.3.3(magicast@0.5.2)
+      consola: 3.4.2
+      defu: 6.1.4
+      destr: 2.0.5
+      errx: 0.1.0
+      exsolve: 1.0.8
+      ignore: 7.0.5
+      jiti: 2.6.1
+      klona: 2.0.6
+      knitwork: 1.3.0
+      mlly: 1.8.1
+      ohash: 2.0.11
+      pathe: 2.0.3
+      pkg-types: 2.3.0
+      rc9: 3.0.0
+      scule: 1.3.0
+      semver: 7.7.4
+      tinyglobby: 0.2.15
+      ufo: 1.6.3
+      unctx: 2.5.0
+      untyped: 2.0.0
+    transitivePeerDependencies:
+      - magicast
+
   '@nuxt/kit@4.4.2(magicast@0.5.2)':
     dependencies:
       c12: 3.3.3(magicast@0.5.2)
@@ -7880,11 +7906,11 @@ snapshots:
       - supports-color
       - typescript
 
-  '@sunshj/mdc@0.3.6(magicast@0.5.2)':
+  '@sunshj/mdc@0.3.7(magicast@0.5.2)':
     dependencies:
       '@iconify-json/lucide': 1.2.98
       '@iconify-json/vscode-icons': 1.2.45
-      '@nuxt/kit': 3.16.2(magicast@0.5.2)
+      '@nuxt/kit': 3.21.2(magicast@0.5.2)
       defu: 6.1.4
     transitivePeerDependencies:
       - magicast

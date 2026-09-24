@@ -30,8 +30,6 @@ function toggle() {
   colorMode.preference = next()
 }
 
-const isDark = computed(() => colorMode.preference === 'dark')
-
 function toggleColorMode(event: MouseEvent) {
   const isAppearanceTransition =
     typeof document.startViewTransition !== 'undefined' &&
@@ -51,14 +49,20 @@ function toggleColorMode(event: MouseEvent) {
   })
   transition.ready.then(() => {
     const clipPath = [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`]
+    // 以切换后 html 上真实生效的主题判断方向，保证动画图层与 CSS 中的层级一致
+    // （preference 为 system 时，其值与实际主题可能不同）
+    const isDark = document.documentElement.classList.contains('dark')
     document.documentElement.animate(
       {
-        clipPath: isDark.value ? [...clipPath].reverse() : clipPath
+        clipPath: isDark ? [...clipPath].reverse() : clipPath
       },
       {
         duration: 400,
         easing: 'ease-out',
-        pseudoElement: isDark.value ? '::view-transition-old(root)' : '::view-transition-new(root)'
+        // 动画结束后保留结束状态，否则 clip-path 会在视图过渡销毁前恢复为 none，
+        // 旧主题快照会整屏重现，导致切换时闪一下
+        fill: 'forwards',
+        pseudoElement: isDark ? '::view-transition-old(root)' : '::view-transition-new(root)'
       }
     )
   })
