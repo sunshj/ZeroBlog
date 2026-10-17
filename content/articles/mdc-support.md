@@ -13,15 +13,15 @@ tags:
 ::code-group
 ::div{label="Preview" style="padding:5px 10px"}
 
-  <ProseH1 id="heading-1">Heading 1</ProseH1>
-  <ProseH2 id="heading-2">Heading 2</ProseH2>
-  <ProseH3 id="heading-3">Heading 3</ProseH3>
-  <ProseH4 id="heading-4">Heading 4</ProseH4>
-  <ProseH5 id="heading-5">Heading 5</ProseH5>
-  <ProseH6 id="heading-6">Heading 6</ProseH6>
+<ProseH1 id="heading-1">Heading 1</ProseH1>
+<ProseH2 id="heading-2">Heading 2</ProseH2>
+<ProseH3 id="heading-3">Heading 3</ProseH3>
+<ProseH4 id="heading-4">Heading 4</ProseH4>
+<ProseH5 id="heading-5">Heading 5</ProseH5>
+<ProseH6 id="heading-6">Heading 6</ProseH6>
 
 ::
- 
+
 ```md [Code]
 # Heading 1
 
@@ -42,11 +42,11 @@ tags:
 
 ::code-group
 ::div{label="Preview" style="padding:5px 10px"}
-  [Internal Link](/articles) :br
+[Internal Link](/articles) :br
 
-  [External Link](https://github.com/sunshj/mdc) :br 
-  
-  [`InlineCode Link`](https://github.com/sunshj/mdc)
+[External Link](https://github.com/sunshj/mdc) :br
+
+[`InlineCode Link`](https://github.com/sunshj/mdc)
 ::
 
 ```md [Code]
@@ -138,11 +138,11 @@ export default () => {
 ### Code Group
 
 ::code-group
-  ::div{label="Preview" style="padding:5px 10px"}
-    ::code-group
-      ```bash [npm]
+::div{label="Preview" style="padding:5px 10px"}
+::code-group
+`bash [npm]
       npm run dev
-      ```
+      `
 
       ```bash [pnpm]
       pnpm dev
@@ -156,27 +156,29 @@ export default () => {
       bun run dev
       ```
     ::
-  ::
 
-  ```mdc [Code]
-  ::code-group
-    ```bash [npm]
-    npm run dev
-    ```
+::
 
-    ```bash [pnpm]
-    pnpm dev
-    ```
-
-    ```bash [yarn]
-    yarn dev
-    ```
-
-    ```bash [bun]
-    bun run dev
-    ```
-  ::
+````mdc [Code]
+::code-group
+  ```bash [npm]
+  npm run dev
   ```
+
+  ```bash [pnpm]
+  pnpm dev
+  ```
+
+  ```bash [yarn]
+  yarn dev
+  ```
+
+  ```bash [bun]
+  bun run dev
+  ```
+::
+````
+
 ::
 
 ### Inline Code
@@ -196,7 +198,7 @@ export default () => {
 
 ::
 
-### Horizontal Rule 
+### Horizontal Rule
 
 ::code-group
 ::div{label="Preview" style="padding:5px 10px"}
@@ -221,14 +223,14 @@ After
 
 ::code-group
 ::div{label="Preview" style="padding:5px 10px"}
-![Photo by Drew Beamer](https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80 "Get image from unsplash.com")
+![Photo by Drew Beamer](https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80 'Get image from unsplash.com')
 
 [![npm version](https://img.shields.io/npm/v/@sunshj/mdc/latest.svg?style=flat&colorA=020420&colorB=00DC82)](https://npmjs.com/package/@sunshj/mdc) [![Nuxt](https://img.shields.io/badge/Nuxt-020420?logo=nuxt.js)](https://nuxt.com)
- 
+
 ::
 
 ```md [Code]
-![Photo by Drew Beamer](https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80 "Get image from unsplash.com")
+![Photo by Drew Beamer](https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80 'Get image from unsplash.com')
 
 [![npm version](https://img.shields.io/npm/v/@sunshj/mdc/latest.svg?style=flat&colorA=020420&colorB=00DC82)](https://npmjs.com/package/@sunshj/mdc) [![Nuxt](https://img.shields.io/badge/Nuxt-020420?logo=nuxt.js)](https://nuxt.com)
 ```
@@ -239,20 +241,21 @@ After
 
 ::code-group
 ::div{label="Preview" style="padding:5px 10px"}
+
 - First item
 - Second item
 - Third item
-    - Indented item
-    - Indented item
+  - Indented item
+  - Indented item
 - Fourth item
-::
+  ::
 
 ```md [Code]
 - First item
 - Second item
 - Third item
-    - Indented item
-    - Indented item
+  - Indented item
+  - Indented item
 - Fourth item
 ```
 
@@ -262,20 +265,21 @@ After
 
 ::code-group
 ::div{label="Preview" style="padding:5px 10px"}
+
 1. First item
 2. Second item
 3. Third item
-    1. Indented item
-    2. Indented item
+   1. Indented item
+   2. Indented item
 4. Fourth item
-::
+   ::
 
 ```md [Code]
 1. First item
 2. Second item
 3. Third item
-    1. Indented item
-    2. Indented item
+   1. Indented item
+   2. Indented item
 4. Fourth item
 ```
 
@@ -311,11 +315,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ::code-group
 ::div{label="Preview" style="padding:5px 10px"}
-*Just an italic paragraph.*
+_Just an italic paragraph._
 ::
 
 ```md [Code]
-*Just an italic paragraph.*
+_Just an italic paragraph._
 ```
 
 ::
@@ -324,12 +328,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ::code-group
 ::div{label="Preview" style="padding:5px 10px"}
-| Key | Type | Description |
+
+| Key | Type      | Description                                 |
 | --- | --------- | ------------------------------------------- |
-| 1 | Wonderful | Table with `some long code snippet example` |
-| 2 | Wonderful | Data |
-| 3 | Wonderful | Website |
-::
+| 1   | Wonderful | Table with `some long code snippet example` |
+| 2   | Wonderful | Data                                        |
+| 3   | Wonderful | Website                                     |
+| ::  |
 
 ```md [Code]
 | Key | Type      | Description                                 |
@@ -340,7 +345,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 ```
 
 ::
-
 
 ### Strikethrough
 
@@ -355,15 +359,15 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 ::
 
- 
 ### Task List
 
 ::code-group
 ::div{label="Preview" style="padding:5px 10px"}
+
 - [x] Foo
 - [ ] Bar
 - [ ] Baz
-::
+      ::
 
 ```md [Code]
 - [x] Foo
@@ -372,8 +376,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 ```
 
 ::
-
-
 
 ### Emoji
 
@@ -391,37 +393,37 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 ```
 
 ::
- 
 
 ### Shortcut
 
 ::code-group
-  ::div{label="Preview" style="padding:5px 10px"}
-    :shortcut{value="meta"} :shortcut{value="K"} :br
-    :shortcut{value="xs" size="xs"} :shortcut{value="sm"} :shortcut{value="md" size="md"}
-  ::
-  ```mdc [Code]
-  :shortcut{value="meta"} :shortcut{value="K"} :br
-  :shortcut{value="xs" size="xs"} :shortcut{value="sm"} :shortcut{value="md" size="md"}
-  ```
+::div{label="Preview" style="padding:5px 10px"}
+:shortcut{value="meta"} :shortcut{value="K"} :br
+:shortcut{value="xs" size="xs"} :shortcut{value="sm"} :shortcut{value="md" size="md"}
 ::
 
+```mdc [Code]
+:shortcut{value="meta"} :shortcut{value="K"} :br
+:shortcut{value="xs" size="xs"} :shortcut{value="sm"} :shortcut{value="md" size="md"}
+```
+
+::
 
 ### Custom
 
-
 ::code-group
-  ::div{label="Preview" style="padding:5px 10px"}
-    :color-mode-toggle-button
-  ::
+::div{label="Preview" style="padding:5px 10px"}
+:color-mode-toggle-button
+::
 
-  ```mdc [Code]
-  :color-mode-toggle-button
-  ```
+```mdc [Code]
+:color-mode-toggle-button
+```
 
-  ```vue [components/content/ColorModeToggleButton.vue]
-  <template>
-    <ColorModeToggle />
-  </template>
-  ```
+```vue [components/content/ColorModeToggleButton.vue]
+<template>
+  <ColorModeToggle />
+</template>
+```
+
 ::

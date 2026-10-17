@@ -11,11 +11,7 @@
         class="h-64 w-full flex flex-col cursor-pointer items-center justify-center border-2 border-gray-300 rounded-lg border-dashed bg-gray-50 transition-all dark:border-gray-600 dark:bg-gray-700 hover:bg-gray-100 dark:hover:border-gray-500 dark:hover:bg-gray-800"
       >
         <div class="flex flex-col items-center justify-center pb-6 pt-5">
-          <Icon
-            class="mb-2 text-gray-500 dark:text-gray-400"
-            name="lucide:cloud-upload"
-            :size="32"
-          />
+          <Icon class="mb-2 text-gray-500 dark:text-gray-400" name="lucide:cloud-upload" :size="32" />
           <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
             <span class="font-semibold">点击或拖拽添加图片</span>
           </p>
@@ -119,6 +115,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { RepoFile, RepoWriteResult } from '#shared/repo'
+
 definePageMeta({
   menu: {
     label: '图床',
@@ -155,13 +153,14 @@ function onLayoutViewChange(option: any) {
   layoutView.value = option.value
 }
 
-const { $trpc } = useNuxtApp()
-
 const {
   data: images,
   refresh,
   status
-} = $trpc.repoFolderContents.useQuery({ repo: imageBedRepo, folder: imageBedFolder })
+} = useFetch<RepoFile[]>(() => '/api/repo/folder', {
+  query: { folder: imageBedFolder, repo: imageBedRepo },
+  default: () => []
+})
 
 function handleDrop(event: DragEvent) {
   files.value = uniqueBy([...files.value, ...(event.dataTransfer?.files ?? [])], 'name')
@@ -200,9 +199,9 @@ async function deleteRemoteImage(name: string) {
   const confirmDelete = window.confirm('确认删除该图片，此操作将从远程仓库中移除该图片')
   if (!confirmDelete) return
 
-  const { message } = await $trpc.deleteRepoFile.mutate({
-    path: `${imageBedFolder}/${name}`,
-    repo: imageBedRepo
+  const { message } = await $fetch<RepoWriteResult>('/api/repo/file', {
+    method: 'DELETE',
+    query: { path: `${imageBedFolder}/${name}`, repo: imageBedRepo }
   })
   toast.show(message)
   await refresh()
@@ -215,12 +214,15 @@ async function uploadImages() {
   }
   loading.value = true
   for (const img of files.value) {
-    const { message } = await $trpc.upsertRepoFileContent.mutate({
-      repo: imageBedRepo,
-      path: `${imageBedFolder}/${img.name}`,
-      content: await blobToBase64(img),
-      type: 'base64',
-      message: `Upload ${imageBedFolder}/${img.name}`
+    const { message } = await $fetch<RepoWriteResult>('/api/repo/file', {
+      method: 'PUT',
+      body: {
+        repo: imageBedRepo,
+        path: `${imageBedFolder}/${img.name}`,
+        content: await blobToBase64(img),
+        type: 'base64',
+        message: `Upload ${imageBedFolder}/${img.name}`
+      }
     })
 
     toast.show(message)

@@ -2,12 +2,7 @@
   <div
     class="flex flex-col justify-between gap-2 border-2 border-gray-300 rounded-lg border-solid bg-slate-100 px-4 py-2 dark-border-gray-500 hover:border-amber dark:bg-dark"
   >
-    <NuxtLink
-      :to="data.item.id"
-      prefetch
-      prefetch-on="interaction"
-      class="decoration-none hover:decoration-none"
-    >
+    <NuxtLink :to="data.item.id" prefetch prefetch-on="interaction" class="decoration-none hover:decoration-none">
       <div class="flex flex-col gap-2">
         <div
           name="title"
@@ -18,11 +13,7 @@
         <div v-if="data.item.titles.length" name="titles">
           <span v-for="(item, index) in [...data.item.titles, data.item.title]" :key="index">
             <span class="text-base">{{ item }}</span>
-            <Icon
-              v-if="index !== data.item.titles.length"
-              class="text-gray-400"
-              name="lucide:chevron-right"
-            />
+            <Icon v-if="index !== data.item.titles.length" class="text-gray-400" name="lucide:chevron-right" />
           </span>
         </div>
 

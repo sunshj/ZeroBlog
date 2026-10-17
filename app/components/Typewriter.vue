@@ -4,9 +4,7 @@
   </component>
   <component :is="as" v-else>
     {{ words.join('') }}
-    <span class="animate-blink-caret" :class="{ hidden: words.length === props.text.length }"
-      >｜</span
-    >
+    <span class="animate-blink-caret" :class="{ hidden: words.length === props.text.length }">｜</span>
   </component>
 </template>
 

@@ -13,23 +13,19 @@
       </div>
       <NuxtLink
         v-for="item in data"
-        :key="item._path"
+        :key="item.path"
         prefetch
         prefetch-on="interaction"
         class="uno-card p-4 !no-underline"
-        :to="`/dashboard${item._path}`"
+        :to="`/dashboard${item.path}`"
       >
         <div class="flex items-center justify-between">
-          <div class="flex-1">{{ item._path }}</div>
+          <div class="flex-1">{{ item.path }}</div>
           <div class="flex-1">{{ item.title }}</div>
 
           <div class="flex-1">{{ formatTime(item.date) }}</div>
           <div>
-            <UiButton
-              icon="lucide:trash-2"
-              color="red"
-              @click.prevent="deleteArticle(item._path!)"
-            ></UiButton>
+            <UiButton icon="lucide:trash-2" color="red" @click.prevent="deleteArticle(item.path!)"></UiButton>
           </div>
         </div>
       </NuxtLink>
@@ -38,6 +34,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { RepoWriteResult } from '#shared/repo'
+
 definePageMeta({
   menu: {
     label: '小记',
@@ -53,26 +51,20 @@ useHead({
 
 const searchText = ref('')
 
-const { data: total } = useAsyncData('total-notes', () =>
-  queryContent('/notes').where({ hidden: false }).count()
-)
+const { data: total } = useAsyncData('total-notes', () => queryCollection('notes').where('hidden', '=', false).count())
 const { data } = await useAsyncData(
   'notes',
   () =>
-    queryContent('/notes')
-      .only(['_path', 'title', 'date'])
-      .where({
-        hidden: false,
-        $or: [
-          { title: { $contains: searchText.value } },
-          { _path: { $contains: searchText.value } }
-        ]
-      })
-      .sort({ date: -1 })
-      .find(),
+    queryCollection('notes').select('path', 'title', 'date').where('hidden', '=', false).order('date', 'DESC').all(),
 
   {
-    watch: [searchText]
+    watch: [searchText],
+    transform: items =>
+      items.filter(
+        item =>
+          item.title?.toLowerCase().includes(searchText.value.toLowerCase()) ||
+          item.path?.toLowerCase().includes(searchText.value.toLowerCase())
+      )
   }
 )
 
@@ -83,13 +75,13 @@ async function createArticle() {
 }
 
 const toast = useToast()
-const { $trpc } = useNuxtApp()
 
 async function deleteArticle(path: string) {
   const confirmDelete = window.confirm(`确定删除 ${path} 吗？`)
   if (!confirmDelete) return
-  const { message } = await $trpc.deleteRepoFile.mutate({
-    path: `content${path}.md`
+  const { message } = await $fetch<RepoWriteResult>('/api/repo/file', {
+    method: 'DELETE',
+    query: { path: `content${path}.md` }
   })
   toast.show(message)
 }

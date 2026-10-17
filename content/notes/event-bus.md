@@ -42,7 +42,6 @@ class EventBus<T extends Record<string, (...args: any[]) => void>> {
     this.on(name, once as T[K])
   }
 }
-
 ```
 
 ```ts [test.ts]

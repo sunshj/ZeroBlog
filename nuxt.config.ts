@@ -4,20 +4,23 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   nitro: {
     minify: true,
-    sourceMap: true,
-    prerender: {
-      routes: ['/', '/rss.xml', '/sitemap.xml'],
-      // Then crawl all the links on the page
-      crawlLinks: true
-    }
+    sourceMap: true
   },
+
+  prerender: {
+    routes: ['/', '/rss.xml', '/sitemap.xml'],
+    // Then crawl all the links on the page
+    crawlLinks: true,
+    ignore: ['/dashboard']
+  },
+ 
 
   css: ['~/assets/base.css', '~/assets/transitions.css'],
 
   routeRules: {
     '/articles/page': { redirect: '/articles', prerender: false },
     '/articles/page/1': { redirect: '/articles', prerender: false },
-    '/dashboard/**': { ssr: false } as any
+    '/dashboard/**': { ssr: false, prerender: false }
   },
 
   app: {
@@ -28,16 +31,8 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page', mode: 'out-in' }
   },
 
-  future: {
-    compatibilityVersion: 4
-  },
-
   experimental: {
     typedPages: true
-  },
-
-  build: {
-    transpile: ['trpc-nuxt']
   },
 
   runtimeConfig: {
@@ -64,6 +59,7 @@ export default defineNuxtConfig({
     '@unocss/nuxt',
     '@vueuse/nuxt',
     '@nuxtjs/color-mode',
+    '@nuxt/fonts',
     'nuxt-og-image',
     'nuxt-auth-utils',
     'nuxt-monaco-editor'
@@ -82,12 +78,13 @@ export default defineNuxtConfig({
     }
   },
 
-  ogImage: {
-    fonts: [
+  fonts: {
+    families: [
       {
         name: 'AlibabaPuHui',
+        src: '/fonts/Alibaba-PuHuiTi-Regular-CN.ttf',
         weight: 400,
-        path: '/fonts/Alibaba-PuHuiTi-Regular-CN.ttf'
+        global: true
       }
     ]
   },
@@ -111,20 +108,19 @@ export default defineNuxtConfig({
   },
 
   content: {
-    highlight: {},
     experimental: {
-      search: {
-        indexed: false,
-        filterQuery: {
-          _path: { $regex: '^/(articles|notes)/' }
-        }
-      }
+      sqliteConnector: 'native'
     },
-    markdown: {
-      remarkPlugins: ['remark-reading-time'],
-      toc: {
-        depth: 3,
-        searchDepth: 3
+    build: {
+      markdown: {
+        highlight: {},
+        remarkPlugins: {
+          'remark-reading-time': {}
+        },
+        toc: {
+          depth: 3,
+          searchDepth: 3
+        }
       }
     }
   },
@@ -137,7 +133,33 @@ export default defineNuxtConfig({
 
   vite: {
     optimizeDeps: {
-      include: ['vue-use-fixed-header', '@vueuse/integrations/useFuse', '@giscus/vue']
+      include: [
+        'vue-use-fixed-header',
+        '@vueuse/integrations/useFuse',
+        '@giscus/vue',
+        '@vue/devtools-core',
+        'remark-reading-time',
+        'splitpanes',
+        '@shikijs/core',
+        '@shikijs/engine-javascript',
+        '@shikijs/engine-oniguruma',
+        '@shikijs/langs/css',
+        '@shikijs/langs/html',
+        '@shikijs/langs/javascript',
+        '@shikijs/langs/json',
+        '@shikijs/langs/jsx',
+        '@shikijs/langs/markdown',
+        '@shikijs/langs/mdc',
+        '@shikijs/langs/shellscript',
+        '@shikijs/langs/tsx',
+        '@shikijs/langs/typescript',
+        '@shikijs/langs/vue',
+        '@shikijs/langs/yaml',
+        '@shikijs/themes/dark-plus',
+        '@shikijs/themes/light-plus',
+        '@shikijs/transformers',
+        'shiki/wasm'
+      ]
     }
   }
 })

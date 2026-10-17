@@ -4,7 +4,7 @@
       <ProseH1 class="text-amber">Notes</ProseH1>
       <div v-for="[date, notes] of groupByYear" :key="date">
         <ProseH2> {{ date }}</ProseH2>
-        <div v-for="note in notes" :key="note._path" class="mb-4">
+        <div v-for="note in notes" :key="note.path" class="mb-4">
           <ArticleCard :article="note" />
         </div>
       </div>
@@ -26,17 +26,13 @@ useSeoMeta({
   ogDescription: description
 })
 
-defineOgImageComponent('BlogPost', {
+defineOgImage('BlogPost.takumi', {
   title,
   description
 })
 
 const { data } = await useAsyncData('notes', () =>
-  queryContent('/notes')
-    .only(['_path', 'title', 'date'])
-    .where({ hidden: false })
-    .sort({ date: -1 })
-    .find()
+  queryCollection('notes').select('path', 'title', 'date').where('hidden', '=', false).order('date', 'DESC').all()
 )
 
 const groupByYear = computed(() => {

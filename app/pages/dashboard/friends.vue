@@ -1,26 +1,17 @@
 <template>
-  <DashboardEditorFrame show-preview class="w-full">
-    <template #header>
-      <UiButton icon="lucide:cloud-upload" @click="push">推送</UiButton>
-    </template>
-
-    <LazyMonacoEditor
-      v-if="data?.content"
-      v-model="data.content"
-      :options="{
-        minimap: { autohide: true },
-        theme: $colorMode.value === 'dark' ? 'vs-dark' : 'vs-light'
-      }"
-      class="h-full"
-      lang="yaml"
-    />
-
-    <template #preview>
-      <div class="grid gap-4 md:grid-cols-2">
-        <FriendCard v-for="friend in friends" :key="friend.name" :data="friend" />
+  <DashboardContentPageEditor :files="files">
+    <template #preview="{ contents, loading }">
+      <div v-if="loading" class="h-full w-full flex-center">
+        <Icon name="lucide:loader-circle" :size="20" class="animate-spin text-gray-400" />
+      </div>
+      <div v-else class="flex flex-col gap-6">
+        <div class="grid gap-4 md:grid-cols-2">
+          <FriendCard v-for="friend in parseFriends(contents[dataPath] ?? '')" :key="friend.name" :data="friend" />
+        </div>
+        <DashboardMarkdownPreview :content="contents[pagePath] ?? ''" />
       </div>
     </template>
-  </DashboardEditorFrame>
+  </DashboardContentPageEditor>
 </template>
 
 <script lang="ts" setup>
@@ -39,28 +30,31 @@ useHead({
   title: 'Dashboard - 友链'
 })
 
-const { $trpc } = useNuxtApp()
+const dataPath = 'content/data/friends.yaml'
+const pagePath = 'content/friends.md'
 
-const { data } = $trpc.repoFileContent.useQuery(
-  { path: 'content/data/friends.yaml' },
+const files = [
+  { path: dataPath, lang: 'yaml' },
   {
-    deep: true
+    path: pagePath,
+    lang: 'markdown',
+    template: `---
+title: 友链
+path: /friends
+ogImage: true
+comment: true
+---
+`
   }
-)
+]
 
-const friends = computed(() => parseFrontMatter(`---\n${data.value?.content}\n---`).data.friends)
+function parseFriends(content: string): Friend[] {
+  if (!content) return []
 
-const toast = useToast()
-
-async function push() {
-  const confirmPush = window.confirm('确定要推送吗？')
-  if (!confirmPush) return
-  toast.show('正在推送，请稍等...')
-  const { message } = await $trpc.upsertRepoFileContent.mutate({
-    path: 'content/data/friends.yaml',
-    content: data.value?.content ?? ''
-  })
-
-  window.alert(message)
+  try {
+    return (parseFrontMatter(`---\n${content}\n---`).data.friends as Friend[]) ?? []
+  } catch {
+    return []
+  }
 }
 </script>

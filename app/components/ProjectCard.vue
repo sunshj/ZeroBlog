@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col justify-between bg-slate-100 p-0 uno-card dark:bg-dark">
+  <div class="uno-card flex flex-col justify-between bg-slate-100 p-0 dark:bg-dark">
     <div class="flex items-center justify-between p-4">
-      <div class="flex flex-col gap-2">
+      <div class="min-w-0 flex flex-col gap-2">
         <div class="flex items-center gap-2">
           <div class="text-md text-dark font-bold dark:text-gray-300">
             {{ props.data.name }}

@@ -1,26 +1,14 @@
 <template>
-  <DashboardEditorFrame show-preview class="w-full">
-    <template #header>
-      <UiButton icon="lucide:cloud-upload" @click="push">推送</UiButton>
-    </template>
-
-    <LazyMonacoEditor
-      v-if="status === 'success' && data?.content"
-      v-model="data.content"
-      :options="{
-        minimap: { autohide: true },
-        theme: $colorMode.value === 'dark' ? 'vs-dark' : 'vs-light'
-      }"
-      class="h-full"
-      lang="yaml"
-    />
-
-    <template #preview>
-      <div class="grid gap-4 md:grid-cols-2">
-        <ProjectCard v-for="project in projects" :key="project.name" :data="project" />
+  <DashboardContentPageEditor :files="files">
+    <template #preview="{ contents, loading }">
+      <div v-if="loading" class="h-full w-full flex-center">
+        <Icon name="lucide:loader-circle" :size="20" class="animate-spin text-gray-400" />
+      </div>
+      <div v-else class="grid gap-4 md:grid-cols-2">
+        <ProjectCard v-for="project in parseProjects(contents[dataPath] ?? '')" :key="project.name" :data="project" />
       </div>
     </template>
-  </DashboardEditorFrame>
+  </DashboardContentPageEditor>
 </template>
 
 <script lang="ts" setup>
@@ -39,26 +27,17 @@ useHead({
   title: 'Dashboard - 项目'
 })
 
-const { $trpc } = useNuxtApp()
+const dataPath = 'content/data/projects.yaml'
 
-const { data, status } = $trpc.repoFileContent.useQuery(
-  { path: 'content/data/projects.yaml' },
-  { deep: true }
-)
+const files = [{ path: dataPath, lang: 'yaml' }]
 
-const projects = computed(() => parseFrontMatter(`---\n${data.value?.content}\n---`).data.projects)
+function parseProjects(content: string): Project[] {
+  if (!content) return []
 
-const toast = useToast()
-
-async function push() {
-  const confirmPush = window.confirm('确定要推送吗？')
-  if (!confirmPush) return
-  toast.show('正在推送，请稍等...')
-  const { message } = await $trpc.upsertRepoFileContent.mutate({
-    path: 'content/data/projects.yaml',
-    content: data.value?.content ?? ''
-  })
-
-  window.alert(message)
+  try {
+    return (parseFrontMatter(`---\n${content}\n---`).data.projects as Project[]) ?? []
+  } catch {
+    return []
+  }
 }
 </script>

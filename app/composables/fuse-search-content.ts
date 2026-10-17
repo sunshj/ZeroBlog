@@ -1,15 +1,14 @@
 import { useFuse } from '@vueuse/integrations/useFuse'
 
 export async function fuseSearchContent(search: Ref<string>) {
-  const { integrity, api } = useRuntimeConfig().public.content
-  const url = `${api.baseURL}/search${integrity ? `-${integrity}` : ''}`
+  const [articleSections, noteSections] = await Promise.all([
+    queryCollectionSearchSections('articles'),
+    queryCollectionSearchSections('notes')
+  ])
 
-  const { data } = useNuxtData(url)
-  if (!data.value) {
-    data.value = await $fetch<any>(url)
-  }
+  const sections = [...articleSections, ...noteSections]
 
-  const { results } = useFuse(search, data.value, {
+  const { results } = useFuse(search, sections, {
     fuseOptions: {
       minMatchCharLength: 2,
       distance: 150,

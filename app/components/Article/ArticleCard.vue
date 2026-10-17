@@ -1,6 +1,6 @@
 <template>
-  <div class="relative flex flex-col justify-between p-4 uno-card">
-    <NuxtLink :to="props.article._path" prefetch class="decoration-none hover:decoration-none">
+  <div class="relative uno-card flex flex-col justify-between p-4">
+    <NuxtLink :to="props.article.path" prefetch class="decoration-none hover:decoration-none">
       <div class="flex flex-col gap-2">
         <div class="text-2xl text-black dark:text-gray-300">
           {{ props.article.title }}
@@ -25,10 +25,21 @@
 </template>
 
 <script lang="ts" setup>
-import type { ParsedContent } from '@nuxt/content'
+type ArticleCardItem = {
+  path?: string
+  title?: string | null
+  description?: string | null
+  date?: string | null
+  tags?: string[] | null
+  sticky?: number | null
+  readingTime?: {
+    words?: number
+    text?: string
+  }
+}
 
 const props = defineProps<{
-  article: Partial<ParsedContent>
+  article: ArticleCardItem
   showSticky?: boolean
 }>()
 </script>

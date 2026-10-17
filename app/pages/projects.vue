@@ -20,15 +20,13 @@ useSeoMeta({
   ogDescription: description
 })
 
-defineOgImageComponent('BlogPost', {
+defineOgImage('BlogPost.takumi', {
   title,
   description
 })
 
-const { data } = useAsyncData('projects-data', () => queryContent('/data/projects').findOne())
+const { data } = useAsyncData('projects-data', () => queryCollection('projects').first())
 const projects = computed<Project[]>(() => data.value?.projects ?? [])
-
-defineOgImageComponent('BlogPost')
 </script>
 
 <style scoped></style>
