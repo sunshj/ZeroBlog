@@ -14,8 +14,7 @@
           :key="pageNum"
           class="h-8 w-8 flex-center cursor-pointer rounded-lg transition-all hover:bg-gray-1"
           :class="{
-            'bg-gray-1 text-gray-800 dark:bg-gray-3 dark:hover:bg-gray-3':
-              props.currentPage === pageNum
+            'bg-gray-1 text-gray-800 dark:bg-gray-3 dark:hover:bg-gray-3': props.currentPage === pageNum
           }"
           @click="emit('change', pageNum)"
         >
@@ -27,10 +26,7 @@
     <div class="h-8 w-8 flex-center cursor-pointer rounded-lg" @click="nextPage">
       <Icon name="lucide:chevron-right" />
     </div>
-    <div
-      class="h-8 w-8 flex-center cursor-pointer rounded-lg"
-      @click="emit('change', props.pageCount)"
-    >
+    <div class="h-8 w-8 flex-center cursor-pointer rounded-lg" @click="emit('change', props.pageCount)">
       <Icon name="lucide:chevrons-right" />
     </div>
   </div>

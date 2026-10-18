@@ -29,10 +29,7 @@
             </div>
           </Transition>
         </div>
-        <div
-          class="z-100 hidden items-center justify-center sm:flex"
-          :class="{ fixed: isFixed, relative: !isFixed }"
-        >
+        <div class="z-100 hidden items-center justify-center sm:flex" :class="{ fixed: isFixed, relative: !isFixed }">
           <header
             ref="headerRef"
             class="mx-auto flex-center"
@@ -44,8 +41,7 @@
             <div
               class="h-40px w-fit flex items-center gap-4 border rounded-full px-4 transition-all"
               :class="{
-                'mt-52px dark:border-[#222] border-[#eee] bg-light dark:bg-dark shadow-sm backdrop-blur-2xl':
-                  !isFixed,
+                'mt-52px dark:border-[#222] border-[#eee] bg-light dark:bg-dark shadow-sm backdrop-blur-2xl': !isFixed,
                 'dark:border-[#222] border-[#eee]  bg-light dark:bg-dark shadow-sm backdrop-blur-2xl dark:bg-opacity-50 bg-opacity-50':
                   !showShadow,
                 'border-transparent': isTransparent

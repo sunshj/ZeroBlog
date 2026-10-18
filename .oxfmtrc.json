@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 120,
+  "semi": false,
+  "arrowParens": "avoid",
+  "singleQuote": true,
+  "trailingComma": "none",
+  "sortPackageJson": true,
+  "sortImports": {
+    "newlinesBetween": false
+  },
+  "ignorePatterns": [".agents/**/*", ".claude/**/*", "content/**/*"]
+}

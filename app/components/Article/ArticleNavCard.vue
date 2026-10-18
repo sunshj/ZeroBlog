@@ -5,9 +5,7 @@
       'items-end text-right': position === 'right'
     }"
   >
-    <span
-      class="text-primary pointer-events-none mb4 h-7 w-7 inline-flex flex-none items-center text-lg"
-    >
+    <span class="text-primary pointer-events-none mb4 h-7 w-7 inline-flex flex-none items-center text-lg">
       <Icon :name="position === 'left' ? 'lucide:arrow-left' : 'lucide:arrow-right'" />
     </span>
     <div class="my-0 text-lg font-semibold">

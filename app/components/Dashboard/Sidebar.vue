@@ -4,19 +4,16 @@
     :class="collapsed ? 'w-16' : 'w-48'"
   >
     <div class="flex flex-col gap-4">
-      <div
-        class="w-full flex items-center py-2"
-        :class="collapsed ? 'justify-center' : 'justify-between pl-4'"
-      >
-        <ColorModeToggle />
+      <!-- 顶部工具栏：主题切换与导航图标左对齐，折叠按钮固定在右侧；折叠后只保留居中的折叠按钮 -->
+      <div class="h-8 w-full flex items-center" :class="collapsed ? 'justify-center' : 'justify-between pl-3'">
+        <ColorModeToggle v-if="!collapsed" class="h-8 w-8 shrink-0" />
         <UiButton
-          v-if="!collapsed"
-          title="Toggle Sidebar"
-          icon="lucide:panel-left-close"
+          class="h-8 w-8 shrink-0"
+          :title="collapsed ? '展开侧边栏' : '收起侧边栏'"
+          :icon="collapsed ? 'lucide:panel-left-open' : 'lucide:panel-left-close'"
           :icon-size="16"
           color="ghost"
-          class="h-8 w-8"
-          @click="toggleCollapse(true)"
+          @click="toggleCollapse()"
         />
       </div>
 
@@ -25,6 +22,7 @@
           v-for="menu in menus"
           :key="menu.path"
           :to="menu.path"
+          :title="collapsed ? menu.meta.menu?.label : undefined"
           active-class="bg-gray-800 !text-white !hover:bg-gray-800"
           class="flex items-center gap-3 rounded-lg px-4 py-2 text-gray-700 transition-all hover:bg-gray-2 dark:text-gray-4 !no-underline dark:hover:bg-gray-800"
           :class="{
@@ -38,25 +36,15 @@
     </div>
 
     <div>
-      <div v-if="collapsed" class="w-full flex-center">
-        <UiButton
-          icon="lucide:panel-left-open"
-          title="Toggle Sidebar"
-          :icon-size="16"
-          color="ghost"
-          class="h-8 w-8 flex-center"
-          @click="toggleCollapse(false)"
-        />
-      </div>
-
       <div v-if="loggedIn" class="group relative">
         <div
           class="flex cursor-pointer items-center gap-2 rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+          :class="{ 'justify-center': collapsed }"
         >
-          <img :src="user?.avatar" class="h-8 w-8 rounded-full" />
-          <div v-if="!collapsed" class="flex flex-col">
-            <div class="text-sm">{{ user?.name }}</div>
-            <div class="text-xs">{{ user?.email }}</div>
+          <img :src="user?.avatar" class="h-8 w-8 shrink-0 rounded-full" />
+          <div v-if="!collapsed" class="flex flex-col overflow-hidden">
+            <div class="truncate text-sm">{{ user?.name }}</div>
+            <div class="truncate text-xs">{{ user?.email }}</div>
           </div>
         </div>
 

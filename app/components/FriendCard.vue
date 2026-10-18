@@ -1,17 +1,11 @@
 <template>
   <NuxtLink :to="props.data.link" target="_blank" class="decoration-none hover:decoration-none">
-    <div class="flex items-center px-3 uno-card">
-      <UiAvatar
-        class="rounded-full"
-        :width="60"
-        :height="60"
-        :src="props.data.avatar"
-        :alt="props.data.name"
-      >
+    <div class="uno-card flex items-center px-3">
+      <UiAvatar class="rounded-full" :width="60" :height="60" :src="props.data.avatar" :alt="props.data.name">
         {{ props.data.name.slice(0, 1).toUpperCase() }}
       </UiAvatar>
 
-      <div class="flex flex-col justify-around p-2">
+      <div class="min-w-0 flex flex-col justify-around p-2">
         <div class="text-xl">{{ props.data.name }}</div>
         <div class="line-clamp-2 text-sm text-gray-500">{{ props.data.description }}</div>
       </div>

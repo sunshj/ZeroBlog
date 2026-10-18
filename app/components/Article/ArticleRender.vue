@@ -21,7 +21,7 @@
           'grid grid-cols-1': tocLinks.length > 0
         }"
       >
-        <ContentRenderer :value="props.article">
+        <ContentRenderer v-if="props.article" :value="props.article">
           <template #empty>
             <div class="mt-10 flex-center p-4">
               <ProseH1 v-if="props.error">This page is empty</ProseH1>
@@ -29,31 +29,35 @@
             </div>
           </template>
         </ContentRenderer>
+        <div v-else class="mt-10 flex-center p-4">
+          <ProseH1 v-if="props.error">This page is empty</ProseH1>
+          <Icon v-else class="animate-spin" :size="24" name="lucide:loader" />
+        </div>
 
         <ProseHr v-if="props.showCopyright || props.showComment" />
 
         <ArticleCopyright
           v-if="props.showCopyright && props.article"
           :title="props.article.title!"
-          :date="props.article.date"
+          :date="props.article.date ?? ''"
         />
 
         <div v-if="props.showSurround" class="grid grid-cols-1 gap-5 md:grid-cols-2">
           <div class="flex justify-start">
             <ArticleNavCard
               v-if="prev"
-              :to="prev._path"
-              :title="prev?.title"
-              :description="prev.description"
+              :to="prev.path ?? ''"
+              :title="prev.title"
+              :description="<string>prev.description"
               position="left"
             />
           </div>
           <div class="flex justify-end">
             <ArticleNavCard
               v-if="next"
-              :to="next._path"
+              :to="next.path ?? ''"
               :title="next.title"
-              :description="next.description"
+              :description="<string>next.description"
               position="right"
             />
           </div>
@@ -61,10 +65,7 @@
       </div>
 
       <div v-if="tocLinks.length > 0" class="ml-4">
-        <ArticleToc
-          :links="tocLinks"
-          class="scrollbar-hide max-h-[calc(100vh-100px)] overflow-y-auto"
-        />
+        <ArticleToc :links="tocLinks" class="scrollbar-hide max-h-[calc(100vh-100px)] overflow-y-auto" />
       </div>
     </div>
 
@@ -76,17 +77,17 @@
 </template>
 
 <script setup lang="ts">
-import type { ParsedContent } from '@nuxt/content'
+import type { ArticlesCollectionItem, ContentNavigationItem } from '@nuxt/content'
 import type { NuxtError } from '#app'
 
 const props = withDefaults(
   defineProps<{
-    article?: Partial<ParsedContent>
+    article?: ArticlesCollectionItem | null
     error?: NuxtError<unknown>
     showComment?: boolean
     showSurround?: boolean
-    prev?: Partial<ParsedContent>
-    next?: Partial<ParsedContent>
+    prev?: ContentNavigationItem | null
+    next?: ContentNavigationItem | null
     showCopyright?: boolean
     tagOptions?: {
       dateFormat?: string

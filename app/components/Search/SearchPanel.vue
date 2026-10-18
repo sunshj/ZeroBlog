@@ -5,9 +5,7 @@
     :show-close="false"
     modal-class="md:h-500px h-full rounded-none md:rounded-lg"
   >
-    <div
-      class="w-full flex items-center border-b border-gray-200 border-b-solid dark:border-gray-700"
-    >
+    <div class="w-full flex items-center border-b border-gray-200 border-b-solid dark:border-gray-700">
       <Icon name="lucide:search" :size="20" class="ml-4 mr-2 text-gray-500" />
       <input
         ref="searchInputRef"
@@ -18,22 +16,12 @@
         placeholder="Search..."
         @input="handleSearch"
       />
-      <Icon
-        name="lucide:x"
-        :size="18"
-        class="mx-4 cursor-pointer text-gray-500 hover:text-gray-700"
-        @click="clean"
-      />
+      <Icon name="lucide:x" :size="18" class="mx-4 cursor-pointer text-gray-500 hover:text-gray-700" @click="clean" />
     </div>
     <div class="h-full flex flex-1 overflow-y-auto p-4">
       <div v-if="results.length > 0" class="w-full">
         <div class="flex flex-col gap-2 pb-4">
-          <SearchItem
-            v-for="result in results"
-            :key="result.refIndex"
-            :data="result"
-            @click="close"
-          />
+          <SearchItem v-for="result in results" :key="result.refIndex" :data="result" @click="close" />
         </div>
       </div>
       <div v-else class="w-full flex-center flex-col gap-2 text-gray-400">

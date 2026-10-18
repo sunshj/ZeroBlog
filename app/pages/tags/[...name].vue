@@ -2,7 +2,7 @@
   <div>
     <div v-for="[date, articles] of groupByYear" :key="date">
       <ProseH2> {{ date }}</ProseH2>
-      <div v-for="article in articles" :key="article._path" class="mb-4">
+      <div v-for="article in articles" :key="article.path" class="mb-4">
         <ArticleCard :article="article" />
       </div>
     </div>
@@ -19,11 +19,12 @@ definePageMeta({
 const route = useRoute('tags-name')
 
 const { data } = useAsyncData(route.path, () =>
-  queryContent('/articles')
-    .only(['_path', 'title', 'description', 'date', 'sticky', 'tags'])
-    .where({ tags: { $contains: route.params.name || [] }, hidden: false })
-    .sort({ date: -1 })
-    .find()
+  queryCollection('articles')
+    .select('path', 'title', 'description', 'date', 'sticky', 'tags')
+    .where('tags', 'LIKE', route.params.name ? `%"${route.params.name.join('')}"%` : '%%')
+    .where('hidden', '=', false)
+    .order('date', 'DESC')
+    .all()
 )
 
 const groupByYear = computed(() => {

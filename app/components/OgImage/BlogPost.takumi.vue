@@ -3,7 +3,7 @@
     class="h-full w-full flex items-start justify-start"
     style="
       background-image: linear-gradient(to right, #24243e, #302b63, #0f0c29);
-      font-family: 'AlibabaPuHui' sans-serif;
+      font-family: 'AlibabaPuHui', sans-serif;
     "
   >
     <div class="h-full flex items-start justify-start">

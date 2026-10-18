@@ -1,28 +1,32 @@
 <template>
-  <DashboardEditorFrame show-preview class="w-full">
-    <template #header>
-      <UiButton icon="lucide:cloud-upload" @click="push">推送文章</UiButton>
+  <DashboardContentPageEditor :key="filePath" :files="files" push-label="推送文章">
+    <template #leading>
+      <UiButton
+        icon="lucide:arrow-left"
+        color="ghost"
+        :icon-size="18"
+        title="返回列表"
+        class="h-8 w-8"
+        @click="goBack"
+      />
+    </template>
+
+    <template #actions>
       <UiButton icon="lucide:trash-2" color="red" @click="remove">删除文章</UiButton>
     </template>
 
-    <LazyMonacoEditor
-      v-if="status === 'success'"
-      v-model="content"
-      :options="{
-        minimap: { autohide: true },
-        theme: $colorMode.value === 'dark' ? 'vs-dark' : 'vs-light'
-      }"
-      class="h-full"
-      lang="markdown"
-    />
-
-    <template #preview>
-      <ArticleRender :article="article" :tag-options="{ readingTime: false, wordsCount: false }" />
+    <template #preview="{ contents, loading }">
+      <div v-if="loading" class="h-full w-full flex-center">
+        <Icon name="lucide:loader-circle" :size="20" class="animate-spin text-gray-400" />
+      </div>
+      <DashboardArticlePreview v-else :content="contents[filePath] ?? ''" />
     </template>
-  </DashboardEditorFrame>
+  </DashboardContentPageEditor>
 </template>
 
 <script lang="ts" setup>
+import type { RepoWriteResult } from '#shared/repo'
+
 definePageMeta({
   layout: 'dashboard'
 })
@@ -33,54 +37,33 @@ useHead({
 
 const route = useRoute('dashboard-scope-slug')
 
-const { $trpc } = useNuxtApp()
+const filePath = `content/${route.params.scope}/${route.params.slug}.md`
 
-const { data, status } = await $trpc.repoFileContent.useQuery({
-  path: `content/${route.params.scope}/${route.params.slug}.md`
-})
+function goBack() {
+  navigateTo(`/dashboard/${route.params.scope}`)
+}
 
-const content = ref('')
-
-watchEffect(() => {
-  if (data.value) {
-    content.value = data.value.content!
-  } else {
-    content.value = `---
+const files = [
+  {
+    path: filePath,
+    lang: 'markdown',
+    template: `---
 title: 新建文章
 path: /${route.params.scope}/${route.params.slug}
 date: '${formatTime(Date.now())}'
 ---
 `
   }
-})
-
-const article = computedAsync(async () => {
-  const { body, data } = await parseMarkdown(content.value)
-  return { body, ...data }
-})
-
-const toast = useToast()
-
-async function push() {
-  const confirmPush = window.confirm('确定要推送文章吗？')
-  if (!confirmPush) return
-  toast.show('正在推送文章，请稍等...')
-  const { message } = await $trpc.upsertRepoFileContent.mutate({
-    path: `content/${route.params.scope}/${route.params.slug}.md`,
-    content: content.value
-  })
-
-  window.alert(message)
-}
+]
 
 async function remove() {
   const confirmDelete = window.confirm('确定要删除文章吗？')
   if (!confirmDelete) return
 
-  const { message } = await $trpc.deleteRepoFile.mutate({
-    path: `content/${route.params.scope}/${route.params.slug}.md`
+  const { message } = await $fetch<RepoWriteResult>('/api/repo/file', {
+    method: 'DELETE',
+    query: { path: filePath }
   })
-
   window.alert(message)
 }
 
@@ -88,10 +71,5 @@ onMounted(() => {
   window.addEventListener('beforeunload', e => {
     e.preventDefault()
   })
-})
-
-onUnmounted(() => {
-  content.value = ''
-  article.value = undefined
 })
 </script>

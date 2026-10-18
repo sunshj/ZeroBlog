@@ -1,6 +1,6 @@
 <template>
-  <div class="relative flex flex-col justify-between p-4 uno-card">
-    <NuxtLink :to="props.article._path" prefetch class="decoration-none hover:decoration-none">
+  <div class="relative uno-card flex flex-col justify-between p-4">
+    <NuxtLink :to="props.article.path" prefetch class="decoration-none hover:decoration-none">
       <div class="flex flex-col gap-2">
         <div class="text-2xl text-black dark:text-gray-300">
           {{ props.article.title }}
@@ -25,10 +25,16 @@
 </template>
 
 <script lang="ts" setup>
-import type { ParsedContent } from '@nuxt/content'
+import type { ArticlesCollectionItem } from '@nuxt/content'
+
+// 复用 nuxt-content 生成的 ArticlesCollectionItem，仅保留卡片用到的字段并全部置为可选，
+// 以便兼容 queryCollection().select(...) 返回的 Pick<ArticlesCollectionItem, ...> 子集。
+type ArticleCardItem = Partial<
+  Pick<ArticlesCollectionItem, 'path' | 'title' | 'description' | 'date' | 'tags' | 'sticky'>
+>
 
 const props = defineProps<{
-  article: Partial<ParsedContent>
+  article: ArticleCardItem
   showSticky?: boolean
 }>()
 </script>

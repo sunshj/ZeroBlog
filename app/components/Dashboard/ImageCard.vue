@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-between uno-card" :title="mini ? filename : ''">
+  <div class="uno-card flex items-center justify-between" :title="mini ? filename : ''">
     <div class="flex flex-1 gap-4">
       <img class="h-20 w-20 rounded-lg object-cover" :src="imgSrc" />
       <div class="flex flex-col justify-between">
@@ -19,9 +19,7 @@
           <NuxtLink v-if="!mini" :href="jsdelivrUrl" target="_blank" class="text-emerald">
             {{ jsdelivrUrl }}
           </NuxtLink>
-          <NuxtLink v-else :href="jsdelivrUrl" target="_blank" class="text-emerald">
-            Link
-          </NuxtLink>
+          <NuxtLink v-else :href="jsdelivrUrl" target="_blank" class="text-emerald"> Link </NuxtLink>
 
           <CodeCopy :code="jsdelivrUrl" />
         </div>

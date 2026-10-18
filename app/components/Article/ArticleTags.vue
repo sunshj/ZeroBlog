@@ -1,11 +1,11 @@
 <template>
   <div class="flex flex-wrap items-center gap-2">
     <span class="flex items-center gap-1">
-      <Icon name="lucide:calendar" /> {{ formatTime(props.article.date, props.dateFormat) }}
+      <Icon name="lucide:calendar" /> {{ formatTime(props.article.date ?? '', props.dateFormat) }}
     </span>
 
     <NuxtLink
-      v-for="tag in props.article.tags"
+      v-for="tag in props.article.tags ?? []"
       :key="tag"
       prefetch
       prefetch-on="interaction"
@@ -16,20 +16,29 @@
     </NuxtLink>
 
     <span v-if="props.wordsCount" class="flex items-center gap-1">
-      <Icon name="lucide:eye" /> {{ props.article.readingTime.words }} words
+      <Icon name="lucide:eye" /> {{ props.article.meta?.readingTime?.words }} words
     </span>
 
     <span v-if="props.readingTime" class="flex items-center gap-1">
-      <Icon name="lucide:clock" /> {{ props.article.readingTime.text }}
+      <Icon name="lucide:clock" /> {{ props.article.meta?.readingTime?.text }}
     </span>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { ParsedContent } from '@nuxt/content'
+import type { ArticlesCollectionItem } from '@nuxt/content'
+
+type ArticleTagItem = Partial<Pick<ArticlesCollectionItem, 'date' | 'tags'>> & {
+  meta?: {
+    readingTime?: {
+      words?: number
+      text?: string
+    }
+  }
+}
 
 const props = defineProps<{
-  article: Partial<ParsedContent>
+  article: ArticleTagItem
   dateFormat?: string
   wordsCount?: boolean
   readingTime?: boolean

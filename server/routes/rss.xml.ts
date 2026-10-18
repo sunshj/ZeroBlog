@@ -1,4 +1,4 @@
-import { serverQueryContent } from '#content/server'
+import { queryCollection } from '@nuxt/content/server'
 import { Feed } from 'feed'
 
 export default defineEventHandler(async event => {
@@ -15,20 +15,24 @@ export default defineEventHandler(async event => {
     generator: 'Nuxt static site generation + Feed for Node.js'
   })
 
-  const articles = await serverQueryContent(event, '/articles')
-    .only(['_path', 'title', 'description', 'date'])
-    .find()
+  const articles = await queryCollection(event, 'articles')
+    .select('path', 'title', 'description', 'date')
+    .where('hidden', '=', false)
+    .order('date', 'DESC')
+    .all()
 
-  const notes = await serverQueryContent(event, '/notes')
-    .only(['_path', 'title', 'description', 'date'])
-    .find()
+  const notes = await queryCollection(event, 'notes')
+    .select('path', 'title', 'description', 'date')
+    .where('hidden', '=', false)
+    .order('date', 'DESC')
+    .all()
 
   ;[...articles, ...notes].forEach(article => {
     if (!article.title) return
     feed.addItem({
       title: article.title,
-      id: article._path,
-      link: `${site.link}${article._path}`,
+      id: article.path,
+      link: `${site.link}${article.path}`,
       description: article.description,
       date: new Date(article.date)
     })

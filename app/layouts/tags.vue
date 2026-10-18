@@ -5,12 +5,7 @@
 
       <div class="flex flex-wrap gap-2">
         <div v-for="[tag, { count, href }] of tags" :key="tag">
-          <NuxtLink
-            prefetch
-            prefetch-on="interaction"
-            :to="href"
-            class="decoration-none hover:decoration-none"
-          >
+          <NuxtLink prefetch prefetch-on="interaction" :to="href" class="decoration-none hover:decoration-none">
             <div
               class="flex items-center gap-1 rounded-md bg-gray-100 px-2 py-1 dark:bg-dark"
               :class="{
@@ -49,16 +44,13 @@ useSeoMeta({
   ogDescription: description
 })
 
-defineOgImageComponent('BlogPost', {
+defineOgImage('BlogPost.takumi', {
   title,
   description
 })
 
 const { data } = await useAsyncData('tags-data', () =>
-  queryContent('/articles')
-    .only(['tags'])
-    .where({ tags: { $exists: true }, hidden: false })
-    .find()
+  queryCollection('articles').select('path', 'tags').where('hidden', '=', false).all()
 )
 
 interface TagValue {
@@ -69,10 +61,11 @@ interface TagValue {
 const tags = computed(() => {
   return data.value?.reduce((acc, article) => {
     acc.set('All', {
-      count: data.value?.flat().length || 0,
+      count: data.value?.length || 0,
       href: '/tags'
     })
-    article.tags.forEach((tag: string) => {
+
+    article.tags?.forEach(tag => {
       acc.set(tag, {
         count: (acc.get(tag)?.count || 0) + 1,
         href: `/tags/${tag}`

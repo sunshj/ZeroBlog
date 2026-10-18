@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="h-9 w-full inline-flex items-baseline justify-start rounded-lg bg-gray-100 p-1 sm:w-auto dark:bg-gray-8"
-  >
+  <div class="h-9 w-full inline-flex items-baseline justify-start rounded-lg bg-gray-100 p-1 sm:w-auto dark:bg-gray-8">
     <button
       v-for="(option, index) in options"
       :key="index"

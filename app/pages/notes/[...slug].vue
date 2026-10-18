@@ -25,7 +25,7 @@ const path = computed(() => withoutTrailingSlash(route.path))
 
 const { site, notesConfig } = useAppConfig()
 
-const { data: page, error } = useAsyncData(path.value, () => queryContent(path.value).findOne())
+const { data: page, error } = useAsyncData(path.value, () => queryCollection('notes').path(path.value).first())
 
 const title = () => page.value?.title || site.title
 const description = () => page.value?.description || site.description
@@ -37,7 +37,7 @@ useSeoMeta({
   ogDescription: description
 })
 
-defineOgImageComponent('BlogPost', {
+defineOgImage('BlogPost.takumi', {
   title,
   description
 })
@@ -48,14 +48,14 @@ watchEffect(() => {
 })
 
 const { data: surround } = useAsyncData(`prev-next-${path.value}`, () =>
-  queryContent('/notes')
-    .only(['_path', 'title', 'description'])
-    .where({ hidden: false })
-    .sort({ date: -1 })
-    .findSurround(path.value)
+  queryCollectionItemSurroundings('notes', path.value, {
+    before: 1,
+    after: 1,
+    fields: ['path', 'title', 'description']
+  })
 )
-const prev = computed(() => surround.value?.[0])
-const next = computed(() => surround.value?.[1])
+const prev = computed(() => surround.value?.[0] ?? null)
+const next = computed(() => surround.value?.[1] ?? null)
 </script>
 
 <style scoped></style>

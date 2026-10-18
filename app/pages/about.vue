@@ -2,9 +2,10 @@
   <div class="flex flex-col gap-10 p-4">
     <ProseH1 class="text-amber">About</ProseH1>
     <ContentRenderer
+      v-if="page"
       :value="page"
       :class="{
-        'text-center': page?.center
+        'text-center': page.center
       }"
     >
       <template #empty>
@@ -14,6 +15,10 @@
         </div>
       </template>
     </ContentRenderer>
+    <div v-else class="mt-10 flex-center p-4">
+      <ProseH1 v-if="error">This page is empty</ProseH1>
+      <Icon v-else class="animate-spin" :size="24" name="lucide:loader" />
+    </div>
     <GiscusRender v-if="page?.comment" />
   </div>
 </template>
@@ -21,7 +26,7 @@
 <script lang="ts" setup>
 const { site } = useAppConfig()
 
-const { data: page, error } = useAsyncData('about', () => queryContent('/about').findOne())
+const { data: page, error } = useAsyncData('about', () => queryCollection('pages').path('/about').first())
 
 const title = () => page.value?.title || site.title
 const description = () => page.value?.description || site.description
@@ -33,7 +38,7 @@ useSeoMeta({
   ogDescription: description
 })
 
-defineOgImageComponent('BlogPost', {
+defineOgImage('BlogPost.takumi', {
   title,
   description
 })

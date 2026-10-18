@@ -18,10 +18,10 @@
         <div class="my-4 text-2xl text-amber font-semibold">Recent Articles</div>
 
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2">
-          <ArticleCard v-for="article in articles" :key="article._path" :article="article" />
+          <ArticleCard v-for="article in articles" :key="article.path" :article="article" />
         </div>
         <div
-          class="my-4 w-fit flex-center cursor-pointer px-4 font-semibold uno-card hover:ring-1"
+          class="my-4 uno-card w-fit flex-center cursor-pointer px-4 font-semibold hover:ring-1"
           @click="navigateTo('/articles')"
         >
           See More
@@ -32,10 +32,10 @@
       <div>
         <div class="my-4 text-2xl text-amber font-semibold">Recent Notes</div>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2">
-          <ArticleCard v-for="note in notes" :key="note._path" :article="note" />
+          <ArticleCard v-for="note in notes" :key="note.path" :article="note" />
         </div>
         <div
-          class="my-4 w-fit flex-center cursor-pointer px-4 font-semibold uno-card hover:ring-1"
+          class="my-4 uno-card w-fit flex-center cursor-pointer px-4 font-semibold hover:ring-1"
           @click="navigateTo('/notes')"
         >
           See More
@@ -63,26 +63,26 @@ useSeoMeta({
   ogDescription: description
 })
 
-defineOgImageComponent('BlogPost', {
+defineOgImage('BlogPost.takumi', {
   title,
   description
 })
 
 const { data: articles } = useAsyncData('recent-articles', () =>
-  queryContent('/articles')
-    .only(['_path', 'title', 'description', 'date', 'sticky', 'tags'])
-    .where({ hidden: false })
-    .sort({ date: -1 })
+  queryCollection('articles')
+    .select('path', 'title', 'description', 'date', 'sticky', 'tags')
+    .where('hidden', '=', false)
+    .order('date', 'DESC')
     .limit(6)
-    .find()
+    .all()
 )
 
 const { data: notes } = useAsyncData('recent-notes', () =>
-  queryContent('/notes')
-    .only(['_path', 'title', 'date'])
-    .where({ hidden: false })
-    .sort({ date: -1 })
+  queryCollection('notes')
+    .select('path', 'title', 'date')
+    .where('hidden', '=', false)
+    .order('date', 'DESC')
     .limit(6)
-    .find()
+    .all()
 )
 </script>
