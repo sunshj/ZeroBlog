@@ -9,9 +9,5 @@
   "sortImports": {
     "newlinesBetween": false
   },
-  "ignorePatterns": [
-    ".agents/**/*",
-    ".claude/**/*",
-    "content/**/*"
-  ]
+  "ignorePatterns": [".agents/**/*", ".claude/**/*", "content/**/*"]
 }
