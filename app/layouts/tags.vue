@@ -64,7 +64,8 @@ const tags = computed(() => {
       count: data.value?.length || 0,
       href: '/tags'
     })
-    ;(article.tags ?? []).forEach((tag: string) => {
+
+    article.tags?.forEach(tag => {
       acc.set(tag, {
         count: (acc.get(tag)?.count || 0) + 1,
         href: `/tags/${tag}`

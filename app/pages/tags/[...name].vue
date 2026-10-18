@@ -21,7 +21,7 @@ const route = useRoute('tags-name')
 const { data } = useAsyncData(route.path, () =>
   queryCollection('articles')
     .select('path', 'title', 'description', 'date', 'sticky', 'tags')
-    .where('tags', 'LIKE', `%"${route.params.name}"%`)
+    .where('tags', 'LIKE', route.params.name ? `%"${route.params.name.join('')}"%` : '%%')
     .where('hidden', '=', false)
     .order('date', 'DESC')
     .all()
