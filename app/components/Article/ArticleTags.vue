@@ -26,10 +26,11 @@
 </template>
 
 <script lang="ts" setup>
-type ArticleTagItem = {
-  title?: string | null
-  date?: string | null
-  tags?: string[] | null
+import type { ArticlesCollectionItem } from '@nuxt/content'
+
+// 复用 nuxt-content 生成的 ArticlesCollectionItem：date / tags 取自集合项类型；
+// readingTime 由内容模块在解析时附加，不在 schema 类型中，这里单独补回。
+type ArticleTagItem = Partial<Pick<ArticlesCollectionItem, 'date' | 'tags'>> & {
   readingTime?: {
     words?: number
     text?: string

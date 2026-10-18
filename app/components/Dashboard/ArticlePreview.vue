@@ -3,6 +3,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { ArticlesCollectionItem } from '@nuxt/content'
+
 const props = defineProps<{
   content?: string
 }>()
@@ -12,7 +14,9 @@ const article = computedAsync(async () => {
 
   try {
     const { body, data } = await parsePreviewMarkdown(props.content)
-    return { body, ...data }
+    // 后台预览用 mdc 的 parseMarkdown 解析，body 为 MDCRoot（与内容集合的 MarkdownRoot 不同），
+    // 这里复用 nuxt-content 生成的 ArticlesCollectionItem 类型做桥接。
+    return { body, ...data } as unknown as ArticlesCollectionItem
   } catch {
     return undefined
   }

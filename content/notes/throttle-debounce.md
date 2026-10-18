@@ -8,7 +8,7 @@ path: /notes/throttle-debounce
 
 节流函数：在指定时间内只执行一次
 
-```ts [throttle.ts]
+```ts [throttle.ts] twoslash
 function throttle<T extends (...args: any[]) => any>(
   fn: T,
   delay: number

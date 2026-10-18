@@ -13,7 +13,6 @@ export default defineNuxtConfig({
     crawlLinks: true,
     ignore: ['/dashboard']
   },
- 
 
   css: ['~/assets/base.css', '~/assets/transitions.css'],
 
@@ -53,6 +52,7 @@ export default defineNuxtConfig({
 
   modules: [
     '@sunshj/mdc',
+    'nuxt-content-twoslash',
     '@nuxt/image',
     '@nuxt/icon',
     '@nuxt/content',
@@ -64,6 +64,16 @@ export default defineNuxtConfig({
     'nuxt-auth-utils',
     'nuxt-monaco-editor'
   ],
+
+  twoslash: {
+    compilerOptions: {
+      noImplicitAny: false,
+      strict: false,
+      allowJs: true
+    },
+    // Skip Twoslash in dev to improve performance. Turn this on when you want to explicitly test twoslash in dev.
+    enableInDev: false
+  },
 
   image: {
     presets: {

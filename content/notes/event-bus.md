@@ -6,7 +6,7 @@ path: /notes/event-bus
 
 ::code-group
 
-```ts [EventBus.ts]
+```ts [EventBus.ts] twoslash
 class EventBus<T extends Record<string, (...args: any[]) => void>> {
   private events: Map<keyof T, Set<T[keyof T]>>
 

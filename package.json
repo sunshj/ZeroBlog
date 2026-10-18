@@ -33,6 +33,7 @@
     "monaco-editor": "0.56.0",
     "nuxt": "4.6.2",
     "nuxt-auth-utils": "0.5.32",
+    "nuxt-content-twoslash": "0.4.0",
     "nuxt-monaco-editor": "1.5.0",
     "nuxt-og-image": "7.0.7",
     "octokit": "4.1.2",

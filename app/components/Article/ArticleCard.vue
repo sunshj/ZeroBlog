@@ -25,18 +25,13 @@
 </template>
 
 <script lang="ts" setup>
-type ArticleCardItem = {
-  path?: string
-  title?: string | null
-  description?: string | null
-  date?: string | null
-  tags?: string[] | null
-  sticky?: number | null
-  readingTime?: {
-    words?: number
-    text?: string
-  }
-}
+import type { ArticlesCollectionItem } from '@nuxt/content'
+
+// 复用 nuxt-content 生成的 ArticlesCollectionItem，仅保留卡片用到的字段并全部置为可选，
+// 以便兼容 queryCollection().select(...) 返回的 Pick<ArticlesCollectionItem, ...> 子集。
+type ArticleCardItem = Partial<
+  Pick<ArticlesCollectionItem, 'path' | 'title' | 'description' | 'date' | 'tags' | 'sticky'>
+>
 
 const props = defineProps<{
   article: ArticleCardItem

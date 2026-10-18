@@ -47,8 +47,8 @@
             <ArticleNavCard
               v-if="prev"
               :to="prev.path ?? ''"
-              :title="prev.title ?? undefined"
-              :description="prev.description ?? undefined"
+              :title="prev.title"
+              :description="<string>prev.description"
               position="left"
             />
           </div>
@@ -56,8 +56,8 @@
             <ArticleNavCard
               v-if="next"
               :to="next.path ?? ''"
-              :title="next.title ?? undefined"
-              :description="next.description ?? undefined"
+              :title="next.title"
+              :description="<string>next.description"
               position="right"
             />
           </div>
@@ -77,37 +77,17 @@
 </template>
 
 <script setup lang="ts">
-import type { TocLink } from '@nuxt/content'
+import type { ArticlesCollectionItem, ContentNavigationItem } from '@nuxt/content'
 import type { NuxtError } from '#app'
-
-type ArticleRenderItem = {
-  path?: string | null
-  title?: string | null
-  description?: string | null
-  date?: string | null
-  tags?: string[] | null
-  comment?: boolean | null
-  readingTime?: {
-    words?: number
-    text?: string
-  }
-  body?: ({ toc?: { links?: TocLink[] } } & Record<string, any>) | null
-}
-
-type SurroundItem = {
-  path?: string | null
-  title?: string | null
-  description?: string | null
-}
 
 const props = withDefaults(
   defineProps<{
-    article?: ArticleRenderItem | null
+    article?: ArticlesCollectionItem | null
     error?: NuxtError<unknown>
     showComment?: boolean
     showSurround?: boolean
-    prev?: SurroundItem | null
-    next?: SurroundItem | null
+    prev?: ContentNavigationItem | null
+    next?: ContentNavigationItem | null
     showCopyright?: boolean
     tagOptions?: {
       dateFormat?: string
