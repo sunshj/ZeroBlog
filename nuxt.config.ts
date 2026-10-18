@@ -34,6 +34,16 @@ export default defineNuxtConfig({
     typedPages: true
   },
 
+  typescript: {
+    tsConfig: {
+      compilerOptions: {
+        // Skip type checking of generated JS (e.g. .nuxt/twoslash-mdc.config.mjs),
+        // which is not written to satisfy strict type checks.
+        allowJs: false
+      }
+    }
+  },
+
   runtimeConfig: {
     siteUrl: '',
     siteName: '',
