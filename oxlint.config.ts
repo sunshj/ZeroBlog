@@ -6,6 +6,10 @@ export default defineConfig({
     {
       name: 'regexp',
       specifier: 'eslint-plugin-regexp'
+    },
+    {
+      name: 'frontmatter',
+      specifier: './oxlint-plugin/frontmatter.ts'
     }
   ],
   categories: {
@@ -38,6 +42,7 @@ export default defineConfig({
     'docs/**'
   ],
   rules: {
+    'frontmatter/validate-markdown': 'error',
     'for-direction': 'error',
     'no-async-promise-executor': 'error',
     'no-case-declarations': 'error',

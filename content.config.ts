@@ -1,15 +1,5 @@
 import { defineCollection, defineContentConfig, z } from '@nuxt/content'
-
-const articleSchema = z.object({
-  title: z.string(),
-  description: z.string().optional(),
-  date: z.string(),
-  tags: z.array(z.string()).default([]),
-  sticky: z.number().default(0),
-  hidden: z.boolean().default(false),
-  comment: z.boolean().optional(),
-  center: z.boolean().optional()
-})
+import { articleSchema, noteSchema, pageSchema } from './shared/content-schemas'
 
 export default defineContentConfig({
   collections: {
@@ -21,24 +11,12 @@ export default defineContentConfig({
     notes: defineCollection({
       type: 'page',
       source: 'notes/**/*.md',
-      schema: z.object({
-        title: z.string(),
-        description: z.string().optional(),
-        date: z.string(),
-        hidden: z.boolean().default(false),
-        comment: z.boolean().optional()
-      })
+      schema: noteSchema
     }),
     pages: defineCollection({
       type: 'page',
       source: '*.md',
-      schema: z.object({
-        title: z.string(),
-        description: z.string().optional(),
-        comment: z.boolean().optional(),
-        center: z.boolean().optional(),
-        ogImage: z.boolean().optional()
-      })
+      schema: pageSchema
     }),
     projects: defineCollection({
       type: 'data',

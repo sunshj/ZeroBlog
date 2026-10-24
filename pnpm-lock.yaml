@@ -111,6 +111,9 @@ importers:
       eslint-plugin-regexp:
         specifier: 2.10.0
         version: 2.10.0(eslint@10.13.0(jiti@2.7.0))
+      globby:
+        specifier: 16.2.4
+        version: 16.2.4
       lint-staged:
         specifier: '15'
         version: 15.5.2
@@ -135,6 +138,9 @@ importers:
       vue-tsc:
         specifier: 3.3.13
         version: 3.3.13(typescript@5.9.3)
+      yaml:
+        specifier: 2.9.1
+        version: 2.9.1
 
 packages:
 

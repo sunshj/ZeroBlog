@@ -77,12 +77,12 @@
 </template>
 
 <script setup lang="ts">
-import type { ArticlesCollectionItem, ContentNavigationItem } from '@nuxt/content'
+import type { ArticlesCollectionItem, ContentNavigationItem, NotesCollectionItem } from '@nuxt/content'
 import type { NuxtError } from '#app'
 
 const props = withDefaults(
   defineProps<{
-    article?: ArticlesCollectionItem | null
+    article?: ArticlesCollectionItem | NotesCollectionItem | null
     error?: NuxtError<unknown>
     showComment?: boolean
     showSurround?: boolean
