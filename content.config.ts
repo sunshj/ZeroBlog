@@ -1,52 +1,16 @@
-import { defineCollection, defineContentConfig, z } from '@nuxt/content'
-import { articleSchema, noteSchema, pageSchema } from './shared/content-schemas'
+import { defineCollection, defineContentConfig } from '@nuxt/content'
+import { collections } from './shared/collections'
 
+/**
+ * source、type、schema 全部来自 shared/collections.ts，
+ * 这里只做注册，保证 content.config.ts 与 frontmatter 校验器共用同一份定义。
+ */
 export default defineContentConfig({
   collections: {
-    articles: defineCollection({
-      type: 'page',
-      source: 'articles/**/*.md',
-      schema: articleSchema
-    }),
-    notes: defineCollection({
-      type: 'page',
-      source: 'notes/**/*.md',
-      schema: noteSchema
-    }),
-    pages: defineCollection({
-      type: 'page',
-      source: '*.md',
-      schema: pageSchema
-    }),
-    projects: defineCollection({
-      type: 'data',
-      source: 'data/projects.yaml',
-      schema: z.object({
-        projects: z.array(
-          z.object({
-            name: z.string(),
-            link: z.string().optional(),
-            repo: z.string().optional(),
-            npm: z.string().optional(),
-            description: z.string(),
-            techStack: z.array(z.string()).optional()
-          })
-        )
-      })
-    }),
-    friends: defineCollection({
-      type: 'data',
-      source: 'data/friends.yaml',
-      schema: z.object({
-        friends: z.array(
-          z.object({
-            name: z.string(),
-            link: z.string(),
-            avatar: z.string(),
-            description: z.string()
-          })
-        )
-      })
-    })
+    articles: defineCollection(collections.articles),
+    notes: defineCollection(collections.notes),
+    pages: defineCollection(collections.pages),
+    projects: defineCollection(collections.projects),
+    friends: defineCollection(collections.friends)
   }
 })

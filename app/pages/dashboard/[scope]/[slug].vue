@@ -25,6 +25,7 @@
 </template>
 
 <script lang="ts" setup>
+import { dateFormat } from '#shared/datetime'
 import type { RepoWriteResult } from '#shared/repo'
 
 definePageMeta({
@@ -50,7 +51,7 @@ const files = [
     template: `---
 title: 新建文章
 path: /${route.params.scope}/${route.params.slug}
-date: '${formatTime(Date.now())}'
+date: '${dateFormat(Date.now())}'
 ---
 `
   }

@@ -2,6 +2,7 @@
   <div>
     <ArticleRender
       :article="page"
+      :pending="status === 'pending'"
       :error="error"
       :show-comment="page?.comment ?? notesConfig.comment"
       :show-copyright="notesConfig.copyright"
@@ -25,7 +26,7 @@ const path = computed(() => withoutTrailingSlash(route.path))
 
 const { site, notesConfig } = useAppConfig()
 
-const { data: page, error } = useAsyncData(path.value, () => queryCollection('notes').path(path.value).first())
+const { data: page, error, status } = useAsyncData(path.value, () => queryCollection('notes').path(path.value).first())
 
 const title = () => page.value?.title || site.title
 const description = () => page.value?.description || site.description

@@ -11,7 +11,7 @@
     </NuxtLink>
 
     <div class="text-sm text-gray-500 dark:text-gray-500">
-      <ArticleTags :article="props.article" date-format="YYYY-MM-DD" />
+      <ArticleTags :article="props.article" />
     </div>
 
     <div

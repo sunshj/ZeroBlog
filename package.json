@@ -10,8 +10,8 @@
     "postinstall": "nuxt prepare",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "format": "oxfmt",
-    "format:check": "oxfmt --check",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
@@ -37,6 +37,7 @@
     "nuxt-monaco-editor": "1.5.0",
     "nuxt-og-image": "7.0.7",
     "octokit": "4.1.2",
+    "remark-mdc": "3.11.1",
     "remark-reading-time": "2.0.1",
     "sitemap": "8.0.1",
     "splitpanes": "4.1.2",
@@ -44,6 +45,7 @@
     "vue": "3.5.44",
     "vue-router": "5.4.0",
     "vue-use-fixed-header": "2.0.3",
+    "yaml": "2.9.1",
     "zod": "4.6.7"
   },
   "devDependencies": {
@@ -59,8 +61,7 @@
     "simple-git-hooks": "2.11.1",
     "typescript": "5.9.3",
     "unocss": "66.11.0",
-    "vue-tsc": "3.3.13",
-    "yaml": "2.9.1"
+    "vue-tsc": "3.3.13"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
@@ -69,9 +70,6 @@
     "*.{vue,js,ts,json,md,yaml}": [
       "oxlint --fix",
       "oxfmt"
-    ],
-    "content/**/*.md": [
-      "oxlint shared/content-schemas.ts"
     ]
   },
   "engines": {

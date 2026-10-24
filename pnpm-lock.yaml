@@ -74,6 +74,9 @@ importers:
       octokit:
         specifier: 4.1.2
         version: 4.1.2
+      remark-mdc:
+        specifier: 3.11.1
+        version: 3.11.1
       remark-reading-time:
         specifier: 2.0.1
         version: 2.0.1
@@ -95,6 +98,9 @@ importers:
       vue-use-fixed-header:
         specifier: 2.0.3
         version: 2.0.3
+      yaml:
+        specifier: 2.9.1
+        version: 2.9.1
       zod:
         specifier: 4.6.7
         version: 4.6.7
@@ -138,9 +144,6 @@ importers:
       vue-tsc:
         specifier: 3.3.13
         version: 3.3.13(typescript@5.9.3)
-      yaml:
-        specifier: 2.9.1
-        version: 2.9.1
 
 packages:
 

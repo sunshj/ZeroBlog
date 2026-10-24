@@ -13,7 +13,7 @@ export default defineConfig({
     }
   ],
   categories: {
-    correctness: 'off'
+    correctness: 'error'
   },
   env: {
     builtin: true,
@@ -42,7 +42,7 @@ export default defineConfig({
     'docs/**'
   ],
   rules: {
-    'frontmatter/validate-markdown': 'error',
+    'frontmatter/validate': 'error',
     'for-direction': 'error',
     'no-async-promise-executor': 'error',
     'no-case-declarations': 'error',
@@ -334,15 +334,5 @@ export default defineConfig({
         allowBitwiseExpressions: true
       }
     ]
-  },
-  overrides: [
-    {
-      files: ['content/**/*.md/*'],
-      rules: {
-        'no-unused-vars': 'off',
-        'unicorn/prefer-reflect-apply': 'off',
-        'unicorn/no-new-array': 'off'
-      }
-    }
-  ]
+  }
 })

@@ -55,36 +55,24 @@ const { openInPopup, loggedIn } = useUserSession()
 const site = useAppConfig().site
 
 const pending = ref(false)
-let finishPopupFlow: (() => void) | null = null
+let timer: ReturnType<typeof setTimeout> | undefined
 
 function signIn() {
   if (pending.value) return
   pending.value = true
 
-  // openInPopup 是同步的;弹窗流程结束时其插件会移除该 localStorage 标记并在本窗口触发 storage 事件,
-  // 以此收敛 loading 状态。用户中途关闭弹窗则等不到事件,用超时兜底
-  const storageKey = 'temp-nuxt-auth-utils-popup'
-  function finish() {
-    window.removeEventListener('storage', onStorage)
-    clearTimeout(timeout)
-    finishPopupFlow = null
-    pending.value = false
-  }
-  const onStorage = (event: StorageEvent) => {
-    if (event.key === storageKey) finish()
-  }
-  const timeout = setTimeout(finish, 15_000)
-
-  finishPopupFlow = finish
-  window.addEventListener('storage', onStorage)
   openInPopup('/auth/github')
+
+  timer = setTimeout(() => {
+    pending.value = false
+  }, 15_000)
 }
 
 watch(loggedIn, logged => {
   if (logged) navigateTo('/dashboard')
 })
 
-onUnmounted(() => finishPopupFlow?.())
+onUnmounted(() => clearTimeout(timer))
 </script>
 
 <style scoped>

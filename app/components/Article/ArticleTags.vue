@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-wrap items-center gap-2">
     <span class="flex items-center gap-1">
-      <Icon name="lucide:calendar" /> {{ formatTime(props.article.date ?? '', props.dateFormat) }}
+      <Icon name="lucide:calendar" /> {{ dateFormat(props.article.date ?? '') }}
     </span>
 
     <NuxtLink
@@ -27,6 +27,7 @@
 
 <script lang="ts" setup>
 import type { ArticlesCollectionItem } from '@nuxt/content'
+import { dateFormat } from '#shared/datetime'
 
 type ArticleTagItem = Partial<Pick<ArticlesCollectionItem, 'date' | 'tags'>> & {
   meta?: {
@@ -39,7 +40,6 @@ type ArticleTagItem = Partial<Pick<ArticlesCollectionItem, 'date' | 'tags'>> & {
 
 const props = defineProps<{
   article: ArticleTagItem
-  dateFormat?: string
   wordsCount?: boolean
   readingTime?: boolean
 }>()

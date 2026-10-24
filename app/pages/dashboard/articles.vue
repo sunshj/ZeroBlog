@@ -34,7 +34,7 @@
             </div>
           </div>
 
-          <div class="flex-1">{{ formatTime(item.date) }}</div>
+          <div class="flex-1">{{ dateFormat(item.date) }}</div>
           <div class="flex items-center gap-1">
             <UiButton
               icon="lucide:navigation"
@@ -51,6 +51,7 @@
 </template>
 
 <script lang="ts" setup>
+import { dateFormat } from '#shared/datetime'
 import type { RepoWriteResult } from '#shared/repo'
 
 definePageMeta({

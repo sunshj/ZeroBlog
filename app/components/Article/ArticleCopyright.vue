@@ -18,7 +18,7 @@
       <div class="flex flex-col justify-between">
         <div>发布于</div>
         <div class="text-dark-200 dark:text-gray-400">
-          {{ formatTime(props.date, 'YYYY-MM-DD HH:mm') }}
+          {{ dateFormat(props.date) }}
         </div>
       </div>
 
@@ -47,6 +47,8 @@
 </template>
 
 <script lang="ts" setup>
+import { dateFormat } from '#shared/datetime'
+
 const { site } = useAppConfig()
 
 const props = defineProps<{

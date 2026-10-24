@@ -59,6 +59,7 @@
 </template>
 
 <script lang="ts" setup>
+import { formatIssue, lintMarkdownFrontmatter } from '#shared/frontmatter'
 import type { RepoFile, RepoWriteResult } from '#shared/repo'
 
 interface EditorFile {
@@ -221,6 +222,13 @@ const toast = useToast()
 const pushing = ref(false)
 
 async function push() {
+  const issues = editors.flatMap(editor => lintMarkdownFrontmatter(editor.path, editor.content).map(formatIssue))
+
+  if (issues.length > 0) {
+    window.alert(`Frontmatter 校验未通过，已取消推送：\n\n${issues.join('\n')}`)
+    return
+  }
+
   const confirmPush = window.confirm('确定要推送吗？')
   if (!confirmPush) return
 

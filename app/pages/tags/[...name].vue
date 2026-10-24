@@ -12,6 +12,8 @@
 </template>
 
 <script lang="ts" setup>
+import { dateFormat } from '#shared/datetime'
+
 definePageMeta({
   layout: 'tags'
 })
@@ -29,7 +31,7 @@ const { data } = useAsyncData(route.path, () =>
 
 const groupByYear = computed(() => {
   if (!data.value) return []
-  const group = groupBy(data.value, i => formatTime(i.date, 'YYYY-MM'))
+  const group = groupBy(data.value, i => dateFormat(i.date, 'YYYY-MM'))
   return Object.entries(group).sort((a, b) => +b[0] - +a[0])
 })
 </script>

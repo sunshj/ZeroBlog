@@ -23,7 +23,7 @@
           <div class="flex-1">{{ item.path }}</div>
           <div class="flex-1">{{ item.title }}</div>
 
-          <div class="flex-1">{{ formatTime(item.date) }}</div>
+          <div class="flex-1">{{ dateFormat(item.date) }}</div>
           <div>
             <UiButton icon="lucide:trash-2" color="red" @click.prevent="deleteArticle(item.path!)"></UiButton>
           </div>
@@ -34,6 +34,7 @@
 </template>
 
 <script lang="ts" setup>
+import { dateFormat } from '#shared/datetime'
 import type { RepoWriteResult } from '#shared/repo'
 
 definePageMeta({

@@ -2,27 +2,55 @@ import { readFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { globbySync } from 'globby'
-import { parse as parseYaml } from 'yaml'
-import { articleSchema, noteSchema, pageSchema } from '../shared/content-schemas.ts'
+import { formatIssue, lintMarkdownFrontmatter, type FrontmatterIssue } from '../shared/frontmatter.ts'
+
+type Position = { line: number; column: number }
 
 type RuleContext = {
   filename: string
-  report: (options: { node: unknown; message: string }) => void
+  report: (options: { node: unknown; loc?: { start: Position; end: Position }; message: string }) => void
 }
 
-const ANCHOR = 'shared/content-schemas.ts'
+/**
+ * oxlint 不解析 markdown：.md 根本不在它的文件集合里（`oxlint x.md` 会直接报 "No files found to lint"），
+ * 所以没有"按 md 文件触发"的规则形态。这里借 shared/collections.ts 的 Program 当唯一触发器：
+ * 全量 lint 时它必然被访问一次，此时一次性扫完 content/ 下所有 md。
+ *
+ * 诊断只能挂在锚点文件上，所以做了两件事：
+ * - 消息带 `content/<path>:<line>` 前缀，终端与 CI 日志可直接点击跳转
+ * - 上报时给一个 1 行的 loc，否则 oxlint 会按 Program 节点把整个锚点文件当代码帧打出来
+ *
+ * 锚点必须留在 lint 覆盖范围内：`pnpm lint` 是全量，lint-staged 里显式带上了它。
+ */
+const ANCHOR = 'shared/collections.ts'
+const LOC = { start: { line: 1, column: 0 }, end: { line: 1, column: 1 } }
+
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+const CONTENT_DIR = join(ROOT, 'content')
 
 export default {
   rules: {
-    'validate-markdown': {
+    validate: {
       meta: { type: 'problem', schema: [] },
       create(context: RuleContext) {
         if (!context.filename.replaceAll('\\', '/').endsWith(ANCHOR)) return {}
+
+        let reported = false
+
         return {
           Program(node: unknown) {
-            for (const { relPath, message } of collectFrontmatterErrors()) {
-              context.report({ node, message: `${relPath}: ${message}` })
-            }
+            if (reported) return
+            reported = true
+
+            const issues = collectIssues()
+
+            if (issues.length === 0) return
+
+            context.report({
+              node,
+              loc: LOC,
+              message: [...issues.map(formatIssue), summarize(issues)].join('\n')
+            })
           }
         }
       }
@@ -30,103 +58,15 @@ export default {
   }
 }
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const CONTENT_DIR = join(ROOT, 'content')
-
-const COLLECTIONS = [
-  { name: 'articles', pattern: 'articles/**/*.md', schema: articleSchema },
-  { name: 'notes', pattern: 'notes/**/*.md', schema: noteSchema },
-  { name: 'pages', pattern: '*.md', schema: pageSchema }
-]
-
-/** Nuxt Content 保留字段(从文件路径生成);写进 schema 会把生成的 `path: string` 类型覆盖为 optional */
-const RESERVED_FIELDS = new Set(['path'])
-
-interface FrontmatterError {
-  relPath: string
-  message: string
+function collectIssues(): FrontmatterIssue[] {
+  return globbySync('**/*.md', { cwd: CONTENT_DIR }).flatMap(relPath =>
+    lintMarkdownFrontmatter(`content/${relPath}`, readFileSync(join(CONTENT_DIR, relPath), 'utf8'))
+  )
 }
 
-type CollectionDef = (typeof COLLECTIONS)[number]
+function summarize(issues: FrontmatterIssue[]): string {
+  const errors = issues.filter(issue => issue.severity === 'error').length
+  const files = new Set(issues.map(issue => issue.relPath)).size
 
-/** 文件 → collection 映射,先定义者胜(与 Nuxt Content 一致) */
-function buildCollectionIndex(): Map<string, CollectionDef> {
-  const index = new Map<string, CollectionDef>()
-  for (const collection of COLLECTIONS) {
-    for (const file of globbySync(collection.pattern, { cwd: CONTENT_DIR })) {
-      if (!index.has(file)) index.set(file, collection)
-    }
-  }
-  return index
-}
-
-function extractFrontmatter(text: string): string | null {
-  const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/)
-  return match ? match[1] : null
-}
-
-function lintFile(relPath: string, collection: CollectionDef | undefined, raw: string): FrontmatterError[] {
-  if (!collection) {
-    return [{ relPath, message: 'no collection source pattern matches this file; it will never be rendered' }]
-  }
-
-  const rawFrontmatter = extractFrontmatter(raw)
-  if (rawFrontmatter === null) {
-    return [{ relPath, message: `missing frontmatter block (required by "${collection.name}" schema)` }]
-  }
-
-  let frontmatter: unknown
-  try {
-    frontmatter = parseYaml(rawFrontmatter)
-  } catch (error) {
-    return [{ relPath, message: `invalid YAML: ${(error as Error).message.split('\n')[0]}` }]
-  }
-
-  const record =
-    frontmatter && typeof frontmatter === 'object' && !Array.isArray(frontmatter)
-      ? (frontmatter as Record<string, unknown>)
-      : null
-
-  // YAML 空值(`key:`)视为未设置
-  if (record) {
-    for (const key of Object.keys(record)) {
-      if (record[key] === null) delete record[key]
-    }
-  }
-
-  const errors: FrontmatterError[] = []
-
-  if (record && 'shape' in collection.schema) {
-    const declared = new Set(Object.keys(collection.schema.shape))
-    for (const key of Object.keys(record)) {
-      if (!declared.has(key) && !RESERVED_FIELDS.has(key)) {
-        errors.push({
-          relPath,
-          message: `unknown field "${key}" is not declared in the "${collection.name}" schema; Nuxt Content drops undeclared frontmatter fields`
-        })
-      }
-    }
-  }
-
-  const result = collection.schema.safeParse(record)
-  if (!result.success) {
-    for (const issue of result.error.issues) {
-      errors.push({
-        relPath,
-        message: `invalid field "${issue.path.join('.')}": ${issue.message}`
-      })
-    }
-  }
-
-  return errors
-}
-
-function collectFrontmatterErrors(): FrontmatterError[] {
-  const index = buildCollectionIndex()
-  const errors: FrontmatterError[] = []
-  for (const relPath of globbySync('**/*.md', { cwd: CONTENT_DIR })) {
-    const raw = readFileSync(join(CONTENT_DIR, relPath), 'utf8')
-    errors.push(...lintFile(relPath, index.get(relPath), raw))
-  }
-  return errors
+  return `frontmatter: ${errors} error(s), ${issues.length - errors} warning(s) across ${files} file(s) under content/`
 }
