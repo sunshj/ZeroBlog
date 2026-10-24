@@ -1,3 +1,4 @@
+import picomatch from 'picomatch'
 import { isMap, isScalar, LineCounter, parseDocument } from 'yaml'
 import { collections } from './collections.ts'
 
@@ -21,26 +22,16 @@ export interface FrontmatterIssue {
 }
 
 /** 与 content.config.ts 共用同一份定义，只取 type 为 page 的 markdown 集合 */
-const SOURCES = Object.entries(collections)
-  .filter(([, item]) => item.type === 'page')
-  .map(([name, item]) => ({ name, schema: item.schema, pattern: globToRegExp(item.source) }))
+const SOURCES = Object.entries(collections).flatMap(([name, item]) =>
+  item.type === 'page' ? [{ name, schema: item.schema, matches: createMatcher(item.source) }] : []
+)
 
-/**
- * 仅支持 `*` 和 `**\/` 的 glob → RegExp。这个模块要进浏览器包，所以不引 globby/picomatch；
- * 不支持的语法直接抛错，避免静默匹配不到、把文件误判成"无集合"。
- */
-function globToRegExp(pattern: string) {
-  if (/[?[\]{}!]/.test(pattern.replaceAll('**/', '').replaceAll('*', ''))) {
-    throw new Error(`[frontmatter] unsupported glob "${pattern}"; only "*" and "**/" are supported`)
-  }
+type CollectionSource = string | { include: string; exclude?: readonly string[] }
 
-  return new RegExp(
-    `^${pattern
-      .replaceAll(/[.+^${}()|[\]\\]/g, '\\$&')
-      .replaceAll('**/', '\u0000')
-      .replaceAll('*', '[^/]*')
-      .replaceAll('\u0000', '(?:[^/]+/)*')}$`
-  )
+function createMatcher(source: CollectionSource) {
+  if (typeof source === 'string') return picomatch(source)
+
+  return picomatch(source.include, { ignore: [...(source.exclude ?? [])] })
 }
 
 /** 统一的诊断文案，终端与 CI 可点击跳转 */
@@ -67,7 +58,7 @@ export function lintMarkdownFrontmatter(path: string, content: string): Frontmat
     line
   })
 
-  const collection = SOURCES.find(item => item.pattern.test(relPath))
+  const collection = SOURCES.find(item => item.matches(relPath))
 
   if (!collection)
     return [issue('no-collection', 1, 'no collection source matches this file; it will never be rendered')]
@@ -114,7 +105,7 @@ export function lintMarkdownFrontmatter(path: string, content: string): Frontmat
       issue(
         'unknown-field',
         lineOf.get(key) ?? 1,
-        `unknown field "${key}" is not in the "${collection.name}" schema; Nuxt Content drops it`
+        `unknown field "${key}" is not in the "${collection.name}" schema; it will be available as meta.${key}`
       )
     )
   }

@@ -74,6 +74,9 @@ importers:
       octokit:
         specifier: 4.1.2
         version: 4.1.2
+      picomatch:
+        specifier: 4.0.7
+        version: 4.0.7
       remark-mdc:
         specifier: 3.11.1
         version: 3.11.1
@@ -114,12 +117,12 @@ importers:
       '@iconify-json/logos':
         specifier: 1.2.4
         version: 1.2.4
+      '@types/picomatch':
+        specifier: 4.0.3
+        version: 4.0.3
       eslint-plugin-regexp:
         specifier: 2.10.0
         version: 2.10.0(eslint@10.13.0(jiti@2.7.0))
-      globby:
-        specifier: 16.2.4
-        version: 16.2.4
       lint-staged:
         specifier: '15'
         version: 15.5.2
@@ -2686,6 +2689,9 @@ packages:
   '@types/parse-path@7.1.0':
     resolution: {integrity: sha512-EULJ8LApcVEPbrfND0cRQqutIOdiIgJ1Mgrhpy755r14xMohPTEpkV/k28SJvuOs9bHRFW8x+KeDAEPiGQPB9Q==}
     deprecated: This is a stub types definition. parse-path provides its own type definitions, so you do not need this installed.
+
+  '@types/picomatch@4.0.3':
+    resolution: {integrity: sha512-iG0T6+nYJ9FAPmx9SsUlnwcq1ZVRuCXcVEvWnntoPlrOpwtSTKNDC9uVAxTsC3PUvJ+99n4RpAcNgBbHX3JSnQ==}
 
   '@types/pluralize@0.0.33':
     resolution: {integrity: sha512-JOqsl+ZoCpP4e8TDke9W79FDcSgPAR0l6pixx2JHkhnRjvShyYiAYw2LVsnA7K08Y6DeOnaU6ujmENO4os/cYg==}
@@ -9781,6 +9787,8 @@ snapshots:
   '@types/parse-path@7.1.0':
     dependencies:
       parse-path: 7.1.0
+
+  '@types/picomatch@4.0.3': {}
 
   '@types/pluralize@0.0.33': {}
 

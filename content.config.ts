@@ -6,11 +6,5 @@ import { collections } from './shared/collections'
  * 这里只做注册，保证 content.config.ts 与 frontmatter 校验器共用同一份定义。
  */
 export default defineContentConfig({
-  collections: {
-    articles: defineCollection(collections.articles),
-    notes: defineCollection(collections.notes),
-    pages: defineCollection(collections.pages),
-    projects: defineCollection(collections.projects),
-    friends: defineCollection(collections.friends)
-  }
+  collections: Object.fromEntries(Object.entries(collections).map(([name, item]) => [name, defineCollection(item)]))
 })

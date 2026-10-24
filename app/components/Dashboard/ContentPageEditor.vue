@@ -222,15 +222,20 @@ const toast = useToast()
 const pushing = ref(false)
 
 async function push() {
-  const issues = editors.flatMap(editor => lintMarkdownFrontmatter(editor.path, editor.content).map(formatIssue))
+  const issues = editors.flatMap(editor => lintMarkdownFrontmatter(editor.path, editor.content))
+  const errors = issues.filter(issue => issue.severity === 'error').map(formatIssue)
+  const warnings = issues.filter(issue => issue.severity === 'warning').map(formatIssue)
 
-  if (issues.length > 0) {
-    window.alert(`Frontmatter 校验未通过，已取消推送：\n\n${issues.join('\n')}`)
+  if (errors.length > 0) {
+    window.alert(`Frontmatter 校验未通过，已取消推送：\n\n${[...errors, ...warnings].join('\n')}`)
     return
   }
 
-  const confirmPush = window.confirm('确定要推送吗？')
-  if (!confirmPush) return
+  const confirmMessage = warnings.length
+    ? `Frontmatter 有 ${warnings.length} 条警告：\n\n${warnings.join('\n')}\n\n仍要推送吗？`
+    : '确定要推送吗？'
+
+  if (!window.confirm(confirmMessage)) return
 
   toast.show('正在推送，请稍等...')
   pushing.value = true

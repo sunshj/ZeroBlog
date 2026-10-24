@@ -40,42 +40,20 @@ export const pageSchema = z.object({
 })
 
 /**
- * content/data/projects.yaml
- */
-export const projectsSchema = z.object({
-  projects: z.array(
-    z.object({
-      name: z.string(),
-      link: z.string().optional(),
-      repo: z.string().optional(),
-      npm: z.string().optional(),
-      description: z.string(),
-      techStack: z.array(z.string()).optional()
-    })
-  )
-})
-
-/**
- * content/data/friends.yaml
- */
-export const friendsSchema = z.object({
-  friends: z.array(
-    z.object({
-      name: z.string(),
-      link: z.string(),
-      avatar: z.string(),
-      description: z.string()
-    })
-  )
-})
-
-/**
  * 顺序即匹配优先级：先命中者胜，与 Nuxt Content 的行为一致。
+ * data 是兜底集合：content/data 下所有 yaml / json 都归它，新增文件不用改配置，字段不做校验。
  */
 export const collections = {
   articles: { type: 'page', source: 'articles/**/*.md', schema: articleSchema },
   notes: { type: 'page', source: 'notes/**/*.md', schema: noteSchema },
-  pages: { type: 'page', source: '*.md', schema: pageSchema },
-  projects: { type: 'data', source: 'data/projects.yaml', schema: projectsSchema },
-  friends: { type: 'data', source: 'data/friends.yaml', schema: friendsSchema }
+  pages: {
+    type: 'page',
+    source: { include: '**/*.md', exclude: ['articles/**', 'notes/**'] },
+    schema: pageSchema
+  },
+  data: {
+    type: 'data',
+    source: 'data/**/*.{yaml,json}',
+    schema: z.record(z.string(), z.unknown())
+  }
 } as const

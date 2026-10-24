@@ -1,7 +1,6 @@
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { globbySync } from 'globby'
 import { formatIssue, lintMarkdownFrontmatter, type FrontmatterIssue } from '../shared/frontmatter.ts'
 
 type Position = { line: number; column: number }
@@ -30,28 +29,39 @@ const CONTENT_DIR = join(ROOT, 'content')
 
 export default {
   rules: {
-    validate: {
-      meta: { type: 'problem', schema: [] },
-      create(context: RuleContext) {
-        if (!context.filename.replaceAll('\\', '/').endsWith(ANCHOR)) return {}
+    'no-invalid-field': createRule(issue => issue.severity === 'error'),
+    'no-unknown-field': createRule(issue => issue.code === 'unknown-field')
+  }
+}
 
-        let reported = false
+/**
+ * 严重级别由规则配置决定、不能按条切换，所以按语义拆成两条规则：
+ * no-invalid-field 覆盖所有 error（缺字段、类型不对、解析失败等），配置为 error；
+ * no-unknown-field 只覆盖 schema 里没声明的字段，配置为 warn，不阻断 CI。
+ */
+function createRule(match: (issue: FrontmatterIssue) => boolean) {
+  return {
+    meta: { type: 'problem' as const, schema: [] },
+    create(context: RuleContext) {
+      if (!context.filename.replaceAll('\\', '/').endsWith(ANCHOR)) return {}
 
-        return {
-          Program(node: unknown) {
-            if (reported) return
-            reported = true
+      let reported = false
 
-            const issues = collectIssues()
+      return {
+        Program(node: unknown) {
+          if (reported) return
+          reported = true
 
-            if (issues.length === 0) return
+          const issues = collectIssues()
+          const selected = issues.filter(match)
 
-            context.report({
-              node,
-              loc: LOC,
-              message: [...issues.map(formatIssue), summarize(issues)].join('\n')
-            })
-          }
+          if (selected.length === 0) return
+
+          context.report({
+            node,
+            loc: LOC,
+            message: [...selected.map(formatIssue), summarize(issues)].join('\n')
+          })
         }
       }
     }
@@ -59,9 +69,10 @@ export default {
 }
 
 function collectIssues(): FrontmatterIssue[] {
-  return globbySync('**/*.md', { cwd: CONTENT_DIR }).flatMap(relPath =>
-    lintMarkdownFrontmatter(`content/${relPath}`, readFileSync(join(CONTENT_DIR, relPath), 'utf8'))
-  )
+  return readdirSync(CONTENT_DIR, { recursive: true })
+    .map(relPath => String(relPath).replaceAll('\\', '/'))
+    .filter(relPath => relPath.endsWith('.md'))
+    .flatMap(relPath => lintMarkdownFrontmatter(`content/${relPath}`, readFileSync(join(CONTENT_DIR, relPath), 'utf8')))
 }
 
 function summarize(issues: FrontmatterIssue[]): string {

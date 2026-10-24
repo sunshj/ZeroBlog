@@ -5,6 +5,9 @@ ogImage: true
 comment: true
 ---
 
+::content-data{data-source="friends" render="FriendCard" cols="3"}
+::
+
 ## 友链申请
 
 ```txt [申请格式]

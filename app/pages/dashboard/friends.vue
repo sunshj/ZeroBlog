@@ -6,7 +6,7 @@
       </div>
       <div v-else class="flex flex-col gap-6">
         <div class="grid gap-4 md:grid-cols-2">
-          <FriendCard v-for="friend in parseFriends(contents[dataPath] ?? '')" :key="friend.name" :data="friend" />
+          <FriendCard v-for="friend in parseFriends(contents[dataPath] ?? '')" :key="friend.name" v-bind="friend" />
         </div>
         <DashboardMarkdownPreview :content="contents[pagePath] ?? ''" />
       </div>
@@ -47,6 +47,13 @@ comment: true
 `
   }
 ]
+
+type Friend = {
+  name: string
+  link: string
+  avatar: string
+  description: string
+}
 
 function parseFriends(content: string): Friend[] {
   if (!content) return []

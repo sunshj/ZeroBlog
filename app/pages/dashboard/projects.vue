@@ -5,7 +5,7 @@
         <Icon name="lucide:loader-circle" :size="20" class="animate-spin text-gray-400" />
       </div>
       <div v-else class="grid gap-4 md:grid-cols-2">
-        <ProjectCard v-for="project in parseProjects(contents[dataPath] ?? '')" :key="project.name" :data="project" />
+        <ProjectCard v-for="project in parseProjects(contents[dataPath] ?? '')" :key="project.name" v-bind="project" />
       </div>
     </template>
   </DashboardContentPageEditor>
@@ -30,6 +30,15 @@ useHead({
 const dataPath = 'content/data/projects.yaml'
 
 const files = [{ path: dataPath, lang: 'yaml' }]
+
+type Project = {
+  name: string
+  link?: string
+  repo?: string
+  npm?: string
+  description: string
+  techStack?: string[]
+}
 
 function parseProjects(content: string): Project[] {
   if (!content) return []

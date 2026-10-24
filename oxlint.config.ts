@@ -42,7 +42,8 @@ export default defineConfig({
     'docs/**'
   ],
   rules: {
-    'frontmatter/validate': 'error',
+    'frontmatter/no-invalid-field': 'error',
+    'frontmatter/no-unknown-field': 'warn',
     'for-direction': 'error',
     'no-async-promise-executor': 'error',
     'no-case-declarations': 'error',
