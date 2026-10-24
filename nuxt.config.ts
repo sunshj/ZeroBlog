@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     routes: ['/', '/rss.xml', '/sitemap.xml'],
     // Then crawl all the links on the page
     crawlLinks: true,
-    ignore: ['/dashboard']
+    ignore: ['/dashboard', /^\/_vercel\/image/]
   },
 
   css: ['~/assets/base.css', '~/assets/transitions.css'],
@@ -86,6 +86,7 @@ export default defineNuxtConfig({
   },
 
   image: {
+    provider: 'vercel',
     presets: {
       cover: {
         modifiers: {
