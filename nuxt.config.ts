@@ -86,7 +86,6 @@ export default defineNuxtConfig({
   },
 
   image: {
-    provider: 'vercel',
     presets: {
       cover: {
         modifiers: {
